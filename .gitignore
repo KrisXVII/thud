@@ -9,6 +9,5 @@ thesis*.synctex.gz
 thesis*.toc
 thesis*.lof
 thesis*.lot
-
-thesis_radulescu.fdb_latexmk
-
+*.fdb_latexmk
+*.fls
