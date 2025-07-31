@@ -10,7 +10,7 @@
 \course{Informatica}
 \title{Implementazione di un sistema di abbonamenti per una piattaforma e-commerce}
 \author{Radulescu Cristian}
-\supervisor{Prof.\ Riccio Vincenzo}
+\supervisor{Prof.\ Vincenzo Riccio}
 
 %% --- Pacchetti consigliati ---
 %% pdfx: per generare il PDF/A per l'archiviazione. Necessario solo per la versione finale
@@ -28,13 +28,13 @@
 \maketitle
 
 %% Dedica (opzionale)
-\begin{dedication}
-	Al mio cane,\par per avermi ascoltato mentre ripassavo le lezioni.
-\end{dedication}
+% \begin{dedication}
+% 	Al mio cane,\par per avermi ascoltato mentre ripassavo le lezioni.
+% \end{dedication}
 
 %% Ringraziamenti (opzionali)
-\acknowledgements
-Sed vel lorem a arcu faucibus aliquet eu semper tortor. Aliquam dolor lacus, semper vitae ligula sed, blandit iaculis leo. Nam pharetra lobortis leo nec auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ac risus pulvinar, congue eros non, interdum metus. Mauris tincidunt neque et aliquam imperdiet. Aenean ac tellus id nibh pellentesque pulvinar ut eu lacus. Proin tempor facilisis tortor, et hendrerit purus commodo laoreet. Quisque sed augue id ligula consectetur adipiscing. Vestibulum libero metus, lacinia ac vestibulum eu, varius non arcu. Nam et gravida velit.
+% \acknowledgements
+% Sed vel lorem a arcu faucibus aliquet eu semper tortor. Aliquam dolor lacus, semper vitae ligula sed, blandit iaculis leo. Nam pharetra lobortis leo nec auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ac risus pulvinar, congue eros non, interdum metus. Mauris tincidunt neque et aliquam imperdiet. Aenean ac tellus id nibh pellentesque pulvinar ut eu lacus. Proin tempor facilisis tortor, et hendrerit purus commodo laoreet. Quisque sed augue id ligula consectetur adipiscing. Vestibulum libero metus, lacinia ac vestibulum eu, varius non arcu. Nam et gravida velit.
 
 %% Sommario (opzionale)
 \abstract
@@ -54,11 +54,14 @@ Nunc ac dignissim ipsum, quis pulvinar elit. Mauris congue nec leo ornare lobort
 
 %% Parte
 %% La suddivisione in parti � opzionale; solitamente sono sufficienti i capitoli.
-%\part{Parte}
+% \part{Parte}
 
 %% Capitolo
-\chapter{Titolo del primo capitolo}
-In hac habitasse platea dictumst. Vestibulum consectetur dictum pellentesque. Suspendisse nunc neque, commodo ac imperdiet nec, sollicitudin vitae libero. Donec bibendum vel nunc vitae pharetra. In vel volutpat odio, et interdum dui. Duis mauris ligula, congue eget molestie at, tincidunt nec diam. Nam vitae eros nec arcu suscipit vehicula. Aliquam consectetur imperdiet elit, eget pretium arcu fringilla at. Maecenas \cite{Knu86} sed libero pulvinar, mattis tortor vel, fermentum enim.
+\chapter{Introduzione}
+
+introduzione (da scrivere alla fine con contesto, requisiti principali ossia perché stiamo facendo questo software o
+stiamo aggiungendo funzionalità, valutazione, conclusioni). Poi elenco contributi per ogni capitolo:
+in capitolo 2..., in capitolo 3...
 
 %% Sezione
 \section{Titolo della Sezione}
@@ -88,7 +91,27 @@ Phasellus feugiat neque sed risus faucibus tristique nec sit amet magna. Fusce l
 
 Sed dapibus augue rutrum augue ultrices, in tristique lectus malesuada. Praesent pharetra at arcu eu pellentesque. Cras ac est arcu. Suspendisse euismod pellentesque diam, id porta metus. Donec porta ex vel ornare tincidunt. Nunc non tortor sodales, lacinia diam quis, malesuada lectus. Cras a ultrices massa, a semper ligula.
 
+\chapter{Background Aziendale}
 
+background aziendale
+
+\chapter{Background Software e Ambiente Operativo}
+
+background software e dell'ambiente operativo (linguaggi, librerie)
+
+\chapter{funzionalità Sviluppata}
+
+Sistema o funzionalità sviluppata: casi d'uso, deployment diagram, comportamentale tipo activity
+
+\chapter{Valutazione}
+
+Valutazione con testing in RSpec (https://github.com/simplecov-ruby/simplecov), questionario sul software per valutare
+la bontà del prodotto e la soddisfazione degli utenti (va bene anche il team sviluppatori) -> da fare ad es su google forms o
+microsoft forms con likert e domanda aperta per raccogliere feedback
+
+\chapter{Conclusioni e Sviluppi Futuri}
+
+conclusioni e sviluppi futuri
 
 
 %% Fine dei capitoli normali, inizio dei capitoli-appendice (opzionali)
