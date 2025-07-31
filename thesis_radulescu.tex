@@ -119,8 +119,8 @@ conclusioni e sviluppi futuri
 
 %\part{Appendici}
 
-\chapter{Titolo della prima appendice}
-Sed purus libero, vestibulum ut nibh vitae, mollis ultricies augue. Pellentesque velit libero, tempor sed pulvinar non, fermentum eu leo. Duis posuere eleifend nulla eget sagittis. Nam laoreet accumsan rutrum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur eget libero quis leo porttitor vehicula eget nec odio. Proin euismod interdum ligula non ultricies. Maecenas sit amet accumsan sapien.
+% \chapter{Titolo della prima appendice}
+% Sed purus libero, vestibulum ut nibh vitae, mollis ultricies augue. Pellentesque velit libero, tempor sed pulvinar non, fermentum eu leo. Duis posuere eleifend nulla eget sagittis. Nam laoreet accumsan rutrum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur eget libero quis leo porttitor vehicula eget nec odio. Proin euismod interdum ligula non ultricies. Maecenas sit amet accumsan sapien.
 
 %% Parte conclusiva del documento; tipicamente per riassunto, bibliografia e/o indice analitico.
 \backmatter
@@ -133,38 +133,9 @@ Sed purus libero, vestibulum ut nibh vitae, mollis ultricies augue. Pellentesque
 \bibliographystyle{plain_\languagename}%% Carica l'omonimo file .bst, dove \languagename � la lingua attiva.
 %% Nel caso in cui si usi un file .bib (consigliato)
 \bibliography{thud}
+\cite{Knu86}
 %% Nel caso di bibliografia manuale, usare l'environment thebibliography.
 
 %% Per l'indice analitico, usare il pacchetto makeidx (o analogo).
 
 \end{document}
-
---- Istruzioni per l'aggiunta di nuove lingue ---
-Per ogni nuova lingua utilizzata aggiungere nel preambolo il seguente spezzone:
-    \addto\captionsitalian{%
-        \def\abstractname{Sommario}%
-        \def\acknowledgementsname{Ringraziamenti}%
-        \def\authorcontactsname{Contatti dell'autore}%
-        \def\candidatename{Candidato}%
-        \def\chairname{Direttore}%
-        \def\conclusionsname{Conclusioni}%
-        \def\cosupervisorname{Co-relatore}%
-        \def\cosupervisorsname{Co-relatori}%
-        \def\cyclename{Ciclo}%
-        \def\datename{Anno accademico}%
-        \def\indexname{Indice analitico}%
-        \def\institutecontactsname{Contatti dell'Istituto}%
-        \def\introductionname{Introduzione}%
-        \def\prefacename{Prefazione}%
-        \def\reviewername{Controrelatore}%
-        \def\reviewersname{Controrelatori}%
-        %% Anno accademico
-        \def\shortdatename{A.A.}%
-        \def\summaryname{Riassunto}%
-        \def\supervisorname{Relatore}%
-        \def\supervisorsname{Relatori}%
-        \def\thesisname{Tesi di \expandafter\ifcase\csname thud@target\endcsname Laurea\or Laurea Magistrale\or Dottorato\fi}%
-        \def\tutorname{Tutor aziendale%
-        \def\tutorsname{Tutor aziendali}%
-    }
-sostituendo a "italian" (nella 1a riga) il nome della lingua e traducendo le varie voci.
