@@ -75,8 +75,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam auctor odio sit
 \chapter{Background Aziendale}
 
 In questo capitolo verranno esposte le modalità operative adottate in azienda per lo sviluppo della funzionalità discussa.
-\section{La scelta dell'azienda}
-Nello sviluppo software è importante adottare un approccio ingegneristico e strutturato al fine di sviluppare software di
+\section{Processi Software}
+Nell'ambito dello sviluppo software è importante adottare un approccio ingegneristico e strutturato al fine di sviluppare software di
 qualità riducendo i costi e i tempi di sviluppo. Convenire in primis il modello di processo software su cui incentrare lo
 sviluppo diventa cruciale. Le alternative principali si dividono fra modelli plan-driven e modelli Agile.\\
 Il modello plan-driven si caratterizza per:
@@ -85,9 +85,9 @@ Il modello plan-driven si caratterizza per:
     \item una specifica fortmente strutturata dei requisiti;
     \item ampia produzione di documentazione del software.
 \end{itemize}
-Passando alla fase successiva a quella attuale tutto ciò che è stato svolto in quest'ultima viene bloccato una volta confermato e non si può più tornare indietro perchè eventuali variazioni nei requisti
-durante lo sviluppo potrebbero essere troppo costosi da sviluppare.\\
-Il modello Agile invece punta su flessibilità e adattabilità permettendo di:
+Passando alla fase successiva a quella attuale tutto ciò che è stato svolto in quest'ultima viene bloccato una volta confermato
+e non si può più tornare indietro perchè eventuali variazioni nei requisti durante lo sviluppo potrebbero essere troppo costosi
+da sviluppare.\\ Il modello Agile invece punta su flessibilità e adattabilità permettendo di:
 \begin{itemize}
     \item dare una risposta immediata ai cambiamenti nei requisiti;
     \item coinvolgere il cliente nell'attività di sviluppo;
@@ -96,6 +96,54 @@ Il modello Agile invece punta su flessibilità e adattabilità permettendo di:
 L'azienda adotta una variazione del modello agile per cui nei paragrafi seguenti verrà approfondito tale approccio,
 con particolare attenzione alle sue implementazioni concrete quali la gestione dei task, i meeting ricorrenti e i strumenti
 di supporto.
+\section{Lo sviluppo Agile}
+Verso la fine degli anni Sessanta, periodo che segnò gli albori dell'Ingegneria del Software, le aziende adottavano esclusivamente il Waterfall Model,
+un modello plan-driven a fasi ben definite che impiegava tante risorse: team di grandi dimensioni e tante finanze ma soprattutto tanto tempo
+poichè era necessario pianificare accuratamente ogni fase e documentare nei minimi particolari l'intero progetto. Se verso le fasi finali dello
+sviluppo si sarebbero riscontrati errori o inconsistenze derivate dalle fasi iniziali, dalla definizione dei requisiti per esempio, aggiustare i
+problemi sarebbe stata un'operazione molto complicata.
+\par Studi come il \textit{CHAOS Report}\cite{standish1994chaos} dello Standish Group (1994) rilevavano un tasso di fallimento del 30\% dei software
+sviluppati in questo modo che spesso venivano cancellati ancora prima di essere conclusi anche a causa dell'incapacità di adeguarsi ai cambiamenti.
+Inoltre i costi di sviluppo finali non coincidevano mai con i numeri previsti inizialmente con una media di incremento finale del 189\%.
+Anche i tempi complessivi di sviluppo non rispettavano mai quelli aspettati dall'inizio dei lavori, con un incremento del 400\% dato anche dal
+fatto che ogni 100 progetti 94 di essi ricominciavano da capo anche più di una volta.
+Altre volte succedeva che il prodotto finale non rispettava del tutto le richieste del cliente o risultava incompleto.
+\par Di conseguenza, verso la fine degli anni '90 alcune aziende si sono accorte del fatto che il modello plan-driven non si adattava alle esigenze di sviluppo di un
+mercato che stava andando a richiedere sempre più prodotti di qualità in tempi sempre più ridotti.
+Emerse allora un nuovo metodo di sviluppo software che avrebbe ispirato profondamente i concetti dell'Agile: eXtreme Programming.
+Questo nuovo metodo promuoveva un approccio più dinamico allo sviluppo introducendo i seguenti concetti:
+\begin{itemize}
+    \item storie utente: scenari scritti in linguaggio naturale su schede che descrivono situazioni in cui l'utente potrebbe trovarsi.
+    Sono risultate particolarmente utili perchè permettevano di descrivere velocemente i requisiti e potevano cambiare con essi;
+    \item refactoring: consiste in un continuo miglioramento del codice mirato a semplificare implementazioni future e a mitigare
+    il progressivo deterioramento di esso. Se il codice è semplice e di alta qualità è più auto-esplicativo e potenzialmente tutto il
+    team ne può trarre vantaggi;
+    \item test: si cominciò a parlare di sviluppo test driven che consisteva nello scrivere prima un test che chiarisse le aspettative
+    della prossima implementazione e poi scrivere il codice necessario a soddisfare i test. Il vantaggio principale è che i test possono
+    essere automatizzati e definiscono anche una sorta di specifica comportamentale della funzionalità da implementare riducendo i tempi
+    di sviluppo;
+    \item pair programming: due sviluppatori davanti alla stessa macchina che sviluppano la stessa funzionalità permettendo un confronto
+    continuo di idee riducendo i momenti di incertezza o stallo in cui uno sviluppatore singolo potrebbe trovarsi.
+\end{itemize}
+\par Il modello di sviluppo Agile del software è nato nei primi anni 2000 dalle necessità dei team di sviluppo di poter reagire in
+modo più efficiente a requisiti instabili e variabili, tipici di progetti dinamici. I modelli plan-driven rendevano impossibile conciliare
+adattamenti rapidi ad eventi dinamici e alta qualità del software.
+La descrizione accurata di questo metodo di sviluppo software è stata esposta nel \textit{Manifesto Agile}\cite{beck2001agile} pubblicato nel 2001 i cui
+autori sono un gruppo di sviluppatori che avevano riscontrato la necessità di uscire dallo schema plan-driven ritenendolo estremamente rigido.\\
+Nel Manifesto sono stati formalizzati i quattro valori fondamentali dell'Agile:
+\begin{itemize}
+    \item individui e interazioni anziché processi e strumenti: viene attribuita grande importanza alla comunicazione all'interno del
+    team di sviluppo e a quella con il cliente poichè nei momenti di difficoltà è proprio la comunicazione fluida e completa fra individui
+    a risolvere le incertezze e ciò favorisce una risposta rapida ai cambiamenti e una visione più chiara di ciò che bisogna fare;
+    \item software funzionante anziché documentazione completa: il tempo che viene risparmiato redigendo solo la documentazione strettamente
+    necessaria viene investito nella produzione di nuovo codice o nel miglioramento del codice già esistente, in questo modo si alza
+    la qualità generale del software;
+    \item collaborazione col cliente anziché negoziazione di contratti: al contrario dei modelli plan-driven che coinvolgevano il cliente
+    solo nella fasi iniziali di negoziazione e definizione dei requisiti, nell'Agile il coinvolgimento si protrae fino alla fine dello sviluppo
+    del software offrendo riscontri sulle versioni intermedie al team che saprà come soddifare al meglio le sue esigenze;
+    \item capacità di rispondere al cambiamento anziché conformità a un piano: nella visione Agile il cambiamento è un valore aggiunto al
+    prodotto. Saper rispondere prontamente ad esso è più importante di formulare un piano d'azione che potrebbe richiedere troppo tempo.
+\end{itemize}
 
 \chapter{Background Software e Ambiente Operativo}
 
@@ -135,7 +183,6 @@ conclusioni e sviluppi futuri
 \bibliographystyle{plain_\languagename}%% Carica l'omonimo file .bst, dove \languagename � la lingua attiva.
 %% Nel caso in cui si usi un file .bib (consigliato)
 \bibliography{thud}
-\cite{Knu86}
 %% Nel caso di bibliografia manuale, usare l'environment thebibliography.
 
 %% Per l'indice analitico, usare il pacchetto makeidx (o analogo).
