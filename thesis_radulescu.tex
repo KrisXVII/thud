@@ -108,7 +108,7 @@ Inoltre i costi di sviluppo finali non coincidevano mai con i numeri previsti in
 Anche i tempi complessivi di sviluppo non rispettavano mai quelli aspettati dall'inizio dei lavori, con un incremento del 400\% dato anche dal
 fatto che ogni 100 progetti 94 di essi ricominciavano da capo anche più di una volta.
 Altre volte succedeva che il prodotto finale non rispettava del tutto le richieste del cliente o risultava incompleto.
-\par Di conseguenza, verso la fine degli anni '90 alcune aziende si sono accorte del fatto che il modello plan-driven non si adattava alle esigenze di sviluppo di un
+\par Di conseguenza, verso la fine degli anni '90 diverse aziende si sono accorte del fatto che il modello plan-driven non si adattava alle esigenze di sviluppo di un
 mercato che stava andando a richiedere sempre più prodotti di qualità in tempi sempre più ridotti.
 Emerse allora un nuovo metodo di sviluppo software chiamato "eXtreme Programming" che promuoveva un approccio più dinamico allo sviluppo introducendo i seguenti concetti:
 \begin{itemize}
@@ -142,10 +142,51 @@ Nel Manifesto sono stati formalizzati i quattro valori fondamentali dell'Agile:
     \item capacità di rispondere al cambiamento anziché conformità a un piano: nella visione Agile il cambiamento è un valore aggiunto al
     prodotto. Saper rispondere prontamente ad esso è più importante di formulare un piano d'azione che potrebbe richiedere troppo tempo.
 \end{itemize}
-Principi dell'Agile in poche parole.
 
 \section{La scelta dell'azienda}
-
+L'azienda basa lo sviluppo dei progetti sul metodo Agile applicando i principi del Manifesto con alcune variazioni, alcune tecniche dell'eXtreme Programming
+e strumenti software di supporto alla gestione del team.
+Il motivo principale per cui ha adottato questa metodologia è per far fronte a continui cambiamenti nei requisiti del cliente e ridurre i tempi e i costi
+di sviluppo nell'adattarsi alle sue richieste.
+\par Il team di sviluppo di un progetto è formato dagli sviluppatori e il/i project manager. Una persona può essere in carica dello sviluppo di più progetti per cui
+raggruppando questi ultimi per progetto i team risultanti si intersecano tra loro, non ci sono team indipendenti l'uno dall'altro.
+I project managers gestiscono i team per ogni progetto attraverso il software di supporto \textit{Jira Software} di Atlassian\cite{atlassian_jira} che permette
+di creare una sezione dedicata ad ogni progetto e assegnare persone che comporranno il team di sviluppo di esso.
+In ogni sezione si trova una board in cui vengono aperti i ticket che praticamente sono delle user stories come quelle che si usano in eXtreme Programming.
+Un ticket è formato da un titolo che deve essere il più esplicativo possibile di cosa deve essere sviluppato o del problema che deve essere risolto e da una
+descrizione aggiuntiva per approfondire alcuni punti se necessario. Questi possono essere anche commentati dai membri del team del progetto in modo da lasciare
+delle note o degli appunti per gli altri.
+Ogni board è dinamica, cioè inizialmente viene pianificato lo sprint settimanale e durnate gli sviluppi possono essere aperti altri ticket all'occorrenza.
+La sezione offre anche un backlog in cui sono raccolti tutti i ticket, sia quelli dello sprint corrente che di sprint futuri.
+I ticket possono essere raggruppati per categorie, le epics, ed è presente anche una timeline in cui i project manager definiscono gli archi di tempo previsti
+da dedicare ad ognuna di esse. Poi c'è anche un riepilogo che fa da dashboard principale del progetto e mostra diverse informazioni sullo stato di esso a livello
+di ticket, una sezione report che al momento non viene utilizzata, un elenco di tutti i ticket, anche quelli già svolti e consegnati al cliente che non si vedono
+più dal backlog ed infine una sezione dedicata a monitorare il tempo dedicato ogni giorno e mensilmente al progetto da parte di ogni membro.
+\par La comunicazione fra i membri del team assume una grande importanza per il fatto che lo sviluppo di un progetto spesso si divide fra almeno un back ender e un
+front ender, è raro che lo sviluppo sia a carico di una sola persona ed in questi casi comunque c'è una comunicazione attiva con il project manager.
+A volte si ricorre anche al pair programming nel momento in cui ci sia un problema che un singolo non riesce a risolvere, in certi casi anche andando oltre la
+coppia e coinvolgendo tutto il team. Questo succede soprattutto in casi di debugging approfondito o per accordare tutti in fase di progettazione per capire
+come operare nel migliore dei modi.
+Questo aspetto lavorativo viene rinforzato attraverso il software di supporto \textit{Slack}\cite{slack},un software sviluppato su misura per la comunicazione fra
+i lavoratori delle aziende. Offre la possibilità di creare canali e gruppi di essi a cui aggiungere il profilo dei singoli membri al gruppo dell'azienda.
+Con il supporto di questo strumento la comunicazione è resa possibile anche quando qualche persona sta lavorando in modalità remota ed inoltre migliora la
+comunicazione consentendo di inviare anche media come messaggi. Ogni persona quindi è reperibile in ogni momento della giornata lavorativa.
+\par L'azienda si disallinea dal Manifesto dal punto di vista della documentazione e pone un accento particolarmente forte su questo aspetto.
+È vero che dedicare meno tempo a scrivere documentazione permette di dedicare più tempo al codice ma quando si stanno sviluppando progetti di grandi dimensioni
+con tante sezioni, tante logiche diverse di gestione dei dati e tanti componenti è facile che chi le ha sviluppate stesso si dimentichi del funzionamento di
+tutti questi aspetti se poi non ci si torna per tanto tempo. Ma se ogni aspetto viene documentato, sempre rimanendo nei limiti della sintesi, nel momento della
+necessità, qualunque membro del team può andare a controllare la documentazione condivisa e leggendo quanto scritto in precedenza può far risparmiare tempo.
+La capacità di adattarsi ai cambiamenti nei requisiti è un concetto fondamentale dell'agile che viene impartito ai nuovi membri del team fin dal primo giorno
+in ufficio. Si dice che spesso il cliente non sappia chiaramente cosa vuole quindi può cambiare idea più volte per cui studiare un piano approfondito ha
+senso solo nelle fasi iniziali di progettazione di un nuovo modulo, mentre nella gestione degli sprint si mantiene un approccio più semplice e flessibile in modo
+che un cambiamento durante gli sviluppi non stravolga lo sviluppo corrente. Realisticamente non è sempre possibile mantenere un livello così alto di semplicità
+e in alcuni casi che richiedono cambiamenti più radicali poterbbero comunque risultare in lavori onerosi di modifiche del codice o architetture anche radicali,
+ma nella maggioranza dei casi si può cambiare direzione facilmente e senza troppe complicazioni se il requisito è realistico.
+\par La collaborazione con il cliente è fondamentale durante gli sviluppi perchè è necessario sapere in dettaglio cosa stia commissionando.
+Fissati i requisiti della nuova release, che può essere un intero modulo, un bug nel software da risolvere oppure una nuova funzionalità, viene sviluppata
+una versione intermedia ossia un incremento parziale del software come quelli che si sviluppano in eXtreme Programming. Il cliente potrà essere provare e
+testare approfonditamente il software intermedio e poi offrire un feedback per capire se sia stato sviluppato tutto correttamente oppure se manca qualcosa
+e se è tutto coerente con quanto richiesto. Senza la comunicazione con il cliente il modello Agile non sarebbe applicabile.
 
 \chapter{Background Software e Ambiente Operativo}
 
