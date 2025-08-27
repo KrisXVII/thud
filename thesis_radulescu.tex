@@ -18,7 +18,9 @@
 %% hyperref: Regola le impostazioni della creazione del PDF... pi� tante altre cose. Ricordarsi di usare l'opzione pdfa.
 \usepackage[pdfa]{hyperref}
 %% tocbibind: Inserisce nell'indice anche la lista delle figure, la bibliografia, ecc.
-
+\usepackage{graphicx}
+\graphicspath{{./images/}}
+\usepackage{float}
 %% --- Stili di pagina disponibili (comando \pagestyle) ---
 %% sfbig (predefinito): Apertura delle parti e dei capitoli col numero grande; titoli delle parti e dei capitoli e intestazioni di pagina in sans serif.
 %% big: Come "sfbig", solo serif.
@@ -59,18 +61,12 @@ Nunc ac dignissim ipsum, quis pulvinar elit. Mauris congue nec leo ornare lobort
 %% Capitolo
 \chapter{Introduzione}
 
+Scrivere breve debriefing su cosa la piattaforma e il servizio venda, il prodotto in particolare.
+
 introduzione (da scrivere alla fine con contesto, requisiti principali ossia perché stiamo facendo questo software o
 stiamo aggiungendo funzionalità, valutazione, conclusioni). Poi elenco contributi per ogni capitolo:
 in capitolo 2..., in capitolo 3...
 
-%% Sezione
-\section{Titolo della Sezione}
-Donec pulvinar neque non lectus vulputate pellentesque. Quisque rutrum arcu velit, in feugiat sapien posuere vel.
-
-%% Sottosezione
-\subsection{Sottosezione}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam auctor odio sit amet tempor consequat.
 
 \chapter{Background Aziendale}
 
@@ -190,11 +186,113 @@ e se è tutto coerente con quanto richiesto. Senza la comunicazione con il clien
 
 \chapter{Background Software e Ambiente Operativo}
 
-background software e dell'ambiente operativo (linguaggi, librerie)
+Questo capitolo esporrà l'ambiente operativo e le tecnologie utilizzate per lo sviluppo della funzionalità presa in esame nel prossimo capitolo.
+Il progetto è di grandi dimensioni con diverse sezioni che implementano funzionalità che si assomigliano fra di esse, le uniche cose che cambiano
+sono i servizi esterni che si intersecano con le tecnologie interne per realizzarle.
+Non mi dilungherò nella spiegazione delle tecnologie utilizzate per il front end (\textit{ReactJS}\cite{react_dev_home}, \textit{NextJS}\cite{nextjs_home},
+\textit{Cypress}\cite{cypress}...) e approfondirò quelle utilizzate per la parte back end svluppata da me. 
+\section{Le tecnologie interne}
+In questa sezione considererò come tecnologie interne l'insieme dei servizi scelti su cui basare le fondamenta dei software
+sviluppati all'interno dell'azienda. Di seguito citerò anche tutto l'insieme dei servizi di \textit{Amazon Web Services}\cite{aws} (AWS)
+ampliamente utilizzati nello sviluppo dell'intero progetto che tecnicamente sono un insieme di servizi esterni ma data la partnership dell'azienda
+e il largo utilizzo in quasi tutti i progetti di essa li definisco come una tecnologia interna.
+\subsection{Ruby On Rails}
+L'azienda ha scelto come linguaggio di programmazione predefinito \textit{Ruby On Rails} \cite{ruby_on_rails} per sviluppare il back end dei progetti.
+Ruby è un linguaggio ad alto livello orientato agli oggetti che punta sulla possibilità di scrivere poco codice per implementare un'idea ma che sia significativo
+e leggibile mentre \textit{Rails} è un framework di Ruby creato a posta per lo sviluppo di siti web.
+L'idea centrale è dare un insieme di tools da usare seguendo il pattern Model-View-Controller in modo che si possa sviluppare un sito web intero senza servizi esterni.
+Suddivide la costruzione del sito web in client attraverso le Views e server attraverso Controllers e Models e queste tre macro-sezioni interagiscono
+fra di loro come mostrato nella figura \ref{fig:mvc-sequence}.
+I Models sono le classi di oggetti che verranno utilizzate nel sito web in cui si possono definire anche i metodi di classe che verranno applicati agli oggetti
+della classe in cui sono definiti. Le Views compongono il front end del prodotto finale e vengono codificate attraverso dei file .erb (Embedded Ruby Language)
+che consistono di una combinazione di codice HTML e CSS puri insieme a codice Ruby necessario per definire quali istanze di oggetti o strutture dati inserire
+nei componenti HTML in modo simile a come viene fatto in PHP.\\
+Altre directories presenti in un'applicazione Ruby On Rails sono:
+\begin{itemize}
+    \item config: contiene i file di configurazione come credenziali ed ambienti;
+    \item db: contiene i file riguardanti il Database collegato al progetto;
+    \item lib in cui vengono scritti i file di supporto al progetto come moduli aggiuntivi e collegamenti ad API esterne;
+    \item public per inserire i file pubblici accessibili dai crawler dei browser come nel caso dei file di indicizzazione;
+    \item spec per i test \textit{RSpec};
+    \item tmp in cui vengono salvati file temporanei.
+\end{itemize}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{Sequence Diagram pattern MVC.png}
+\caption{Sequence diagram che illustra il flusso di interazione nel pattern MVC}
+\label{fig:mvc-sequence}
+\end{figure}
+Infine nella root directory del progetto si trovano i file di supporto come il README.md inizializzato nel momento in cui è stata creata la repository gestita tramite
+\textit{Gitflow}\cite{gitflow}, il CHANGELOG.md che serve a tenere presente le versioni dei rilasci 
+e il Gemfile.rb che consiste nella lista delle gemme di Ruby aggiunte nel progetto ossia le librerie aggiuntive scaricate nel progetto.
+Nel caso di questo software il client è stato sostituito con un client scritto in ReactJS e quindi di Ruby On Rails vengono usate principalmente le componenti
+per costruire il server mentre le Views vengono utilizzate per definire template interni come le e-mails.
+\subsection{Amazon Web Services}
+Come anticipato prima, il blocco di servizi offerti da Amazon Web Services sono una componente molto importante dei software sviluppati in azienda.
+AWS è una piattaforma di cloud computing che dispone di un catalogo di oltre 200 servizi IT on-demand accessibili via Internet con un modello di pagamento a consumo. Per questo software l'archiettura 
+è stata realizzata attraverso \textit{Elastic Compute Cloud} (EC2) che permette di definire più istanze della stessa applicazione per far funzionare i tre ambienti del sito:
+development ossia l'ambiente di sviluppo, staging che è l'ambiente in cui vengono rilasciati gli incrementi del software in modo che il cliente li possa testare
+e production che è l'ambiente su cui funziona il sito ufficiale e che viene utilizzato dai clienti. L'accesso ai diversi server è gestito tramite \textit{Secure Shell Protocol}\cite{rfc4251} (SSH)
+A livello di repository ogni istanza utilizza il codice dei branch omonimi e questo viene gestito attraverso \textit{CodePipeline}, un altro servizio di AWS che gestisce le fasi
+di rilascio con uno script in Python e il servizio di containering di \textit{Docker}\cite{docker}. Questi containers sono monitorati dal servizio di \textit{Cloudwatch} che %TODO: citare e cercare Grafana
+registra i log di ogni container, utili per le sessioni di debugging. Anche i database sono separati e istanziati attraverso il servizio \textit{Aurora and RDS} in modo che ogni
+ambiente abbia il suo storage. Allo stesso modo di EC2, RDS permette di creare delle istanze alle quali si può accedere singolarmente tramite SSH per ogni database \textit{MYSQL}\cite{mysql}.
+\textit{S3} è un servizio di storage in cloud che dà la possibilità di salvare media di qualsiasi tipo utilizzati nel software. Risulta particolarmente utile perchè permette di separare
+la componente miscellanea dal software riducendone la dimensione effettiva. Si utilizza creando dei bucket che non sono niente meno di directory a cui ci si può collegare
+da remoto e caricare, cancellare, aggiornare i media necessari. Infine viene utilizzato il servizio \textit{DynamoDB} che offre un database NoSQL serverless,
+utile per immagazzinare dati non strutturati, nel caso di questo software si parla delle notifiche utilizzate per gestire il sistema di notifiche che segnalano lo stato di
+avanzamento e conclusione dei processi asincroni ampliamente utilizzati nello sviluppo di questo modulo.
+\subsection{Sidekiq}
+I processi asincroni che d'ora in avanti saranno chiamati "job" sono gestiti attraverso una gemma di Ruby On Rails che si appoggia a \textit{Redis}\cite{redis_home} (REmote DIctionary Server), un
+data store open source che può essere utilizzato come database, cache o broker di messaggi. Funziona salvando i dati nella RAM in forma di chiave-valore minimizzando le latenze nell'ordine dei microsecondi
+dato che l'accesso ai dati salvati su disco è più lento rispetto all'accesso dei dati presenti in RAM. In questo caso Redis viene utilizzato per salvare le informazioni necessarie ai
+job per svolgere le loro computazioni, di conseguenza ottimizza la velocità di esecuzione del job dato che l'accesso ai dati è molto veloce.
+I vengono creati attraverso la gemma di Ruby On Rails di \textit{Sidekiq}\cite{sidekiq} che mette a disposizione un efficiente sistema di gestione di processi asincroni attraverso
+metodi di una superclasse da sfruttare attraverso l'ereditarietà delle classi che implementano questo tipo di asincronismo. Il job viene astratto come un oggetto, dopotutto in
+Ruby qualsiasi entità è un oggetto, con i suoi attributi fra cui i più rilevanti sono lo status, la data di creazione, di inzio e di fine processo e l'identificativo dell'oggetto che
+implementa asincronismo. Il ciclo di vita è molto semplice: alla creazione ha status "running" e alla risoluzione diventa "complete" mentre se occorrono eccezioni durante la sua esecuzione
+si imposta automaticamente uno status "error" e salva il messaggio d'errore in un campo apposito. La classe che implementa questo meccanismo deve possedere obbligatoriamente un metodo
+"resolve\_job" che si potrà chiamare da qualsiasi punto del codice su un'istanza dell'oggetto e che svolgerà il suo task per poi concludere ed impostare lo stato "complete" aggiornando
+anche il timestamp di fine. Spesso il front end avrà bisogno di ricevere un segnale che un certo processo ha concluso il suo task e l'esito finale di esso.
+A questo scopo si usa un sistema di notifiche in tempo reale che comunichi lo stato finale del job ed eventualmente apportando dei dati che al front end in modo che quest'ultimo sappia
+se poter proseguire con un redirect ad un'altra pagina mostrare un messaggio d'errore. Queste notifiche vengono salvate sul database di DynamoDB, servizio di AWS citato
+prima e vengono cancellate dopo un dato periodo di tempo che sono state utilizzate. Questo sistema di asincronismo contribuisce al parallelismo di task uguali tra loro rendendo
+l'applicazione più responsiva e migliorando le prestazioni.
+% Citare OpenStruct molto importante
+\section{Servizi esterni}
+\subsection{Stripe}
+Per la gestione del processo di pagamento, con particolare attenzione alle modalità di addebito ricorrente caratteristiche di un sistema di abbonamenti,
+è stato integrato il servizio di \textit{Stripe}\cite{stripe} attraverso la gemma ufficiale per Ruby\cite{stripe_ruby_gem}. Il servizio offre un sistema di gestione dei pagamenti
+basato su oggetti ed utilizzabile attraverso diversi linguaggi di programmazione oltre a Ruby fra cui Python, Java, .NET e altri. Si integra
+bene con Ruby per il fatto che anche l'API di Stripe opera via oggetti identificati univocamente da object id e ha classi di oggetti con i loro attributi e metodi quindi allineandosi
+perfettamente con il paradigma object oriented.
+Offre molte classi per implementare flussi di pagamento e le più rilevanti nello sviluppo di questo modulo sono per esempio le classi Payment Intents, Subscriptions, Payment Methods,
+Invoices, Tax Rate, Customers e tante altre che verranno illustrate approfonditamente assieme al flusso della funzionalità nel prossimo capitolo.
+Stripe si è rilvelata una scelta vantaggiosa anche per il fatto che la gestione dei dati sensibili non è delegata al back end dell'applicazione ed è interamente
+a carico del servizio stesso. Un altro punto di forza di questa API è la documentazione chiara\cite{stripe_api_reference} e la disponibilità di assistenza 24 ore su 24 da parte
+del team di supporto di cui il team si è potuto avvalere per far fronte alle difficoltà incontrate durante il lavoro ad alcuni task.
+\subsection{RabbitMQ}
+L'analisi dei domini è stata affidata al servizio di \textit{RabbitMQ}\cite{rabbitmq}, un middleware message-oriented che implementa il protocollo \textit{Advanced Message Queuing Protocol}
+(AMPQ) per gestire le richieste in entrata dall'applicazione e restituire in risposta gli stessi dati rielaborati.
+L'integrazione avviene attraverso un server lato servizio che riceve le richieste inviate in formato JSON attraverso un canale che collega tale server e l'applicazione.
+La comunicazione viene aperta dopo l'autenticazione avvenuta con successo tramite nome utente e password.
+Il servizio opera principalmente secondo il pattern publish/subscribe. In pratica l'applicazione pubblica su una coda i dati interessati che devono essere elaborati,
+poi questo dato pubblicato viene prelevato ed elaborato, tecnicamente consumato, dal server lato servizio che a fine elaborazione viene ripubblicato su una coda diversa
+a cui l'applicazione si sottoscrive periodicamente per ricevere la risposta con i dati rielaborati.
+\subsection{Axlsx}
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{Deployment Diagram.png}
+\caption{Deployment diagram che mostra le interazioni fra i servizi utilizzati}
+\label{fig:dep_diagram}
+\end{figure}
 
 \chapter{Funzionalità Sviluppata}
 
-Sistema o funzionalità sviluppata: casi d'uso, deployment diagram, comportamentale tipo activity
+% Sistema o funzionalità sviluppata: casi d'uso, deployment diagram, comportamentale tipo activity
+Il software essendo un e-commerce ha un flusso di utilizzo da parte di un utente generico molto semplice: cercare il prodotto desiderato,
+aggiungerlo al carrello in caso lo si voglia acquistare, effettuare il pagamento e il check-out ed infine usufruire del prodotto acquistato.
+
 
 \chapter{Valutazione}
 
