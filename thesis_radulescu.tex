@@ -144,6 +144,7 @@ Nel Manifesto sono stati formalizzati i quattro valori fondamentali dell'Agile:
 \end{itemize}
 
 \section{La scelta dell'azienda}
+
 L'azienda basa lo sviluppo dei progetti sul metodo Agile applicando i principi del Manifesto con alcune variazioni, alcune tecniche dell'eXtreme Programming
 e strumenti software di supporto alla gestione del team.
 Il motivo principale per cui ha adottato questa metodologia è per far fronte a continui cambiamenti nei requisiti del cliente e ridurre i tempi e i costi
@@ -374,19 +375,30 @@ contenente attributi chiave-valore semplici. Questo strumento permette tuttavia 
 nella risposta gli attributi di esso presenti nel suo record a database. Inoltre si possono anche creare attributi chiave-valore personalizzati derivati da altri
 attributi dato che nel modulo si possono definire funzioni oppure si può fare presente al modulo che l'oggetto preso in esame ha un attributo foreign key di un
 oggetto di una classe diversa e quindi nella risposta sarà presente come oggetto annidato anche il record dell'oggetto collegato.
-\par Nel progetto è importante definire i livelli di accesso alle pagine fra utenti con permessi diversi. Ad esempio, un utente con ruolo superadmin può accedere
-più o meno a tutte le pagine del sito dato che funge da amministratore della piattaforma. Un utente base invece sarà abilitato ad accedere alcune sezioni a cui
-un superadmin può liberamente accedere. Questo aspetto viene gestito tramite una combinazione di \textit{CanCanCan}\cite{cancancan_gem} utilizzato per implementare
-il modello \textit{Role Based Access Control} (RBAC)\cite{ibm_rbac} e la gemma \textit{json-jwt}\cite{json_jwt_gem} per la validazione del JSON Web Token (JWT) che
-certifica l'identità dell'utente. RBAC è un modello di autorizzazione dell'utente di accesso alle risorse in cui un amministratore assegna ad ogni utente uno i pìu ruoli.
-CanCanCan permtte di implemetare questo modello definendo delle classi custom in una directory "abilities" nominate a seconda del ruolo che si intende codificare
-in cui si possono scrivere delle istruzioni composte da "can" oppure "cannot", nome dell'endpoint a cui si vuole dare o meno l'accesso, classe dell'oggetto in cui
-l'endpoint è definito ed eventuali parametri come l'identificativo dell'utente se si vuole fare in modo che nessun altro utente a parte l'amministratore possa accedere
-ad una certa risorsa. 
-% Da rivedere il flusso di login
-Il JWT valida l'identità dell'utente al momento del login con le credenziali da parte dell'utente. Il front end raccoglie i dati di accesso e
-alcune informazioni rilevanti in un oggetto che poi viene crittato con un algoritmo di crittazione e firmato digitalmente, RSA in questo caso, e inviato al back end
-che attraverso una richiesta API ad \textit{AWS Cognito} verifica se i dati di accesso sono corretti e restituire le informazioni sull'utente in risposta.
+\par Nel progetto è importante partizionare i livelli di accesso alle risorse fra utenti con permessi diversi. Ad esempio, un utente con ruolo superadmin può accedere
+a tutte le pagine del sito dato che funge da amministratore della piattaforma. Un utente base invece accessi limitati ad alcune sezioni, alcune a cui
+un superadmin può liberamente accedere non le potrà vedere. Questa meccanica viene gestita tramite una combinazione di \textit{CanCanCan}\cite{cancancan_gem}, gemma utilizzata per implementare
+il modello \textit{Role Based Access Control} (RBAC)\cite{ibm_rbac}, e la gemma \textit{json-jwt}\cite{json_jwt_gem} per la validazione del JSON Web Token (JWT) che
+certifica l'identità dell'utente. RBAC è un modello di autorizzazione di accesso alle risorse basato sui ruoli che vengono assegnati agli utenti.
+CanCanCan permette di implemetare questo modello definendo delle classi NomeRuoloAbility in una directory "abilities" in cui si possono scrivere delle
+istruzioni composte da "can" oppure "cannot", nome dell'endpoint a cui si vuole dare o meno l'accesso, classe dell'oggetto in cui l'endpoint è definito ed eventuali
+parametri come l'identificativo dell'utente se si vuole fare in modo che nessun altro utente a parte l'amministratore possa accedere ad una certa risorsa. 
+Avendo questo insieme di strumenti e modelli a disposizione si può implementare il flusso di login che comincia dal front end. L'utente inserisce nel form di login
+nome utente e password e inviando questi dati a \textit{AWS Cognito} via API che verificherà se queste credenziali sono presenti nell'identity pool dell'utente.
+In risposta Cognito invierà dei dati riguardanti l'utente che il front end potrà utilizzare per comporre il token JWT che sarà inviato al back end.
+Ricevuta la richiesta il back end legge i header di essa per ottenere alcune informazioni fra cui il token JWT stesso e l'id dell'utente su Cognito.
+Fra questi header possono essere presenti quello di impersonamento di un altro utente in caso un amministratore stia accedendo con il suo account ma accedendo al profilo
+di un altro utente appunto, oppure quello degli utenti ospiti non registrati che è necessario quando un utente del genere compone un carrello e se poi decide di acquistarlo
+servirà tenere traccia di quale utente lo abbia composto per assegnarlo correttamente anche nell'area personale a cui accederebbe dopo la registrazione.
+Il back end utilizza il token JWT e l'id dell'utente su Cognito per effettuare una richiesta via API e autenticare definitivamente l'utente che intende accedere
+e viene creato l'oggetto current\_user. Andato a buon fine questo processo viene composto un oggetto "permissions" che rappresenta il grado di accesso per ogni ruolo che può essere
+già presente nel record dell'utente nel database. La relazione principale della classe utente è quella con la classe cliente e un utente può avere più sotto-clienti
+da utilizzare con permessi diversi, ma appunto legati allo stesso utente. L'oggetto "permissions" menzionato prima accorda proprio questa funzionalità poichè vengono
+scritte in esso i gradi di permesso in forma di chiave-valore con chiave corrispondente al nome del ruolo e valore un booleano. Per esempio, un utente può avere un profilo
+cliente amministratore che gestisce il carrello e un cliente tech che gestisce i singoli domini. In questo caso nell'oggetto "permissions" saranno presenti gli attributi
+customer\_admin e customer\_tech entrampi con valore true mentre non avendo un profilo cliente manager avrà questo attributo con valore false.
+Il flusso di registrazione cambia poco da quello di autenticazione in quanto prevede una fase iniziale aggiuntiva di creazione dell'utente e del suo identity pool su Cognito
+e una verifica dell'email inserita tramite OTP, seguito poi dal regolare flusso di autenticazione esposto sopra.
 \par A supporto dello sviluppo in ambiente di test vengono utilizzate le gemme del framework di testing per Ruby, \textit{RSpec}\cite{rspec_home} che verrà spiegato
 approfonditamente nel capitolo riguardante il testing del modulo. Nella test suite del progetto vengono utilizzate anche le gemme \textit{faker}\cite{faker_gem}
 che permette di creare facilmente dati finti ma ben strutturati che rendono i test molto più realistici e \textit{webmock} che permette di creare dei moduli utili
@@ -444,7 +456,6 @@ dell'output sul terminale che di default è bianco su nero. ap non è ristretto 
 Stampando una stringa questa verrà colorat di giallo nell'output, i numeri interi saranno blu mentre quelli decimali appariranno rosa sul temrinale.
 Sembra un cosa da poco ma nelle attività di debugging aiuta a visualizzare ed identificare con un'occhiata strutture che se fossero colorate di bianco e formattate male
 risulterebbero molto complesse da analizzare, sprecando anche tempo nel peggiore dei casi.
-
 
 \begin{figure}[h]
 \centering
