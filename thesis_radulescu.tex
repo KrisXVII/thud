@@ -172,7 +172,7 @@ Questo aspetto lavorativo viene rinforzato attraverso il software di supporto \t
 i lavoratori delle aziende. Offre la possibilità di creare canali e gruppi di essi a cui aggiungere il profilo dei singoli membri al gruppo dell'azienda.
 Con il supporto di questo strumento la comunicazione è resa possibile anche quando qualche persona sta lavorando in modalità remota ed inoltre migliora la
 comunicazione consentendo di inviare anche media come messaggi. Ogni persona quindi è reperibile in ogni momento della giornata lavorativa.
-\par L'azienda si disallinea dal Manifesto dal punto di vista della documentazione e pone un accento particolarmente forte su questo aspetto.
+\par L'azienda si discosta dal Manifesto dal punto di vista della documentazione e pone un accento particolarmente forte su questo aspetto.
 È vero che dedicare meno tempo a scrivere documentazione permette di dedicare più tempo al codice ma quando si stanno sviluppando progetti di grandi dimensioni
 con tante sezioni, tante logiche diverse di gestione dei dati e tanti componenti è facile che chi le ha sviluppate stesso si dimentichi del funzionamento di
 tutti questi aspetti se poi non ci si torna per tanto tempo. Ma se ogni aspetto viene documentato, sempre rimanendo nei limiti della sintesi, nel momento della
@@ -466,14 +466,61 @@ risulterebbero molto complesse da analizzare, sprecando anche tempo nel peggiore
 
 \chapter{Funzionalità Sviluppata}
 
-% Sistema o funzionalità sviluppata: casi d'uso, deployment diagram, comportamentale tipo activity
+% Sistema o funzionalità sviluppata: casi d'uso, comportamentale tipo activity
 Il software essendo un e-commerce ha un flusso di utilizzo da parte di un utente generico molto semplice: cercare il prodotto desiderato,
 aggiungerlo al carrello in caso lo si voglia acquistare, effettuare il pagamento e il check-out ed infine usufruire del prodotto acquistato.
+Nelle seguenti sezioni sarà descritto in dettaglio il funzionamento di ogni passo con particolare attenzione alla gestione dei dati del cliente e dell'acquisto in sè.
+L'intero flusso della funzionalità si divide in due macro-fasi: la prima è detta fase di discovery e la seconda è la vera e propria fase di monitoring del dominio interessato.
+
+\section{Fase di Discovery}
+
+Il primo passo è la ricerca del dominio da monitorare da parte dell'utente. Il flusso inizia dalla schermata \ref{fig:search_section} in cui l'utente inserirà nella barra di
+ricerca il nome del dominio di cui desidera ricevere informazioni a riguardo. Il nome del dominio deve essere scritto ben formato (dominio.tld) altrimenti il pulsante di
+ricerca non si attiverà. L'action di onClick del pulsante effettua una richiesta all'endpoint del back che effettua la discovery inviando come parametro il nome del dominio ricercato.
+Il primo comando eseguito è la creazione di un oggetto a database via ActiveRecord che rappresenti il Monitoring. Dopodichè viene lanciato il job asincrono che completerà il processo
+di ricerca sul server esterno di RabbitMQ. Dopo aver svolto queste due azioni l'endpoint risponde al front end che con l'identificativo del job e quello del Monitoring appena creato.
+Il front end al momento sta attendendo una notifica dal processo asincrono tramite la quale possa capire come si è concluso e sta mostrando un loader che indica all'utente che dovrà
+pazientare per un breve lasso di tempo. Il job asincrono nel mentre ha pubblicato sulla coda selected\_brand il nome del dominio. Quindi si attivano i consumers del server di RabbitMQ che preleva
+il dato di cui è stato verificato l'acknowledgement ed effettua le sue ricerche. Conclusa la ricerca il consumer ripubblica il dato a cui sono state aggiunte informazioni sulla coda
+discovered\_typos. Nell'applicazione è stato implementato un cron job che ogni 10 secondi si sottoscrive alla coda in cui il server esterno pubblica i suoi risultati e se ne trova li
+preleva e chiama il metodo di sottoscrizione definito nell'interfaccia che funge da collegamento fra applicazione e servizio esterno. Il metodo semplicemente raccoglie la risposta
+del server e avvia la procedura di risoluzione del job. Le classi che implementano job asincroni devono tassativamente possedere un metodo resolve\_job che indichi a Sidekiq che
+metodo applicare per chiuderlo e poterlo rimuovere dalla memoria. % Enunciare formato risposta e come viene processata
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{Domain_search.png}
+\caption{Pagina di ricerca del dominio interessato}
+\label{fig:search_section}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{Discovery Flowchart.png}
+\caption{Activity diagram della funzionalità di discovery}
+\label{fig:discovery_flowchart}
+\end{figure}
+
+
+
+
+
+
+
+
 % Spiegazione realizzazione delle email
 Queste ultime sono dinamiche poichè quando viene utilizzata una funzione che ne invia una o più vengono passati dei parametri al template, altrimenti non si
 potrebbe cambiare il nome dell'utente destinatario. Ma se le views non sono collegate ad un controller come succede nell'utilizzo canonico di Ruby On Rails, allora
 non avrebbero modo di ricevere parametri. Il problema viene risolto facilmente attraverso una combinazione di OpenStruct e \textit{GraphQL}.
 La prima è una classe built-in della libreria standard di Ruby
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\linewidth]{Flowchart.png}
+\caption{Activity diagram che mostra il funzionamento della funzionalità}
+\label{fig:flowchart}
+\end{figure}
 
 \chapter{Valutazione}
 
