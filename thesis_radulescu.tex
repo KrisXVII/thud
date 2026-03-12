@@ -40,7 +40,11 @@
 
 %% Sommario (opzionale)
 \abstract
-Nunc ac dignissim ipsum, quis pulvinar elit. Mauris congue nec leo ornare lobortis. Nulla hendrerit pretium diam nec lobortis. Nullam aliquam laoreet nisl, sit amet facilisis lectus accumsan ut. Duis et elit hendrerit metus venenatis condimentum. Integer id eros molestie, interdum leo sit amet, aliquet metus. Integer fermentum tristique magna, vel luctus neque rhoncus vel. Ut hendrerit et quam et semper. Mauris egestas, odio sed aliquet luctus, magna orci euismod odio, vitae lacinia tellus tellus non lectus. Aliquam urna neque, porta et mattis aliquam, congue sit amet lorem. In ultrices augue sit amet ante vehicula, vitae rhoncus turpis auctor. Donec porta scelerisque eros, at mollis enim imperdiet ut. 
+Scrivere breve debriefing su cosa la piattaforma e il servizio venda, il prodotto in particolare.
+
+introduzione (da scrivere alla fine con contesto, requisiti principali ossia perché stiamo facendo questo software o
+stiamo aggiungendo funzionalità, valutazione, conclusioni). Poi elenco contributi per ogni capitolo:
+in capitolo 2..., in capitolo 3...
 
 %% Indice
 \tableofcontents
@@ -49,7 +53,7 @@ Nunc ac dignissim ipsum, quis pulvinar elit. Mauris congue nec leo ornare lobort
 %\listoftables
 
 %% Lista delle figure (se presenti)
-%\listoffigures
+\listoffigures
 
 %% Corpo principale del documento
 \mainmatter
@@ -99,7 +103,7 @@ di supporto.
 
 Verso la fine degli anni Sessanta, periodo che segnò gli albori dell'Ingegneria del Software, le aziende adottavano esclusivamente il Waterfall Model,
 un modello plan-driven a fasi ben definite che impiegava tante risorse: team di grandi dimensioni e tante finanze ma soprattutto tanto tempo
-poichè era necessario pianificare accuratamente ogni fase e documentare nei minimi particolari l'intero progetto. Se verso le fasi finali dello
+poiché era necessario pianificare accuratamente ogni fase e documentare nei minimi particolari l'intero progetto. Se verso le fasi finali dello
 sviluppo si sarebbero riscontrati errori o inconsistenze derivate dalle fasi iniziali, dalla definizione dei requisiti per esempio, aggiustare i
 problemi sarebbe stata un'operazione molto complicata.
 \par Studi come il \textit{CHAOS Report}\cite{standish1994chaos} dello Standish Group (1994) rilevavano un tasso di fallimento del 30\% dei software
@@ -152,12 +156,12 @@ di sviluppo nell'adattarsi alle sue richieste.
 \par Il team di sviluppo di un progetto è formato dagli sviluppatori e il/i project manager. Una persona può essere in carica dello sviluppo di più progetti per cui
 raggruppando questi ultimi per progetto i team risultanti si intersecano tra loro, non ci sono team indipendenti l'uno dall'altro.
 I project managers gestiscono i team per ogni progetto attraverso il software di supporto \textit{Jira Software} di Atlassian\cite{atlassian_jira} che permette
-di creare una sezione dedicata ad ogni progetto e assegnare persone che comporranno il team di sviluppo di esso.
+di creare una sezione dedicata ad ogni progetto e assegnare persone che comporranno il team di sviluppo di esso. 
 In ogni sezione si trova una board in cui vengono aperti i ticket che praticamente sono delle user stories come quelle che si usano in eXtreme Programming.
 Un ticket è formato da un titolo che deve essere il più esplicativo possibile di cosa deve essere sviluppato o del problema che deve essere risolto e da una
 descrizione aggiuntiva per approfondire alcuni punti se necessario. Questi possono essere anche commentati dai membri del team del progetto in modo da lasciare
-delle note o degli appunti per gli altri.
-Ogni board è dinamica, cioè inizialmente viene pianificato lo sprint settimanale e durnate gli sviluppi possono essere aperti altri ticket all'occorrenza.
+delle note o degli appunti per gli altri. % TODO: descrivere sezioni della board
+Ogni board è dinamica, cioè inizialmente viene pianificato lo sprint settimanale e durante gli sviluppi possono essere aperti altri ticket all'occorrenza.
 La sezione offre anche un backlog in cui sono raccolti tutti i ticket, sia quelli dello sprint corrente che di sprint futuri.
 I ticket possono essere raggruppati per categorie, le epics, ed è presente anche una timeline in cui i project manager definiscono gli archi di tempo previsti
 da dedicare ad ognuna di esse. Poi c'è anche un riepilogo che fa da dashboard principale del progetto e mostra diverse informazioni sullo stato di esso a livello
@@ -181,9 +185,9 @@ La capacità di adattarsi ai cambiamenti nei requisiti è un concetto fondamenta
 in ufficio. Si dice che spesso il cliente non sappia chiaramente cosa vuole quindi può cambiare idea più volte per cui studiare un piano approfondito ha
 senso solo nelle fasi iniziali di progettazione di un nuovo modulo, mentre nella gestione degli sprint si mantiene un approccio più semplice e flessibile in modo
 che un cambiamento durante gli sviluppi non stravolga lo sviluppo corrente. Realisticamente non è sempre possibile mantenere un livello così alto di semplicità
-e in alcuni casi che richiedono cambiamenti più radicali poterbbero comunque risultare in lavori onerosi di modifiche del codice o architetture anche radicali,
+e in alcuni casi che richiedono cambiamenti più radicali potrebbero comunque risultare in lavori onerosi di modifiche del codice o architetture anche radicali,
 ma nella maggioranza dei casi si può cambiare direzione facilmente e senza troppe complicazioni se il requisito è realistico.
-\par La collaborazione con il cliente è fondamentale durante gli sviluppi perchè è necessario sapere in dettaglio cosa stia commissionando.
+\par La collaborazione con il cliente è fondamentale durante gli sviluppi perché è necessario sapere in dettaglio cosa stia commissionando.
 Fissati i requisiti della nuova release, che può essere un intero modulo, un bug nel software da risolvere oppure una nuova funzionalità, viene sviluppata
 una versione intermedia ossia un incremento parziale del software come quelli che si sviluppano in eXtreme Programming. Il cliente potrà essere provare e
 testare approfonditamente il software intermedio e poi offrire un feedback per capire se sia stato sviluppato tutto correttamente oppure se manca qualcosa
@@ -199,9 +203,9 @@ Non mi dilungherò nella spiegazione delle tecnologie utilizzate per il front en
 L'azienda oltre ai principi dell'Agile si avvale anche della pratica del \textit{Commercial-Off-The-Shelf} (COTS) definita nello standard ISO/IEC del 2017\cite{iso_iec_12207_2017}
 che consiste nel utilizzare software già sviluppato pronti per l'uso sia che siano open-source che a pagamento. Le gemme sono librerie per Ruby che sono state sviluppate a posta
 per il supporto alla produzione di codice Ruby. Il vantaggio di questa pratica è chiaramente il notevole risparmio di tempo e semplificazione del codice sviluppato con la
-contropartita di dover ponderare correttamente la scelta poichè una scelta errata potrebbe causare perdite di tempo. Un'altra cosa da tenere presente quando si
-lavora con software pre-esistente è che è molto rano trovarne uno che soddisfa completamente le necessità e potrebbe essere necessario apportare qualche modifica al
-componente ma questi prodotti a meno che non sia esplcitamente descritto come liberamente modificabile è molto complicato da alterare.
+contropartita di dover ponderare correttamente la scelta poiché una scelta errata potrebbe causare perdite di tempo. Un'altra cosa da tenere presente quando si
+lavora con software pre-esistente è che è molto raro trovarne uno che soddisfa completamente le necessità e potrebbe essere necessario apportare qualche modifica al
+componente ma questi prodotti a meno che non sia esplicitamente descritto come liberamente modificabile è molto complicato da alterare.
 
 \section{Le tecnologie interne}
 
@@ -228,7 +232,7 @@ di base gemme che contengono al loro interno estensioni scritte in C come \texti
 interfacciarsi con database o \textit{nokogiri}\cite{nokogiri_gem} per il parsing di codice XML o HTML.
 È un linguaggio ad alto livello interpretato che punta sulla possibilità di scrivere poco codice attraverso una sintassi elegante per implementare un'idea ma che sia significativo
 e leggibile. Ad oggi l'ultima versione di Ruby pubblicata è la 3.3.9 datata il 24/07/2025\cite{ruby_releases} e continua ad essere aggiornato dal Ruby Language Team e supportato dalla community.
-\par L'idea centrale del framework Rails è dare un insieme di tools da usare seguendo il pattern Model-View-Controller in modo che si possa sviluppare un sito
+\par L'idea centrale del framework Rails è dare un insieme di strumenti da usare seguendo il pattern Model-View-Controller in modo che si possa sviluppare un sito
 web intero senza servizi esterni, quindi ha un approccio full-stack allo sviluppo web.
 Suddivide la costruzione del sito web in client attraverso le Views e server attraverso Controllers e Models e queste tre macro-sezioni interagiscono
 fra di loro come mostrato nella figura \ref{fig:mvc-sequence}.
@@ -261,7 +265,7 @@ del database MySQL. In particolare implementa il pattern \textit{Create-Read-Upd
 o cancellare record. Queste operazioni sono implementate direttamente nel codice senza la necessità di dover scrivere SQL puro. Ad esempio, ogni classe ha un metodo built-in dinamico
 chiamato .create() a cui vengono passati in formato chiave-valore i parametri corrispondenti agli attributi del modello dati e sarà il linguaggio stesso a tradurre
 quel codice in SQL puro da eseguire sul database collegato al progetto. È molto vantaggioso dal punto di vista della semplicità e leggibilità del codice dato che
-non essendo necessario scrivere SQL puro che poterbbe risultare molto difficile da capire.
+non essendo necessario scrivere SQL puro che potrebbe risultare molto difficile da capire.
 Reperire l'informazione dal database è un'operazione fondamentale del software e come sappiamo viene eseguita attraverso query che possono essere anche molto intricate
 da scrivere e da comprendere. L'ActiveRecord semplifica questa operazione permettendo di scrivere clausole WHERE attraverso il metodo .where() che identifica la classe dell'oggetto
 a cui è applicato e i parametri passati allo stesso modo di come vengono passati alla creazione seleziona i record interessati. Esiste anche un metodo .select\{\} che però va utilizzato
@@ -380,7 +384,7 @@ a tutte le pagine del sito dato che funge da amministratore della piattaforma. U
 un superadmin può liberamente accedere non le potrà vedere. Questa meccanica viene gestita tramite una combinazione di \textit{CanCanCan}\cite{cancancan_gem}, gemma utilizzata per implementare
 il modello \textit{Role Based Access Control} (RBAC)\cite{ibm_rbac}, e la gemma \textit{json-jwt}\cite{json_jwt_gem} per la validazione del JSON Web Token (JWT) che
 certifica l'identità dell'utente. RBAC è un modello di autorizzazione di accesso alle risorse basato sui ruoli che vengono assegnati agli utenti.
-CanCanCan permette di implemetare questo modello definendo delle classi NomeRuoloAbility in una directory "abilities" in cui si possono scrivere delle
+CanCanCan permette di implementare questo modello definendo delle classi NomeRuoloAbility in una directory "abilities" in cui si possono scrivere delle
 istruzioni composte da "can" oppure "cannot", nome dell'endpoint a cui si vuole dare o meno l'accesso, classe dell'oggetto in cui l'endpoint è definito ed eventuali
 parametri come l'identificativo dell'utente se si vuole fare in modo che nessun altro utente a parte l'amministratore possa accedere ad una certa risorsa. 
 Avendo questo insieme di strumenti e modelli a disposizione si può implementare il flusso di login che comincia dal front end. L'utente inserisce nel form di login
@@ -396,12 +400,12 @@ già presente nel record dell'utente nel database. La relazione principale della
 da utilizzare con permessi diversi, ma appunto legati allo stesso utente. L'oggetto "permissions" menzionato prima accorda proprio questa funzionalità poichè vengono
 scritte in esso i gradi di permesso in forma di chiave-valore con chiave corrispondente al nome del ruolo e valore un booleano. Per esempio, un utente può avere un profilo
 cliente amministratore che gestisce il carrello e un cliente tech che gestisce i singoli domini. In questo caso nell'oggetto "permissions" saranno presenti gli attributi
-customer\_admin e customer\_tech entrampi con valore true mentre non avendo un profilo cliente manager avrà questo attributo con valore false.
+customer\_admin e customer\_tech entrambi con valore true mentre non avendo un profilo cliente manager avrà questo attributo con valore false.
 Il flusso di registrazione cambia poco da quello di autenticazione in quanto prevede una fase iniziale aggiuntiva di creazione dell'utente e del suo identity pool su Cognito
 e una verifica dell'email inserita tramite OTP, seguito poi dal regolare flusso di autenticazione esposto sopra.
 \par A supporto dello sviluppo in ambiente di test vengono utilizzate le gemme del framework di testing per Ruby, \textit{RSpec}\cite{rspec_home} che verrà spiegato
 approfonditamente nel capitolo riguardante il testing del modulo. Nella test suite del progetto vengono utilizzate anche le gemme \textit{faker}\cite{faker_gem}
-che permette di creare facilmente dati finti ma ben strutturati che rendono i test molto più realistici e \textit{webmock} che permette di creare dei moduli utili
+che permette di creare facilmente dati e oggetti fittizi ma ben strutturati che rendono i test molto più realistici e \textit{webmock} che permette di creare dei moduli utili
 alla scrittura di stub. Questi ultimi sono necessari per far funzionare i test delle richieste API verso servizi esterni dato che quelle reali sono disabilitate
 dal framework di RSpec quindi vengono scritte delle risposte hard-coded in file JSON che contribuiscono a simulare internamente l'interazione con l'esterno.
 Scrivendo in questo modo le risposte però si perde la variabilità dei dati nel senso che due risposte ricevute dallo stesso endpoint dell'API potrebbero essere
