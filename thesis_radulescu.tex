@@ -715,23 +715,29 @@ microsoft forms con likert e domanda aperta per raccogliere feedback
 
 \chapter{Conclusioni e Sviluppi Futuri}
 
-conclusioni e sviluppi futuri
+Nella versione successiva del prodotto in cui sono state migliorate le performance sia in fatto di tempo che di memoria e utilizzo delle risorse è stata aggiunta una nuova sezione su
+richiesta del cliente: il monitoring custom. Questi aveva richiesto la possibilità di creare un Monitoring che uscisse dagli schemi dei tre piani disponibili quindi cambiando i parametri che sono
+fissi per come sono stati implementati. Ad esempio un abbonamento standard comprende tre metodi di ricerca, mentre quello successivo ne comprende dieci, ma il cliente vorrebbe un monitoring con
+sette metodologie mirate a ciò di cui necessita e questo non si limita ai parametri di ricerca. È stato aggiunto nella pagina della lista delle scansioni effettuate un bottone che solo un
+backoffice vedrà nell'interfaccia e che apre una modale contenente un form in cui vengono inseriti i parametri personalizzati richiesti.
+Il concetto viene implementato attraverso la classe \texttt{Monitoring} e risulta in una particolare istanza di essa creata a parte che non passa per il flusso che comprende Stripe per il pagamento
+che sarebbe eseguito a parte fra cliente e committente. Questa particolare istanza viene creata da un endpoint diverso da quello che crea i monitoring che passano per il flusso di Stripe e viene
+scritto a database con uno stato "\texttt{custom}" a simboleggiare questa differenza. I parametri personalizzati vengono salvati a database tramite un attributo \texttt{custom\_scan\_data} che contiene
+il blob dei parametri impostati per tenerne traccia.
 
-
-%% Fine dei capitoli normali, inizio dei capitoli-appendice (opzionali)
-\appendix
-
-%\part{Appendici}
-
-% \chapter{Titolo della prima appendice}
-% Sed purus libero, vestibulum ut nibh vitae, mollis ultricies augue. Pellentesque velit libero, tempor sed pulvinar non, fermentum eu leo. Duis posuere eleifend nulla eget sagittis. Nam laoreet accumsan rutrum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur eget libero quis leo porttitor vehicula eget nec odio. Proin euismod interdum ligula non ultricies. Maecenas sit amet accumsan sapien.
+Oltre a questa funzionalità il cliente ha richiesto successivamente un refactor del sistema di pagamento e di gestione generale degli abbonamenti. Nella versione corrente Stripe gestisce sia gli
+acquisti che la creazione che i rinnovi automatici e ciò pesava sui costi imposti dall'API per fornire tutte queste funzionalità. Allora i requisiti di questo modulo erano mirati a limitare
+l'affidamento della gestione dei rinnovi automatici a Stripe. È stato steso quindi un progetto per sbilanciare la responsabilità della gestione degli abbonamenti dal lato dell'applicazione in modo che
+Stripe gestisca solo l'acquisto e fornisca il template delle fatture. Questo ha implicato un completo reset dei meccanismi di pagamento e una rivisitazione dei modelli dati. Concettualmente il da farsi
+avrebbe riguardato il riutilizzo del meccanismo di acquisto "secco" già esistente all'inizio degli sviluppi del modulo e automatizzarlo in modo che fosse utilizzato per effettuare acquisti ricorrenti.
+Questa metodologia implicava l'introduzione di un nuovo modello dati \texttt{Subscription} in modo che l'oggetto del pagamento si trovasse dal lato applicazione invece che dal lato di Stripe quindi non
+ci sarebbe più stato il sistema di notifiche da gestire eccetto le due di tipo \texttt{invoice.paid} e \texttt{invoice.payment\_failed} che sarebbero rimaste per capire se i pagamenti fossero andati
+a buon fine o meno. Per gestire il pagamento automatizzato si sarebbe ricorso ad un worker asincrono che ogni giorno ad un dato orario avrebbe eseguito una query per trovare gli abbonamenti da rinnovare
+quel giorno e poi effettuare il pagamento manualmente. Questo refactor è stato progettato e implementato ma a causa del subentro di altri sviluppi di maggiore importanza non è più stato testato e
+rilasciato rimanendo in sospeso.
 
 %% Parte conclusiva del documento; tipicamente per riassunto, bibliografia e/o indice analitico.
 \backmatter
-
-%% Riassunto (opzionale)
-%\summary
-%Maecenas tempor elit sed arcu commodo, dapibus sagittis leo egestas. Praesent at ultrices urna. Integer et nibh in augue mollis facilisis sit amet eget magna. Fusce at porttitor sapien. Phasellus imperdiet, felis et molestie vulputate, mauris sapien tincidunt justo, in lacinia velit nisi nec ipsum. Duis elementum pharetra lorem, ut pellentesque nulla congue et. Sed eu venenatis tellus, pharetra cursus felis. Sed et luctus nunc. Aenean commodo, neque a aliquam bibendum, mauris augue fringilla justo, et scelerisque odio mi sit amet diam. Nulla at placerat nibh, nec rutrum urna. Donec ut egestas magna. Aliquam erat volutpat. Phasellus vestibulum justo sed purus mattis, vitae lacinia magna viverra. Nulla rutrum diam dui, vel semper mi mattis ac. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec id vestibulum lectus, eget tristique est.
 
 %% Bibliografia (praticamente obbligatoria)
 \bibliographystyle{plain_\languagename}%% Carica l'omonimo file .bst, dove \languagename � la lingua attiva.
