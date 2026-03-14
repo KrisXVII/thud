@@ -71,75 +71,73 @@ committente a fine sviluppi non rilasciati e spunti di implementazione per possi
 
 \chapter{Background Aziendale}
 
-In questo capitolo verranno esposte le modalità operative adottate in azienda per lo sviluppo della funzionalità discussa.
-
 \section{Processi Software}
 
-Nell'ambito dello sviluppo software è importante adottare un approccio ingegneristico e strutturato al fine di sviluppare software di
+Nell'ambito dello sviluppo software è particolarmente importante adottare un approccio ingegneristico e strutturato al fine di sviluppare software di
 qualità riducendo i costi e i tempi di sviluppo. Convenire in primis il modello di processo software su cui incentrare lo
-sviluppo diventa cruciale. Le alternative principali si dividono fra modelli plan-driven e modelli Agile.\\
-Il modello plan-driven si caratterizza per:
+sviluppo diventa cruciale qualora si desideri ridurre i tempi e l'entità degli imprevisti che si possono verificare durante oppure a fine sviluppi. Le alternative principali si dividono fra modelli
+plan-driven e modelli Agile.\\ Il modello plan-driven si caratterizza per:
 \begin{itemize}
     \item una sequenza rigida e ben definita di fasi;
     \item una specifica fortemente strutturata dei requisiti;
     \item ampia produzione di documentazione del software.
 \end{itemize}
-Passando alla fase successiva a quella attuale tutto ciò che è stato svolto in quest'ultima viene bloccato una volta confermato
-e non si può più tornare indietro perché eventuali variazioni nei requisti durante lo sviluppo potrebbero essere troppo costosi
-da sviluppare.\\ Il modello Agile invece punta su flessibilità e adattabilità permettendo di:
+Passando ad una fase successiva, tutto ciò che è stato svolto fino a quel punto viene bloccato (in gergo si dice "frozen") una volta confermato e non si può più tornare indietro perché eventuali
+variazioni nei requisti durante lo sviluppo potrebbero essere molto costosi da sviluppare sia in fatto di tempo che di risorse.\\ Il modello contrapposto è quello Agile invece punta su flessibilità
+e adattabilità permettendo di:
 \begin{itemize}
     \item dare una risposta immediata ai cambiamenti nei requisiti;
     \item coinvolgere il cliente nell'attività di sviluppo;
-    \item documentare l'essenziale in modo da concentrarsi sulla scrittura di codice funzionante.
+    \item documentare l'essenziale in modo da concentrarsi sulla scrittura di codice funzionante di qualità.
 \end{itemize}
-L'azienda adotta una variazione del modello agile per cui nei paragrafi seguenti verrà approfondito tale approccio,
-con particolare attenzione alle sue implementazioni concrete quali la gestione dei task, i meeting ricorrenti e i strumenti
-di supporto.
+L'azienda adotta una variazione del modello agile per cui nei paragrafi seguenti verrà approfondito tale approccio allo sviluppo, con particolare attenzione alle sue implementazioni concrete quali la
+gestione dei task, i meeting ricorrenti e i strumenti di supporto.
 
 \section{Lo sviluppo Agile}
 
 Verso la fine degli anni Sessanta, periodo che segnò gli albori dell'Ingegneria del Software, le aziende adottavano esclusivamente il Waterfall Model,
-un modello plan-driven a fasi ben definite che impiegava tante risorse: team di grandi dimensioni e tante finanze ma soprattutto tanto tempo
+un modello plan-driven a fasi ben definite che richiedeva l'impiego di tante risorse: team di grandi dimensioni e tante finanze ma soprattutto tanto tempo
 poiché era necessario pianificare accuratamente ogni fase e documentare nei minimi particolari l'intero progetto. Se verso le fasi finali dello
-sviluppo si sarebbero riscontrati errori o inconsistenze derivate dalle fasi iniziali, dalla definizione dei requisiti per esempio, aggiustare i
-problemi sarebbe stata un'operazione molto complicata.
-\par Studi come il \textit{CHAOS Report}\cite{standish1994chaos} dello Standish Group (1994) rilevavano un tasso di fallimento del 30\% dei software
-sviluppati in questo modo che spesso venivano cancellati ancora prima di essere conclusi anche a causa dell'incapacità di adeguarsi ai cambiamenti.
+sviluppo si fossero riscontrati errori o inconsistenze derivate dalle fasi iniziali, aggiustare i problemi sarebbe stata un'operazione molto complicata.
+Ad esempio un'incongruenza passata inosservata nella definizione dei requisiti avrebbe potuto incidere negativamente su una delle fasi finali come quella del rilascio.
+
+Studi come il \textit{CHAOS Report}\cite{standish1994chaos} dello Standish Group (1994) rilevavano un tasso di fallimento del 30\% dei software
+sviluppati in questo modo. Spesso succedeva anche che venissero cancellati ancora prima di essere conclusi a causa dell'incapacità di adeguarsi ai cambiamenti.
 Inoltre i costi di sviluppo finali non coincidevano mai con i numeri previsti inizialmente con una media di incremento finale del 189\%.
-Anche i tempi complessivi di sviluppo non rispettavano mai quelli aspettati dall'inizio dei lavori, con un incremento del 400\% dato anche dal
-fatto che ogni 100 progetti 94 di essi ricominciavano da capo anche più di una volta.
-Altre volte succedeva che il prodotto finale non rispettava del tutto le richieste del cliente o risultava incompleto.
-\par Di conseguenza, verso la fine degli anni '90 diverse aziende si sono accorte del fatto che il modello plan-driven non si adattava alle esigenze di sviluppo di un
-mercato che stava andando a richiedere sempre più prodotti di qualità in tempi sempre più ridotti.
-Emerse allora un nuovo metodo di sviluppo software chiamato "eXtreme Programming" che promuoveva un approccio più dinamico allo sviluppo introducendo i seguenti concetti:
+I tempi complessivi di sviluppo non rispettavano mai quelli aspettati dall'inizio dei lavori, con un incremento del 400\% dato dal fatto che ogni 100 progetti 94 di essi ricominciavano da capo
+anche più di una volta. Altre volte succedeva che il prodotto finale non rispettava del tutto le richieste del cliente o risultava incompleto richiedendo ulteriori risorse oppure addirittura rifare
+il progetto da capo perché ormai modificare quanto prodotto risultava impossibile.
+
+Di conseguenza, verso la fine degli anni '90 diverse aziende si sono accorte del fatto che il modello plan-driven non si adattava alle esigenze di sviluppo di un mercato che stava andando a richiedere
+sempre più prodotti di qualità in tempi ridotti. Emerse allora un nuovo metodo di sviluppo software chiamato "eXtreme Programming" che promuoveva un approccio dinamico allo sviluppo introducendo i
+seguenti concetti:
 \begin{itemize}
     \item storie utente: scenari scritti in linguaggio naturale su schede che descrivono situazioni in cui l'utente potrebbe trovarsi.
-    Sono risultate particolarmente utili perchè permettevano di descrivere velocemente i requisiti e potevano cambiare con essi;
-    \item refactoring: consiste in un continuo miglioramento del codice mirato a semplificare implementazioni future e a mitigare
-    il progressivo deterioramento di esso. Se il codice è semplice e di alta qualità è più auto-esplicativo e potenzialmente tutto il
-    team ne può trarre vantaggi;
-    \item test: si cominciò a parlare di sviluppo test driven che consisteva nello scrivere prima un test che chiarisse le aspettative
-    della prossima implementazione e poi scrivere il codice necessario a soddisfare i test. Il vantaggio principale è che i test possono
-    essere automatizzati e definiscono anche una sorta di specifica comportamentale della funzionalità da implementare riducendo i tempi
-    di sviluppo;
+    Sono risultate particolarmente utili perché permettevano di descrivere velocemente i requisiti e potevano essere modificate o riscritte in base alle necessità del momento.
+    La loro implementazione risulta in un incremento, una versione aggiornata del software che il committente o l'utente finale proverà in prima persona per fornire feedback ai team di sviluppo;
+    \item refactoring: continuo miglioramento del codice con l'obiettivo di facilitare implementazioni future e a mitigare il progressivo deterioramento di esso. Se il codice è semplice e di alta
+    qualità può diventare auto-esplicativo richiedendo meno documentazione e tutto il team ne può trarre vantaggi;
+    \item test: si cominciò a parlare di sviluppo Test Driven, una nuovo modus operandi che consisteva nello scrivere prima un test che chiarisse le aspettative
+    della prossima implementazione e poi scrivere il codice strettamente necessario a soddisfarli. Il vantaggio principale era che i test potevano
+    essere automatizzati e definivano anche una sorta di specifica comportamentale della funzionalità da implementare riducendo i tempi di sviluppo;
     \item pair programming: due sviluppatori davanti alla stessa macchina che sviluppano la stessa funzionalità permettendo un confronto
     continuo di idee riducendo i momenti di incertezza o stallo in cui uno sviluppatore singolo potrebbe trovarsi.
 \end{itemize}
-\par eXtreme Programming non venne mai applicato esattamente come venne concepito, ma i suoi concetti ispirarono profondamente il modello di sviluppo Agile del software.
-Nato nei primi anni 2000 dalle necessità dei team di sviluppo di poter reagire in modo più efficiente a requisiti instabili e variabili, tipici di progetti dinamici,
-la sua descrizione accurata è stata esposta nel \textit{Manifesto Agile}\cite{beck2001agile} pubblicato nel 2001 i cui
-autori sono un gruppo di sviluppatori che avevano riscontrato la necessità di uscire dallo schema plan-driven ritenendolo estremamente rigido.\\
-Nel Manifesto sono stati formalizzati i quattro valori fondamentali dell'Agile:
+
+eXtreme Programming non venne mai applicato esattamente come venne concepito, ma la sua formula ispirò profondamente il modello di sviluppo Agile del software.
+Quest'ultimo nasce nei primi anni 2000 dalle necessità dei team di sviluppo di poter reagire in modo rapido ed efficiente a requisiti instabili e variabili, tipici di progetti piccoli oppure dinamici.
+La sua descrizione accurata è stata esposta nel \textit{Manifesto Agile}\cite{beck2001agile} pubblicato nel 2001 i cui autori sono un gruppo di sviluppatori che avevano riscontrato la necessità di
+uscire dallo schema plan-driven ritenendolo troppo rigido e inadatto alle richieste del mercato in quel momento.\\ Nel Manifesto sono stati formalizzati i quattro valori fondamentali dell'Agile:
 \begin{itemize}
     \item individui e interazioni anziché processi e strumenti: viene attribuita grande importanza alla comunicazione all'interno del
-    team di sviluppo e a quella con il cliente poichè nei momenti di difficoltà è proprio la comunicazione fluida e completa fra individui
-    a risolvere le incertezze e ciò favorisce una risposta rapida ai cambiamenti e una visione più chiara di ciò che bisogna fare;
+    team di sviluppo e a quella con il cliente poiché nei momenti di difficoltà è proprio la comunicazione fluida e completa fra individui
+    a risolvere le incertezze favorendo una risposta rapida ai cambiamenti e una visione più chiara di ciò che bisogna fare;
     \item software funzionante anziché documentazione completa: il tempo che viene risparmiato redigendo solo la documentazione strettamente
     necessaria viene investito nella produzione di nuovo codice o nel miglioramento del codice già esistente, in questo modo si alza
     la qualità generale del software;
     \item collaborazione col cliente anziché negoziazione di contratti: al contrario dei modelli plan-driven che coinvolgevano il cliente
-    solo nella fasi iniziali di negoziazione e definizione dei requisiti, nell'Agile il coinvolgimento si protrae fino alla fine dello sviluppo
-    del software offrendo riscontri sulle versioni intermedie al team che saprà come soddifare al meglio le sue esigenze;
+    solo nella fasi iniziali di negoziazione e definizione dei requisiti, nell'Agile il coinvolgimento si protrae fino alla fine dello sviluppo.
+    Il supporto maggiore del cliente è dato da continui riscontri sulle versioni intermedie del software in modo che il team capisca come soddisfare al meglio le sue esigenze;
     \item capacità di rispondere al cambiamento anziché conformità a un piano: nella visione Agile il cambiamento è un valore aggiunto al
     prodotto. Saper rispondere prontamente ad esso è più importante di formulare un piano d'azione che potrebbe richiedere troppo tempo.
 \end{itemize}
@@ -150,45 +148,69 @@ L'azienda basa lo sviluppo dei progetti sul metodo Agile applicando i principi d
 e strumenti software di supporto alla gestione del team.
 Il motivo principale per cui ha adottato questa metodologia è per far fronte a continui cambiamenti nei requisiti del cliente e ridurre i tempi e i costi
 di sviluppo nell'adattarsi alle sue richieste.
-\par Il team di sviluppo di un progetto è formato dagli sviluppatori e il/i project manager. Una persona può essere in carica dello sviluppo di più progetti per cui
-raggruppando questi ultimi per progetto i team risultanti si intersecano tra loro, non ci sono team indipendenti l'uno dall'altro.
+
+Il team di sviluppo di un progetto è formato tipicamente da due o tre sviluppatori e da uno o più project manager. I team non sono indipendenti l'uno dall'altro in quanto gli sviluppatori
+che lavorano ad un progetto possono far parte anche di team di sviluppo di altri progetti, quindi le stesse figure risultavano condivise fra i vari progetti.
 I project managers gestiscono i team per ogni progetto attraverso il software di supporto \textit{Jira Software} di Atlassian\cite{atlassian_jira} che permette
-di creare una sezione dedicata ad ogni progetto e assegnare persone che comporranno il team di sviluppo di esso. 
-In ogni sezione si trova una board in cui vengono aperti i ticket che praticamente sono delle user stories come quelle che si usano in eXtreme Programming.
-Un ticket è formato da un titolo che deve essere il più esplicativo possibile di cosa deve essere sviluppato o del problema che deve essere risolto e da una
-descrizione aggiuntiva per approfondire alcuni punti se necessario. Questi possono essere anche commentati dai membri del team del progetto in modo da lasciare
-delle note o degli appunti per gli altri. % TODO: descrivere sezioni della board
-Ogni board è dinamica, cioè inizialmente viene pianificato lo sprint settimanale e durante gli sviluppi possono essere aperti altri ticket all'occorrenza.
-La sezione offre anche un backlog in cui sono raccolti tutti i ticket, sia quelli dello sprint corrente che di sprint futuri.
-I ticket possono essere raggruppati per categorie, le epics, ed è presente anche una timeline in cui i project manager definiscono gli archi di tempo previsti
-da dedicare ad ognuna di esse. Poi c'è anche un riepilogo che fa da dashboard principale del progetto e mostra diverse informazioni sullo stato di esso a livello
-di ticket, una sezione report che al momento non viene utilizzata, un elenco di tutti i ticket, anche quelli già svolti e consegnati al cliente che non si vedono
-più dal backlog ed infine una sezione dedicata a monitorare il tempo dedicato ogni giorno e mensilmente al progetto da parte di ogni membro.
-\par La comunicazione fra i membri del team assume una grande importanza per il fatto che lo sviluppo di un progetto spesso si divide fra almeno un back ender e un
-front ender, è raro che lo sviluppo sia a carico di una sola persona ed in questi casi comunque c'è una comunicazione attiva con il project manager.
-A volte si ricorre anche al pair programming nel momento in cui ci sia un problema che un singolo non riesce a risolvere, in certi casi anche andando oltre la
-coppia e coinvolgendo tutto il team. Questo succede soprattutto in casi di debugging approfondito o per accordare tutti in fase di progettazione per capire
-come operare nel migliore dei modi.
-Questo aspetto lavorativo viene rinforzato attraverso il software di supporto \textit{Slack}\cite{slack},un software sviluppato su misura per la comunicazione fra
-i lavoratori delle aziende. Offre la possibilità di creare canali e gruppi di essi a cui aggiungere il profilo dei singoli membri al gruppo dell'azienda.
-Con il supporto di questo strumento la comunicazione è resa possibile anche quando qualche persona sta lavorando in modalità remota ed inoltre migliora la
-comunicazione consentendo di inviare anche media come messaggi. Ogni persona quindi è reperibile in ogni momento della giornata lavorativa.
-\par L'azienda si discosta dal Manifesto dal punto di vista della documentazione e pone un accento particolarmente forte su questo aspetto.
-È vero che dedicare meno tempo a scrivere documentazione permette di dedicare più tempo al codice ma quando si stanno sviluppando progetti di grandi dimensioni
-con tante sezioni, tante logiche diverse di gestione dei dati e tanti componenti è facile che chi le ha sviluppate stesso si dimentichi del funzionamento di
-tutti questi aspetti se poi non ci si torna per tanto tempo. Ma se ogni aspetto viene documentato, sempre rimanendo nei limiti della sintesi, nel momento della
-necessità, qualunque membro del team può andare a controllare la documentazione condivisa e leggendo quanto scritto in precedenza può far risparmiare tempo.
-La capacità di adattarsi ai cambiamenti nei requisiti è un concetto fondamentale dell'agile che viene impartito ai nuovi membri del team fin dal primo giorno
-in ufficio. Si dice che spesso il cliente non sappia chiaramente cosa vuole quindi può cambiare idea più volte per cui studiare un piano approfondito ha
-senso solo nelle fasi iniziali di progettazione di un nuovo modulo, mentre nella gestione degli sprint si mantiene un approccio più semplice e flessibile in modo
+di creare uno spazio dedicata ad ogni progetto e assegnare persone che comporranno il team di sviluppo di esso.
+
+All'interno di ogni spazio si trova una board in cui vengono aperti i ticket che praticamente sono delle user stories come quelle che si usano in eXtreme Programming. Un ticket
+è formato da un titolo che deve essere il più esplicativo possibile di cosa deve essere sviluppato o del problema che deve essere risolto e da una descrizione aggiuntiva per approfondire alcuni punti
+se necessario. Questi possono essere anche commentati dai membri del team del progetto in modo da lasciare delle note o degli appunti per gli altri. Ogni board è dinamica, cioè inizialmente viene
+pianificato lo sprint settimanale del Lunedì e durante gli sviluppi possono essere aperti altri ticket all'occorrenza.
+
+Lo spazio offre anche un backlog in cui sono raccolti tutti i ticket, sia quelli dello sprint corrente che quelli da pianificare in sprint futuri.
+I ticket possono essere raggruppati per categorie, le epics, che rappresentano il modulo a cui sono associati. Inoltre è presente una timeline in cui i project manager definiscono gli archi di
+tempo previsti da dedicare ad ognuna di esse. È possibile visualizzare anche un riepilogo che fa da dashboard principale del progetto e mostra diverse informazioni sullo stato di esso a livello
+di ticket, una sezione report, un elenco di tutti i ticket (anche quelli già svolti e consegnati al cliente che non si vedono più nel backlog) ed infine una sezione dedicata a monitorare il tempo
+dedicato ogni giorno e mensilmente al progetto da parte di ogni membro.
+La board è divisa in più sezioni e un ticket attraversa tutte le fasi prima di essere definitivamente concluso:
+\begin{itemize}
+    \item to do: il ticket è stato stabilito nello sprint settimanale come da sviluppare durante la settimana;
+    \item in progress: il ticket è stato preso in carico da uno sviluppatore ed è in fase di sviluppo;
+    \item ready: l'attività di sviluppo relativa al ticket è stata effettuata, sia attende il rilascio in ambiente di sviluppo;
+    \item in dev to test: il codice sviluppato è stato rilasciato in ambiente di sviluppo ed è pronto per il testing da parte dei project manager;
+    \item in dev approved: i test del codice sviluppato sono stati superati, pronto per essere rilasciato in ambiente di staging;
+    \item in staging: il ticket è stato approvato internamente ed è stato rilasciato in ambiente staging per essere sottoposto a test da parte del committente;
+    \item delivered in prod: i test da parte del cliente sono positivi e si può integrare il nuovo codice nell'ambiente ufficiale di produzione, pronto per il rilascio definitivo;
+    \item complete: l'attività di sviluppo relativa al ticket è definitivamente conclusa.
+\end{itemize}
+
+Gli ambienti di sviluppo sono tre, ciascuno con una funzione specifica: 
+\begin{itemize}
+    \item development: ambiente utilizzato da sviluppatori e project manager per rilasciare il codice e testare i flussi utente;
+    \item staging: copia accessibile al committente per provare in prima persona quanto sviluppato;
+    \item production: ambiente rilasciato sul web, disponibile agli utenti finali.
+\end{itemize}
+
+La comunicazione fra i membri del team assume un ruolo centrale poiché lo sviluppo di un progetto coinvolge tipicamente project manager, almeno un back ender e almeno un
+front ender. Esistono anche progetti affidati ad una singola persona ed in questi casi la comunicazione rimane attiva con il project manager.
+A volte si ricorre anche al pair programming specialmente nel momento in cui ci sia un problema che un singolo non riesce a risolvere. In certi la collaborazione si estende oltre la
+coppia ricorrendo a riunioni che coinvolgono l'intero team. Questo accade soprattutto durante fasi di debugging approfondito, troubleshooting oppure in fase di progettazione per
+allinearsi sulle scelte operative migliori.
+Questo aspetto lavorativo viene supportato da \textit{Slack}\cite{slack}, un software sviluppato su misura per la comunicazione aziendale.
+Slack offre la possibilità di creare canali e gruppi di essi a cui aggiungere il profilo dei singoli membri. I membri dei canali possono scambiare messaggi, condividere media ed effettuare meeting
+all'occorrenza. Grazie al supporto di questo strumento la comunicazione è resa possibile anche quando tutti i membri lavorano da remoto in giornata oppure in situazioni ibride in cui parte del team è in
+ufficio e parte lavora da remoto. Ogni persona diventa così reperibile durante l'intera giornata lavorativa, salvo impegni che richiedano momenti di indisponibilità.
+
+L'azienda si discosta dal Manifesto dal punto di vista della documentazione ponendo un accento particolarmente forte su questo aspetto che si è rivelato nella pratica un fattore di efficienza
+e indipendenza per il team. Se è vero che dedicare meno tempo a scrivere documentazione permette di concentrarsi maggiormente sul codice è anche vero che se si stanno sviluppando progetti di grandi
+dimensioni con tanti moduli e sotto-moduli, tante logiche diverse di gestione dei dati e numerosi componenti diventa facile che chi le ha sviluppate stesso si dimentichi del funzionamento di
+tutti questi aspetti se poi non ci si torna per tanto tempo. Documentare ogni aspetto rimanendo nei limiti della sintesi diventa una risorsa preziosa.
+Al momento del bisogno, qualunque membro del team può consultare la documentazione condivisa, risparmiando tempo e rimanendo autonomo nella risoluzione dei problemi.
+
+La capacità di adattarsi ai cambiamenti nei requisiti è un concetto fondamentale dell'Agile che viene proferito ai nuovi membri del team fin dal primo giorno
+in ufficio. Si dice che spesso il committente non sappia chiaramente cosa vuole quindi può cambiare idea più volte. Allora studiare un piano approfondito diventa una cosa sensata
+solo nelle fasi iniziali di progettazione di un nuovo modulo, mentre nella gestione degli sprint si mantiene un approccio più flessibile in modo
 che un cambiamento durante gli sviluppi non stravolga lo sviluppo corrente. Realisticamente non è sempre possibile mantenere un livello così alto di semplicità
-e in alcuni casi che richiedono cambiamenti più radicali potrebbero comunque risultare in lavori onerosi di modifiche del codice o architetture anche radicali,
-ma nella maggioranza dei casi si può cambiare direzione facilmente e senza troppe complicazioni se il requisito è realistico.
-\par La collaborazione con il cliente è fondamentale durante gli sviluppi perché è necessario sapere in dettaglio cosa stia commissionando.
+e in alcuni casi che richiedono cambiamenti più radicali potrebbero comunque essere necessari lavori onerosi di modifiche del codice o architetture anche radicali,
+ma nella maggioranza dei casi si può cambiare direzione facilmente e senza troppe complicazioni se il requisito è realistico e ben definito.
+
+La collaborazione con il committente è fondamentale durante gli sviluppi perché è necessario sapere nei minimi dettagli cosa stia commissionando.
 Fissati i requisiti della nuova release, che può essere un intero modulo, un bug nel software da risolvere oppure una nuova funzionalità, viene sviluppata
-una versione intermedia ossia un incremento parziale del software come quelli che si sviluppano in eXtreme Programming. Il cliente potrà essere provare e
-testare approfonditamente il software intermedio e poi offrire un feedback per capire se sia stato sviluppato tutto correttamente oppure se manca qualcosa
-e se è tutto coerente con quanto richiesto. Senza la comunicazione con il cliente il modello Agile non sarebbe applicabile.
+una versione intermedia del software ossia un incremento parziale del software come quelli che si sviluppano in eXtreme Programming. Il committente potrà provare e
+testare approfonditamente il software intermedio e poi fornire un feedback per capire se il prodotto degli sviluppi sia in linea con le aspettative oppure segnalare eventuali mancanze.
+Senza la comunicazione con il committente il modello Agile non sarebbe applicabile.
 
 \chapter{Background Software e Ambiente Operativo}
 
