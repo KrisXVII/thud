@@ -214,52 +214,59 @@ Senza la comunicazione con il committente il modello Agile non sarebbe applicabi
 
 \chapter{Background Software e Ambiente Operativo}
 
-Questo capitolo esporrà l'ambiente operativo e le tecnologie utilizzate per lo sviluppo della funzionalità presa in esame nel prossimo capitolo.
 Il progetto è di grandi dimensioni con diverse sezioni che implementano funzionalità che si assomigliano fra di esse, le uniche cose che cambiano
 sono i servizi esterni che si intersecano con le tecnologie interne per realizzarle.
-Non mi dilungherò nella spiegazione delle tecnologie utilizzate per il front end (\textit{ReactJS}\cite{react_dev_home}, \textit{NextJS}\cite{nextjs_home},
-\textit{Cypress}\cite{cypress}...) e approfondirò quelle utilizzate per lo sviluppo della parte back end. 
-L'azienda oltre ai principi dell'Agile si avvale anche della pratica del \textit{Commercial-Off-The-Shelf} (COTS) definita nello standard ISO/IEC del 2017\cite{iso_iec_12207_2017}
+Non mi dilungherò nella spiegazione delle tecnologie utilizzate per il frontend (\textit{ReactJS}\cite{react_dev_home}, \textit{NextJS}\cite{nextjs_home},
+\textit{Cypress}\cite{cypress}...) e approfondirò quelle utilizzate per lo sviluppo del backend.
+Oltre ai principi dell'Agile l'azienda si avvale anche della pratica del \textit{Commercial-Off-The-Shelf} (COTS) definita nello standard ISO/IEC del 2017\cite{iso_iec_12207_2017}
 che consiste nel utilizzare software già sviluppato pronti per l'uso sia che siano open-source che a pagamento. Le gemme sono librerie per Ruby che sono state sviluppate a posta
-per il supporto alla produzione di codice Ruby. Il vantaggio di questa pratica è chiaramente il notevole risparmio di tempo e semplificazione del codice sviluppato con la
-contropartita di dover ponderare correttamente la scelta poiché una scelta errata potrebbe causare perdite di tempo. Un'altra cosa da tenere presente quando si
-lavora con software pre-esistente è che è molto raro trovarne uno che soddisfa completamente le necessità e potrebbe essere necessario apportare qualche modifica al
-componente ma questi prodotti a meno che non sia esplicitamente descritto come liberamente modificabile è molto complicato da alterare.
+per il supporto alla produzione di codice Ruby. Il frontend utilizza componenti già sviluppati e personalizzabili a seconda delle necessità come la libreria di \textit{Ant Design}\cite{antdesign}.
+Il vantaggio di questa pratica è chiaramente il notevole risparmio di tempo e semplificazione del codice sviluppato con la
+contropartita di dover ponderare correttamente la scelta poiché una sbagliare tecnologia avrebbe l'effetto contrario. Un'altra cosa da tenere presente quando si
+lavora con software pre-esistente è che diventa raro trovarne uno che soddisfa completamente le necessità e potrebbe essere necessario apportare qualche modifica al
+componente già scritto. Questo tipo di prodotti sono abbastanza complicati da alterare a meno che non siano esplicitamente descritti come liberamente modificabili.
 
 \section{Le tecnologie interne}
 
-In questa sezione considererò come tecnologie interne l'insieme dei servizi scelti su cui basare le fondamenta dei software
-sviluppati all'interno dell'azienda. Di seguito citerò anche tutto l'insieme dei servizi di \textit{Amazon Web Services}\cite{aws} (AWS)
-ampliamente utilizzati nello sviluppo dell'intero progetto che tecnicamente sono un insieme di servizi esterni ma data la partnership dell'azienda
-e il largo utilizzo in quasi tutti i progetti di essa li definisco come una tecnologia interna.
+In questa sezione sono considerate come tecnologie interne l'insieme dei servizi scelti su cui basare le fondamenta dei software
+sviluppati all'interno dell'azienda. Di seguito sarà citato anche tutto l'insieme dei servizi di \textit{Amazon Web Services}\cite{aws} (AWS)
+largamente impiegati nello sviluppo dell'intero progetto che tecnicamente sono un insieme di servizi esterni ma data la partnership dell'azienda con AWS
+e il largo utilizzo in quasi tutti i progetti di essa sono definiti come tecnologia interna.
 
 \subsection{Ruby On Rails}
 
-L'azienda ha scelto come linguaggio di programmazione predefinito \textit{Ruby On Rails} \cite{ruby_on_rails} per sviluppare il back end dei progetti.
-Ruby è il linguaggio utilizzato per scrivere il codice mentre \textit{Rails} è un framework sviluppato in Ruby a posta per consentire lo sviluppo di siti web.
-\par Ruby è stato ideato nel 1993 da Yukihiro Matsumoto detto "Matz" e la prima versione è stata pubblicata nel 1995\cite{ruby_about}.
-Matz era partito dall'idea di voler creare un linguaggio di programmazione di scripting più efficiente di Perl e più orientato agli oggetti rispetto a Python,
-da cui deriva l'intuizione di vedere qualsiasi struttura in forma di oggetto con i suoi attributi e i suoi metodi.
-Questa idea di implementare tutto come oggetto viene realizzata facendo ereditare dinamicamente ad ogni altra classe i metodi della superclasse Object che possiede
-dei metodi che si possono applicare a qualsiasi istanza delle classi che la ereditano. I metodi di default a meno di override sono il metodo .to\_s, il metodo .is\_a?() che
-restituisce in output la classe a cui la struttura a cui è stato applicato il metodo appartiene, il metodo .dup che duplica la struttura, il metodo .nil? per verificare
-se l'oggetto a cui è applicato esiste nel contesto e molti altri.
+L'azienda ha scelto come linguaggio di programmazione predefinito \textit{Ruby On Rails}\cite{ruby_on_rails} per sviluppare il back end dei progetti.
+Ruby è il linguaggio utilizzato per scrivere il codice mentre \textit{Rails} è un framework sviluppato in Ruby a posta per consentire e facilitare lo sviluppo di siti web.
+Ruby è stato ideato nel 1993 da Yukihiro Matsumoto detto "Matz" e la prima versione è stata pubblicata nel 1995\cite{ruby_about}.
+Matz aveva iniziato lo sviluppo del linguaggio di programmazione con l'idea di voler crearne uno di scripting più efficiente di Perl e più orientato agli oggetti rispetto a Python.
+Da quest'ultimo deriva l'intuizione di vedere qualsiasi struttura in forma di oggetto con i suoi attributi e i suoi metodi. In Python, ad esempio, una stringa è un oggetto istanza della classe
+built-in \texttt{String} per cui vi si possono applicare dei metodi d'istanza come .split(), .upper() e molti altri.
+Questa idea di implementare tutto come oggetto viene realizzata facendo ereditare dinamicamente ad ogni altra classe i metodi della super-classe \textit{Object} che possiede
+dei metodi che si possono applicare a qualsiasi istanza delle classi che la ereditano. I metodi di default a meno di override sono il metodo .to\_s, il metodo .is\_a?(Type) che
+restituisce in output True se la classe a cui appartiene la struttura a cui è stato applicato coincide con quella passata come parametro. Altri esempi sono il metodo .dup che duplica la struttura,
+il metodo .nil? per verificare se l'oggetto a cui è applicato esiste nel contesto e molti altri.
 È stato sviluppato in C che essendo un linguaggio a basso livello apporta alcuni vantaggi al linguaggio in questione fra cui la portabilità per cui è utilizzabile su ogni sistema
 operativo esistente senza la necessità di riscrivere interpreters per ognuno di essi e le performance migliorate per operazioni di I/O, threading e gestione della memoria che sono
 aspetti in cui il linguaggio C eccelle. Anche il fatto che sia facilmente integrabile con il vasto ecosistema di librerie esistenti scritte in C e C++ quindi supporta
 di base gemme che contengono al loro interno estensioni scritte in C come \textit{mysql2}\cite{mysql2_gem}, \textit{pg}\cite{pg_gem} o \textit{sqlite3}\cite{sqlite_home} che servono per
 interfacciarsi con database o \textit{nokogiri}\cite{nokogiri_gem} per il parsing di codice XML o HTML.
-È un linguaggio ad alto livello interpretato che punta sulla possibilità di scrivere poco codice attraverso una sintassi elegante per implementare un'idea ma che sia significativo
+Il risultato è stato un linguaggio ad alto livello interpretato che punta sulla possibilità di scrivere poco codice attraverso una sintassi elegante per implementare un'idea ma che sia significativo
 e leggibile. Ad oggi l'ultima versione di Ruby pubblicata è la 3.3.9 datata il 24/07/2025\cite{ruby_releases} e continua ad essere aggiornato dal Ruby Language Team e supportato dalla community.
-\par L'idea centrale del framework Rails è dare un insieme di strumenti da usare seguendo il pattern Model-View-Controller in modo che si possa sviluppare un sito
-web intero senza servizi esterni, quindi ha un approccio full-stack allo sviluppo web.
-Suddivide la costruzione del sito web in client attraverso le Views e server attraverso Controllers e Models e queste tre macro-sezioni interagiscono
-fra di loro come mostrato nella figura \ref{fig:mvc-sequence}.
-I Models sono le classi di oggetti che verranno utilizzate nel sito web in cui si possono definire anche i metodi di classe che verranno applicati agli oggetti
-della classe in cui sono definiti. Le Views compongono il front end del prodotto finale e vengono codificate attraverso dei file .erb (Embedded Ruby Language)
-che consistono di una combinazione di codice HTML e CSS puri insieme a codice Ruby necessario per definire quali istanze di oggetti o strutture dati inserire
-nei componenti HTML in modo simile a come viene fatto in PHP.\\
-Altre directories presenti in un'applicazione Ruby On Rails sono:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{Sequence Diagram pattern MVC.png}
+\caption{Sequence diagram che illustra il flusso di interazione fra i componenti del pattern MVC}
+\label{fig:mvc-sequence}
+\end{figure}
+
+L'idea centrale del framework Rails\cite{ruby_on_rails} è offrire un insieme di strumenti da usare seguendo il pattern Model-View-Controller in modo che si possa sviluppare applicazioni
+web intero senza servizi esterni, quindi nel suo utilizzo nativo ha un approccio full-stack allo sviluppo web. Suddivide la costruzione dell'applicazione in client attraverso le Views e server
+attraverso Controllers e Models e queste tre macro-componenti interagiscono fra di loro come mostrato nella figura \ref{fig:mvc-sequence}.
+I Models consistono nelle classi di oggetti che verranno utilizzate nell'applicazione in cui si possono definire i metodi di classe e di istanza che verranno applicati agli oggetti
+della classe in cui sono definiti. Le Views compongono l'interfaccia del prodotto finale e vengono codificate attraverso dei file .erb (Embedded Ruby Language) che consistono di una combinazione
+di codice HTML e CSS puri insieme a codice Ruby necessario per definire quali istanze di oggetti o strutture dati inserire nei componenti HTML similmente a come viene fatto in PHP.\\
+Altre directories rilevanti presenti in un'applicazione Ruby On Rails sono:
 \begin{itemize}
     \item config: contiene i file di configurazione come credenziali ed ambienti;
     \item db: contiene i file riguardanti il Database collegato al progetto;
@@ -268,56 +275,54 @@ Altre directories presenti in un'applicazione Ruby On Rails sono:
     \item spec per i test \textit{RSpec};
     \item tmp in cui vengono salvati file temporanei.
 \end{itemize}
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.8\linewidth]{Sequence Diagram pattern MVC.png}
-\caption{Sequence diagram che illustra il flusso di interazione nel pattern MVC}
-\label{fig:mvc-sequence}
-\end{figure}
 Infine nella root directory del progetto si trovano i file di supporto come il README.md inizializzato nel momento in cui è stata creata la repository gestita tramite
-\textit{Gitflow}\cite{gitflow}, il CHANGELOG.md che serve a tenere presente le versioni dei rilasci 
-e il Gemfile.rb che consiste nella lista delle gemme di Ruby aggiunte nel progetto ossia le librerie aggiuntive scaricate nel progetto.
-Nel caso di questo software il client è stato sostituito con un client scritto in ReactJS e quindi di Ruby On Rails vengono usate principalmente le componenti
-per costruire il server mentre le Views vengono utilizzate per definire template interni come le e-mails.
-\par L'\textit{ActiveRecord} è la componente del framework di Rails che gestisce l'accesso al database e fornisce un'interfaccia object-oriented per interagire con le tabelle
-del database MySQL. In particolare implementa il pattern \textit{Create-Read-Update-Delete} (CRUD)\cite{ibm_crud} che permette di creare, visualizzare, modificare
-o cancellare record. Queste operazioni sono implementate direttamente nel codice senza la necessità di dover scrivere SQL puro. Ad esempio, ogni classe ha un metodo built-in dinamico
-chiamato .create() a cui vengono passati in formato chiave-valore i parametri corrispondenti agli attributi del modello dati e sarà il linguaggio stesso a tradurre
-quel codice in SQL puro da eseguire sul database collegato al progetto. È molto vantaggioso dal punto di vista della semplicità e leggibilità del codice dato che
-non essendo necessario scrivere SQL puro che potrebbe risultare molto difficile da capire.
-Reperire l'informazione dal database è un'operazione fondamentale del software e come sappiamo viene eseguita attraverso query che possono essere anche molto intricate
+\textit{Gitflow}\cite{gitflow}, il CHANGELOG.md che serve a tenere presente le versioni dei rilasci  e il Gemfile.rb che consiste nella lista delle gemme di Ruby aggiunte nel progetto ossia
+le librerie aggiuntive scaricate nel progetto. Nel caso di questo software il client è stato sostituito con un client scritto in ReactJS e quindi di Ruby On Rails vengono usate principalmente le
+componenti per costruire il server mentre le Views vengono utilizzate per definire template interni come le e-mails.
+
+L'\textit{ActiveRecord} è il componente del framework di Rails che gestisce l'accesso al database SQL e fornisce un'interfaccia object-oriented per interagire con le tabelle definite.
+In particolare implementa il pattern \textit{Create-Read-Update-Delete} (CRUD)\cite{ibm_crud} che permette di creare, visualizzare, modificare
+e cancellare record di dati. Queste operazioni sono implementate direttamente nel codice senza la necessità di dover scrivere SQL puro a parte. Ad esempio, ogni classe ha un metodo built-in dinamico
+chiamato .create() a cui vengono passati in formato chiave-valore i parametri corrispondenti agli attributi del modello dati di cui si sta creando il record e sarà l'ActiveRecord stesso a tradurre
+quel codice in SQL puro da eseguire sul database collegato al progetto. Questo metodo di interfacciarsi con il database molto vantaggioso dal punto di vista della semplicità e leggibilità del codice.
+Reperire l'informazione dal database è un'operazione fondamentale del software che viene eseguita attraverso query che possono essere anche molto intricate
 da scrivere e da comprendere. L'ActiveRecord semplifica questa operazione permettendo di scrivere clausole WHERE attraverso il metodo .where() che identifica la classe dell'oggetto
 a cui è applicato e i parametri passati allo stesso modo di come vengono passati alla creazione seleziona i record interessati. Esiste anche un metodo .select\{\} che però va utilizzato
 attraverso la classe di oggetti Proc in uno stile funzionale rielaborato nel linguaggio Ruby, si noti l'utilizzo di parentesi graffe al posto di quelle tonde. Spesso nei linguaggi
 object-oriented più vecchi iterare attraverso una lista di oggetti si rivelava un'operazione che necessitava di molte risorse e richiedevano una gestione manuale dell'indicizzazione di essi.
 Ovviamente con l'introduzione di nuove tecnologie moderne il problema si è risolto attraverso costrutti come gli iteratori ma verso la fine degli anni Novanta quando Ruby era in sviluppo
-questi non erano ancora stati introdotti. Però esisteva già il paradigma funzionale che non prevedeva la presenza di oggetti e operava solo attraverso funzioni e dati semplici.
+questi non erano ancora stati introdotti. Tuttavia esisteva già il paradigma funzionale che non prevedeva la creazione di oggetti e operava solo attraverso funzioni e dati semplici.
 I linguaggi funzionali sono conosciuti principalmente per la sintassi molto diversa da quella dei linguaggi object-oriented e per la loro particolare affinità alla gestione
 efficiente delle liste di dati attraverso funzioni come map che applica una funzione ad ogni elemento della lista, filter per filtrare i dati che rispettano una certa condizione booleana,
-le lambda per implementare le funzioni anonime e molte altre.
-e molte altre. Lo sviluppatore di Ruby ha pensato di introdurre la possibilità di iterare attraverso una lista in stile funzionale ma mantenendo l'approccio object-oriented.
+le lambda per implementare le funzioni anonime e molte altre. Quindi Matz pensò di introdurre la possibilità di iterare attraverso una lista in stile funzionale ma mantenendo l'approccio object-oriented.
 In Ruby le funzioni applicate in questo modo si chiamano "blocchi" e si appoggiano alla classe Proc, quindi anche le funzioni sono oggetti e hanno i loro metodi definiti.
-Per cui l'operazione di SELECT si può condensare con la clausola WHERE attraverso il metodo .select\{\} in cui verrà definita una condizione come viene fatto nel metodo .where() e verranno
-selezionati solo i record che la rispettano. Il vantaggio del metodo .select\{\} è che si può applicare anche a liste di strutture diverse da oggetti dell'ActiveRecord.
-L'operazione di UPDATE viene eseguita attraverso il metodo .update() con i parametri passati come nel caso del metodo .create().
-Infine l'ultima operazione di DELETE a disposizione viene implementata dal metodo .destroy che elimina dal database il record a cui è applicato.
-\par Per quanto riguarda la gestione delle richieste effettuate secondo il protocollo HTTP essa è affidata ad un file routes.rb in cui si scrivono i percorsi agli endpoints del sito.
-Una route viene definita accostando il verb del tipo di richiesta che si intende implementare quindi se è una GET, POST, PUT, DELETE o PATCH, il percorso nel progetto per arrivare al
-file che contiene il metodo che rappresenta l'endpoint e una clausola to: nome\_classe\#nome\_endpoint. Il modulo prevede che la sezione principale di ricerca sia disponibile in una sezione a
+L'operazione di SELECT quindi si può condensare con la clausola WHERE attraverso il metodo .select\{\} in cui verrà definita una condizione come viene fatto nel metodo .where() e verranno
+selezionati solo i record che la rispettano. Il vantaggio del metodo .select\{\} è che si può applicare anche a liste di strutture diverse da oggetti dell'ActiveRecord come liste di stringhe, di numeri...
+L'operazione di UPDATE viene eseguita attraverso il metodo .update() con i parametri passati come nel caso del metodo .create(). Infine l'ultima operazione di DELETE a disposizione viene implementata
+dal metodo .destroy che elimina dal database il record a cui è applicato.
+
+Per quanto riguarda la gestione delle richieste effettuate dall'interfaccia all'API REST secondo il protocollo HTTP essa è affidata ad un file routes.rb. Una route rappresenta il percorso ad un endpoint
+dell'API, è una sorta di indirizzo in modo che la richiesta effettuata dall'interfaccia venga inviata al componente corretto.
+Una route viene definita accostando il verb del tipo di richiesta che si intende implementare (GET, POST, PUT, DELETE o PATCH), il nome arbitrario dato alla richiesta e una clausola to:
+nome\_classe\#nome\_endpoint che rappresenta l'endpoint nel file a cui la richiesta è diretta. Il modulo prevede che la sezione principale di ricerca sia disponibile in uno spazio in
 cui un utente autenticato possa liberamente utilizzare e la stessa pagina disponibile in area pubblica dove utenti non autenticati possano provare ad utilizzare la funzionalità.
-Il framework Rails permette di utilizzare lo stesso endpoint e collegarlo a due punti diversi del sito web, una copia del percorso all'endpoint si troverà sotto una keyword "unauth"
-e l'altra sarà nella sezione ordinaria. La classe built-in per eseguire le richieste HTTP è \textit{Net::HTTP} che non richiede alcun servizio aggiuntivo e può essere usata facilmente
-in un'applicazione sviluppata con Rails. Una richiesta ad un'API integrata nel software tramite API Key e Bearer Token per esempio viene inizialmente creata come un nuovo oggetto poi
-vengono passati come parametro un URI (Uniform Resource Identifier) che identifica l'endpoint esterno a cui inviare la richiesta e il body in forma di oggetto con attributi chiave-valore
-in forma di stringa o di JSON aggiungendo eventuali parametri opzionali come opzioni di timeout o altri token di autenticazione. Questo comando si può salvare in una variabile che
-assumerà il valore della risposta del server esterno. Tuttavia nel progetto è preferito il servizio open-source offerto con la gemma \textit{Faraday}\cite{faraday_gem} che aiuta a separare
-la logica di composizione e autenticazione delle richieste da quella del software vero e proprio. In questo modo permette di scegliere un adapter per effettuare le richieste, che può essere
-Net::HTTP stesso, implementando un'interfaccia astratta comune a tutte le richieste API dirette verso l'esterno. Faraday inoltre permette di manipolare direttamente alcuni aspetti delle richieste
-come i formati dei body di richiesta e risposta, i retry in caso di fallimento, la gestione delle credenziali di autenticazione e le modalità di lancio delle eccezioni. Faraday viene
-preferito perchè utilizzare Net::HTTP nel codice lo rende più verboso dato che serve gestire le eccezioni direttamente dove viene fatta la chiamata quindi non è un buon approccio per
-quanto riguarda la leggibilità e mantenibilità di esso. Allora una nuova interfaccia da implementare erediterà i metodi dell'interfaccia generica di Faraday e dipenderà esclusivamente da
-quest'ultima. Le uniche cose da implementare sono i singoli metodi che rappresentano i tipi di richiesta da effettuare verso l'esterno, ma qualsiasi richiesta HTTP passerà per l'interfaccia
-astratta di Faraday.
+Il framework Rails permette di utilizzare la stessa route e collegarla a due punti diversi del sito web, una si troverà sotto una keyword "unauth" e l'altra sarà nella sezione ordinaria.
+La classe built-in per eseguire le richieste HTTP a server API esteri è \textit{Net::HTTP} che non richiede alcun servizio aggiuntivo e può essere usata facilmente in un'applicazione sviluppata con Rails.
+Una richiesta verso un'API esterna, autenticata ad esempio tramite API Key o Bearer Token, viene tipicamente costruita come un oggetto che riceve come parametri:
+\begin{itemize}
+    \item un URI (Uniform Resource Identifier) che identifica l'endpoint da contattare;
+    \item un body, spesso in formato JSON, rappresentato come oggetto con attributi chiave–valore;
+    \item eventuali parametri opzionali, come timeout o token aggiuntivi.
+\end{itemize}
+Il comando può essere salvato in una variabile, che assumerà il valore della risposta restituita dal server.
+Nel progetto, tuttavia, si è preferito utilizzare la gemma open-source Faraday\cite{faraday_gem}, che aiuta a separare la logica di composizione e autenticazione delle richieste dal resto
+dell'applicazione. Faraday richiede la scelta di un adapter, ovvero un componente che si occupa del trasporto effettivo della richiesta. L'adapter può essere, ad esempio, Net::HTTP, e implementa
+un'interfaccia astratta comune a tutte le richieste verso l'esterno, rendendo il codice più modulare e testabile.
+Faraday inoltre permette di manipolare direttamente alcuni aspetti delle richieste come i formati dei body di richiesta e risposta, i retry in caso di fallimento, la gestione delle credenziali di
+autenticazione e le modalità di lancio delle eccezioni. Faraday viene preferito perché utilizzare Net::HTTP in modo sparso nel codice lo rende più verboso dato che serve gestire le eccezioni
+direttamente dove viene fatta la chiamata quindi non è un buon approccio per quanto riguarda la leggibilità. Quindi una nuova interfaccia da implementare erediterà i metodi dell'interfaccia generica
+di Faraday e dipenderà esclusivamente da quest'ultima. Le uniche cose da implementare sono i singoli metodi che rappresentano i tipi di richiesta da effettuare verso l'esterno, ma qualsiasi richiesta
+HTTP passerà per l'interfaccia astratta di Faraday.
 
 \subsection{Gitflow}
 
