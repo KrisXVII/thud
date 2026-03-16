@@ -276,7 +276,7 @@ Altre directories rilevanti presenti in un'applicazione Ruby On Rails sono:
     \item tmp in cui vengono salvati file temporanei.
 \end{itemize}
 Infine nella root directory del progetto si trovano i file di supporto come il README.md inizializzato nel momento in cui è stata creata la repository gestita tramite
-\textit{Gitflow}\cite{gitflow}, il CHANGELOG.md che serve a tenere presente le versioni dei rilasci  e il Gemfile.rb che consiste nella lista delle gemme di Ruby aggiunte nel progetto ossia
+\textit{Git}\cite{git_scm}, il CHANGELOG.md che serve a tenere presente le versioni dei rilasci  e il Gemfile.rb che consiste nella lista delle gemme di Ruby aggiunte nel progetto ossia
 le librerie aggiuntive scaricate nel progetto. Nel caso di questo software il client è stato sostituito con un client scritto in ReactJS e quindi di Ruby On Rails vengono usate principalmente le
 componenti per costruire il server mentre le Views vengono utilizzate per definire template interni come le e-mails.
 
@@ -324,7 +324,51 @@ direttamente dove viene fatta la chiamata quindi non è un buon approccio per qu
 di Faraday e dipenderà esclusivamente da quest'ultima. Le uniche cose da implementare sono i singoli metodi che rappresentano i tipi di richiesta da effettuare verso l'esterno, ma qualsiasi richiesta
 HTTP passerà per l'interfaccia astratta di Faraday.
 
-\subsection{Gitflow}
+\subsection{Il versionamento del codice}
+
+Nel processo dello sviluppo del codice è molto importante gestire il versionamento di esso con Git, soprattutto quando ci sono più sviluppatori coinvolti. Al fine di gestire al meglio questo aspetto
+l'azienda adotta \textit{Gitflow}\cite{gitflow}, un modello di branching pubblicato e reso popolare da Vincent Driessen che definisce una gestione ben definita dei branch in Git. Il modello definito
+di basa su più branch di più lunga durata e commit di maggiori dimensioni. I branch principali sono \texttt{develop} in cui gli sviluppatori implementano nuovo codice e \texttt{main} dove viene
+rilasciato il codice definitivo utilizzato nell'applicazione disponibile agi utenti finali. Da questi rami principali si possono creare nuovi branch temporanei che possono essere di tipo:
+\begin{itemize}
+\item \textbf{feature/}: derivati da \textit{develop}, sono dedicati allo sviluppo di nuove funzionalità. Una volta completati, vengono reintegrati in \textit{develop};
+\item \textbf{release/}: creati da \textit{develop} quando si prepara una nuova versione. Qui si eseguono gli ultimi ritocchi e test prima di rilasciare. Al termine, il ramo viene integrato sia in
+\textit{main} (con relativo tag) che in \textit{develop};
+\item \textbf{hotfix/*}: derivati da \textit{main} per correggere rapidamente bug critici in produzione. Una volta risolti, vengono integrati sia in \textit{main} (aggiornando il tag) che in
+\textit{develop} per mantenere la coerenza del codice.
+\end{itemize}
+Questo flusso di lavoro, sebbene più articolato di modelli alternativi come il trunk-based\cite{trunkbased_dev}, modello in cui tutti gli sviluppatori operano su un unico branch principale, garantisce una
+chiara separazione tra codice in sviluppo e codice stabile, riducendo il rischio di introdurre errori in produzione e facilitando la gestione di versioni multiple. La sua efficacia è tuttavia affidata
+al team nell'utilizzo corretto dei rami richiedendo una comunicazione attiva per evitare problemi di disallineamento degli alberi dei commit. Spesso nelle repository dell'azienda viene aggiunto un branch
+principale in più associato all'ambiente di staging dove viene rilasciato il codice sviluppato e testato in azienda in modo che il committente possa provare la nuova versione prima di rilasciarla
+definitivamente in produzione.
+
+Oltre a Gitflow viene adottata la specifica dei \textit{Conventional Commits}\cite{conventionalcommits_spec}. Questa convenzione leggera consiste in un insieme di regole per la strutturazione dei
+messaggi di commit rendendoli interpretabili anche da strumenti automatici per la generazione dei changelog. La struttura base prevede un tipo e un messaggio. I tipi possono essere:
+\begin{itemize}
+\item feat: commit di codice dedicato ad una nuova funzionalità;
+\item fix: commit di codice implementato come risoluzione di bug o altri problemi,
+\item docs: commit di modifiche che cambiano la documentazione;
+\item ci: commit di modifiche che impattano il processo di Continuous Integration;
+\item chore: commit generico.
+\end{itemize}
+Ad esempio per lo sviluppo di un nuovo componente un commit potrebbe essere \texttt{feat:implementato nuovo componente} e tenendo presente il Gitflow questo commit si dovrebbe trovare su un branch di
+tipo feature/. Inoltre si può aggiungere uno scope aggiuntivo che lascia intendere il contesto del commit, ad esempio il commit precedente potrebbe essere stato implementato in un sotto-modulo e
+potrebbe essere scritto come \texttt{feat(sotto-modulo):implementato nuovo componente}. Dopo la dichiarazione del tipo o dopo lo scope fra parentesi si può aggiungere un carattere \texttt{!} per
+segnalare che quel commit rappresenta una breaking change oppure ha una certa rilevanza.
+
+Il Semantic Versioning\cite{semver_spec} viene utilizzato in aggiunta per formattare la versione del software attraverso stringhe del tipo \texttt{major.minor.patch} (ad esempio \texttt{1.2.3}) in
+cui il primo numero indica la \textit{major}, il secondo la \textit{minor} e l'ultimo indica la \textit{patch}. Questo schema di versionamento semantico segue regole precise per comunicare il tipo di
+modifiche introdotte da una nuova release:
+\begin{itemize}
+    \item \textbf{Major}: viene incrementata quando vengono introdotte modifiche incompatibili con le versioni precedenti. Ad esempio, il passaggio dalla versione \texttt{1.5.0} alla
+    \texttt{2.0.0} indica che il software potrebbe avere implementato un'interfaccia completamente nuova o modifiche sostanziali all'API e quindi un radicale cambio dei flussi esistenti;
+    \item \textbf{Minor}: viene incrementata quando vengono aggiunte nuove funzionalità mantenendo la piena compatibilità con le versioni precedenti. Un incremento da \texttt{1.5.0} a \texttt{1.6.0}
+    segnala l'introduzione di novità senza impattare il funzionamento esistente;
+    \item \textbf{Patch}: viene incrementata quando vengono effettuate correzioni di bug o miglioramenti che non modificano l'API pubblica e mantengono la compatibilità. Il passaggio da \texttt{1.5.0}
+    a \texttt{1.5.1} indica un rilascio che risolve problemi senza aggiungere nuove funzionalità.
+\end{itemize}
+
 
 \subsection{Amazon Web Services}
 Come anticipato prima, il blocco di servizi offerti da Amazon Web Services sono una componente molto importante dei software sviluppati in azienda.
@@ -334,7 +378,7 @@ development ossia l'ambiente di sviluppo, staging che è l'ambiente in cui vengo
 e production che è l'ambiente su cui funziona il sito ufficiale e che viene utilizzato dai clienti. L'accesso ai diversi server è gestito tramite \textit{Secure Shell Protocol}\cite{rfc4251} (SSH)
 A livello di repository ogni istanza utilizza il codice dei branch omonimi e questo viene gestito attraverso \textit{CodePipeline}, un altro servizio di AWS che gestisce le fasi
 di rilascio con uno script in Python e il servizio di containering di \textit{Docker}\cite{docker}. Questi containers sono monitorati dal servizio di \textit{Cloudwatch} che
-registra i log di ogni container, utili per le sessioni di debugging. Anche i database sono separati e istanziati attraverso il servizio \textit{Aurora and RDS} in modo che ogni
+registra i log di ognuno di essi, utili per le sessioni di debugging. Anche i database sono separati e istanziati attraverso il servizio \textit{Aurora and RDS} in modo che ogni
 ambiente abbia il suo storage. Allo stesso modo di EC2, RDS permette di creare delle istanze alle quali si può accedere singolarmente tramite SSH per ogni database \textit{MYSQL}\cite{mysql}.
 \textit{S3} è un servizio di storage in cloud che dà la possibilità di salvare media di qualsiasi tipo utilizzati nel software. Risulta particolarmente utile perchè permette di separare
 la componente miscellanea dal software riducendone la dimensione effettiva. Si utilizza creando dei bucket che non sono niente meno di directory a cui ci si può collegare
