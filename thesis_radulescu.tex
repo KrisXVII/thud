@@ -255,7 +255,7 @@ e leggibile. Ad oggi l'ultima versione di Ruby pubblicata è la 3.3.9 datata il 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\linewidth]{Sequence Diagram pattern MVC.png}
+\includegraphics[width=1\linewidth]{Sequence Diagram pattern MVC.png}
 \caption{Sequence diagram che illustra il flusso di interazione fra i componenti del pattern MVC}
 \label{fig:mvc-sequence}
 \end{figure}
@@ -609,8 +609,8 @@ intende acquistare essi necessitano di dati ausiliari da parte del cliente per f
 \end{figure}
 
 La pagina \ref{fig:cart} è quella del carrello configurato, che presenta la lista dei prodotti configurati pronti per essere acquistati e un riquadro sulla destra che riassume i prezzi e il totale prima
-dell'applicazione dell'IVA. I prodotti sono gestiti attraverso il modello dati generico \texttt{OrderItem} e una polymorphic reference al modello dati del prodotto in sè. Questo vuol dire che per
-acquistare un Domain Monitoring ci sarà un'istanza della classe \texttt{Monitoring} che contiene tutte le informazioni del servizio legata via una relazione 1 a 1 ad un'istanza della classe \textit{OrderItem}
+dell'applicazione dell'IVA. I prodotti sono gestiti attraverso il modello dati generico \textit{OrderItem} e una polymorphic reference al modello dati del prodotto in sè. Questo vuol dire che per
+acquistare un Domain Monitoring ci sarà un'istanza della classe \textit{Monitoring} che contiene tutte le informazioni del servizio legata via una relazione 1 a 1 ad un'istanza della classe \textit{OrderItem}
 che è l'oggetto utilizzato nel flusso della fatturazione. Quindi al momento ci sono in gioco tutte le classi necessarie: \textit{Order}, \textit{OrderItem} e \textit{Monitoring}.
 
 \begin{figure}[h]
@@ -619,8 +619,8 @@ che è l'oggetto utilizzato nel flusso della fatturazione. Quindi al momento ci 
 \caption{Wireframe della pagina del carrello configurato}
 \label{fig:complete_order}
 \end{figure}
-Cliccando il pulsante situato nel riquadro del sommario, scatta una funzione del backend che calcola l'IVA da applicare al totale e il carrello passa in stato \texttt{to\_pay} per poi direzionare
-l'utente alla schermata \ref{fig:complete_order}. Questo è l'ultimo passaggio da risolvere prima di completare l'acquisto. La pagina presenta il sommario nel riquadro sulla destra come in quella
+Cliccando il pulsante situato nel riquadro del sommario, scatta una funzione del backend che calcola l'IVA da applicare al totale e il carrello passa in stato \texttt{to\_pay}. L'utente viene poi
+reindirizzato alla schermata \ref{fig:complete_order}. Questo è l'ultimo passaggio da risolvere prima di completare l'acquisto. La pagina presenta il sommario nel riquadro sulla destra come in quella
 precedente con l'IVA calcolata, una sezione che presenta la lista dei profili di fatturazione registrati con un un pulsante per aprire una modale ed eventualmente aggiungerne uno nuovo e una sezione
 sottostante per inserire il metodo di pagamento.
 
@@ -642,32 +642,41 @@ I prodotti una tantum hanno un loro metodo di gestione aggiuntivo che viene eseg
 La tesi si concentra sulla gestione dei prodotti a pagamento ricorrente quindi procedendo sarà assunto che il carrello contenga solo abbonamenti.
 Viene dunque creato un job asincrono che andrà di pari passo con il processo di pagamento che procede dal lato di Stripe. In base a come questo job si concluderà il back end riferirà al front end l'esito
 per comunicare all'utente il successo del pagamento oppure ridirezionarlo al carrello ed inviare una notifica contenente il motivo del fallimento di esso. Le notifiche possono essere visualizzate
-cliccando l'icona della campanella accanto a quella del carrello. Quest'azione apre una modale in cui ci sono i messaggi generati dal backend inviati al frontend.
+cliccando l'icona della campanella accanto a quella del carrello. Quest'azione apre una modale in cui si possono leggere i messaggi generati dal backend inviati al frontend.
 Creato il job che monitora e registra l'esito del pagamento viene lanciato un altro job asincrono che crea gli abbonamenti via API di Stripe generando gli oggetti \textit{Subscription} nel profilo del
 cliente su Stripe. Con la creazione di questi oggetti via API vengono registrate su Stripe tutte le informazioni necessarie fra cui il metodo di pagamento su cui addebitare i rinnovi e la frequenza
 di rinnovo. Al momento della creazione di ogni abbonamento viene personalizzata la fattura associata, tentato il primo pagamento e generata la fattura dal lato dell'applicazione in caso di successo.
 Viene sfruttato il sistema di callback di Stripe ossia delle notifiche con contenuto JSON che l'applicazione può leggere e utilizzarne i dati attraverso un controller dedicato ai webhooks.
 Se il pagamento di una fattura fallisce Stripe genera una notifica di tipo \texttt{invoice.payment\_failed} che attraverso un costrutto case e un controllo sul tipo di transazione viene incanalata
 nel blocco corretto che ne utilizza i dati e attiva procedure di gestione dell'errore. Invece quando il pagamento ha successo Stripe genera una notifica di tipo \texttt{invoice.paid} in cui viene
-chiamato il resolver del job  scritto nella classe \texttt{Order} associato al processo di pagamento una volta che tutti i pagamenti sono andati a buon fine.
+chiamato il resolver del job  scritto nella classe \textit{Order} associato al processo di pagamento una volta che tutti i pagamenti sono andati a buon fine.
 È suddiviso in una porzione eseguita per ogni abbonamento che salva sull'istanza di esso la data di rinnovo comunicata da Stripe via callback e un'altra che viene eseguita quando l'ordine è stato
 completamente processato che salva ulteriori informazioni fra cui l'identificativo del metodo di pagamento e imposta l'ordine come pagato. A questo punto imposta lo stato dell'istanza del job da
 \texttt{running} a \texttt{completed} segnando la fine del processo di pagamento e della fase del carrello. Nel caso in cui il pagamento di un abbonamento fallisca Stripe invia una notifica di tipo
 \texttt{invoice.payment\_failed} che viene ricevuta dal controller dei webhooks e imposta lo stato del job a \texttt{error} per poi notificare il cliente la causa del mancato pagamento e riportarlo
 alla schermata \ref{fig:cart} in cui troverà i prodotti per cui il pagamento non è andato a buon fine e potrà ritentare il loro acquisto.
-
-% Possibile aggiunta di flowchart
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{Payment sequence.png}
+\caption{Sequence diagram della generazione e pagamento degli abbonamenti}
+\label{fig:payment_sequence}
+\end{figure}
 
 \section{Fase dell'Advanced Scanning}
 
-% mettere elenco job oppure flowchart
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{Advanced scan.png}
+\caption{Activity diagram dell'Advanced Scan}
+\label{fig:advanced_scan}
+\end{figure}
 
 Una volta che il prodotto è stato correttamente acquistato si passa alla fase di reperimento dei dati da mostrare al cliente sul dominio da monitorare. Procedendo sarà considerata l'elaborazione di
 una generica istanza di \textit{Monitoring} dato che in caso ci siano più istanze da elaborare viene iterato lo stesso processo per ognuna di esse. Al momento sono in gioco l'istanza del monitoring
 e quella del risultato della Discovery eseguita al momento della ricerca del dominio interessato.
 I dati vengono ricavati attraverso un'analisi diversa dalla Discovery eseguita sempre dal server di RabbitMQ sulla base di parametri inseriti nella richiesta che dipendono dal piano di abbonamento.
 È stato definito un job asincrono che attraverso la gemma sidekiq\_cron viene eseguito ogni 5 minuti che rileva le istanze degli abbonamenti che sono attivi e hanno una data di rinnovo più avanti
-nel tempo rispetto alla data attuale, come nel caso degli abbonamenti appena acquistati. Per ogni istanza di \texttt{Monitoring} rilevata viene eseguita una nuova Discovery con più parametri di ricerca
+nel tempo rispetto alla data attuale, come nel caso degli abbonamenti appena acquistati. Per ogni istanza di \textit{Monitoring} rilevata viene eseguita una nuova Discovery con più parametri di ricerca
 in modo da avere informazioni più dettagliate. Prodotto il nuovo risultato di Discovery, viene elaborata una nuova istanza di \textit{MonitoringResult} che viene sostituita a quella creata con la prima
 ricerca. Il modello dati della classe \textit{MonitoringResult} include un attributo flag dedito a testimoniare se la scansione avanzata sia stata eseguita oppure no e questo viene utilizzato da un altro
 job asincrono che viene eseguito ogni 2 minuti e rileva tutti quelli che hanno tale flag ancora impostato a false. Trovato il record per cui bisogna effettuare la scansione avanzata viene letto il
@@ -681,7 +690,7 @@ Quando il server ha elaborato un pacchetto di domini pubblica il risultato dell'
 asincrono. Il pacchetto ripubblicato consiste nei domini inviati a cui sono state aggiunte diverse informazioni in base ai parametri inviati nella richiesta. Alcune di queste informazioni più rilevanti
 riguardante un dominio nella risposta sono l'indirizzo IP, i Name Servers (NS) e i Mail eXchanger (MX) associati, il titolo della homepage in HTML, una serie di informazioni sul livello di sicurezza
 come la presenza di certificati e altri. Associato ad ogni pacchetto si trova un sommario del processo di cui fa parte quel pacchetto in cui ci sono scritte informazioni come il numero totale di domini
-con status Available. Ogni pacchetto è comprensivo dell'identificativo del job associato lato applicazione in modo che vi si possa applicare il resolver della classe \texttt{MonitoringResult}.
+con status Available. Ogni pacchetto è comprensivo dell'identificativo del job associato lato applicazione in modo che vi si possa applicare il resolver della classe \textit{MonitoringResult}.
 Questo resolver imposta nell'immediato lo status del job a \texttt{completed} e salva su AWS S3 una copia JSON della risposta così com'è.
 Avere una copia "grezza" di ciò che è arrivato in prima battuta dal
 \begin{figure}[h]
@@ -731,7 +740,7 @@ Le notifiche che riguardano i rinnovi hanno un attributo \texttt{billing\_reason
 impostato a "\texttt{subscription\_create}".
 Quando arriva il momento di un rinnovo di un abbonamento Stripe genera automaticamente la fattura relativa al pagamento da eseguire e invia una notifica di tipo "\texttt{invoice.created}" e
 l'applicazione è messa al corrente dell'evento. Il blocco di codice eseguito nel momento della ricezione della notifica ha la funzione di trattare il rinnovo come se fosse un nuovo ordine di acquisto.
-Dalle informazioni presenti nella notifica si risale all'istanza di \texttt{Monitoring}, al cliente e al profilo di fatturazione coinvolti. Con questi dati viene creato un nuovo carrello impostato come
+Dalle informazioni presenti nella notifica si risale all'istanza di \textit{Monitoring}, al cliente e al profilo di fatturazione coinvolti. Con questi dati viene creato un nuovo carrello impostato come
 già pagato e viene associata l'istanza di \textit{OrderItem} che sarà ciò che dal lato dell'applicazione sarà contato come oggetto di acquisto. Dopodiché vengono scritti sulla fattura presente su
 Stripe dei metadata di riferimento che torneranno utili nei prossimi passaggi, in particolare l'identificativo dell'istanza di \textit{Order} appena creata. Dopo questi passaggi è stato aggiunto un
 blocco di codice che gestisce eventuali cambio di prezzo dell'abbonamento in caso l'utente abbia cambiato il piano di abbonamento precedentemente. Questo blocco controlla se il prezzo della fattura
@@ -771,10 +780,10 @@ denaro avanzato e rimborsi, cosa che il committente non aveva richiesto.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.3\linewidth]{Flowchart.png}
-\caption{Activity diagram che mostra il funzionamento della funzionalità}
+\includegraphics[width=0.6\linewidth]{Functionality Flowchart.png}
+\caption{Activity diagram che mostra il flusso della funzionalità}
 \label{fig:flowchart}
-\end{figure} % TODO: refactorizzare diagramma
+\end{figure}
 
 \chapter{Valutazione}
 
@@ -837,7 +846,14 @@ che uno sviluppatore non farebbe. Se le obiezioni risultano critiche il project 
 tornare indietro e confermare l'esistenza di un problema replicandolo oppure fornire spiegazioni sul perché il software si comporti in quel modo. Dopo questi processi di testing la funzionalità viene
 considerata validata all'interno dell'azienda e viene rilasciata in ambiente di staging in modo che il cliente possa provare in prima persona quanto è stato sviluppato, comunicare se le aspettative
 sono state soddisfatte e fornire feedback. Superato anche questo tipo di testing si può procedere al rilascio effettivo in ambiente di produzione come versione successiva del software e gli utenti
-possono usufruirne. % Flowchart testing da mettere
+possono usufruirne.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{Testing flowchart.png}
+\caption{Activity diagram del flusso di testing di una funzionalità}
+\label{fig:testing_flowchart}
+\end{figure}
 
 \section{Problemi riscontrati durante il testing}
 
