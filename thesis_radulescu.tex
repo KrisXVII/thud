@@ -537,10 +537,9 @@ risulterebbero molto complesse da analizzare.
 
 \chapter{Funzionalità Sviluppata}
 
-Il software essendo un e-commerce ha un flusso di utilizzo da parte di un utente generico molto semplice: cercare il prodotto desiderato,
-aggiungerlo al carrello in caso lo si voglia acquistare, effettuare il pagamento e il check-out ed infine usufruire del prodotto acquistato.
-Nelle seguenti sezioni sarà descritto in dettaglio il funzionamento di ogni passo con particolare attenzione alla gestione dei dati del cliente e dell'acquisto in sè.
-L'intero flusso della funzionalità si divide in due macro-fasi: la prima è detta fase di discovery e la seconda è la vera e propria fase di monitoring del dominio interessato.
+Il software è un e-commerce con un flusso di utilizzo da parte di un utente generico molto semplice: cercare il prodotto desiderato, aggiungerlo al carrello in caso lo si voglia acquistare,
+effettuare il pagamento e il check-out, infine usufruire del prodotto acquistato. L'intero flusso della funzionalità si divide in tre macro-fasi: la prima è detta fase di discovery, la fase di acquisto e la fase dell'advanced
+scanning.
 
 \begin{figure}[h]
 \centering
@@ -551,59 +550,57 @@ L'intero flusso della funzionalità si divide in due macro-fasi: la prima è det
 
 
 \begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\linewidth]{Discovery.png}
-    \caption{Wireframe della pagina di ricerca del dominio interessato}
-    \label{fig:search_section}
+\centering
+\includegraphics[width=0.8\linewidth]{Discovery.png}
+\caption{Wireframe della pagina di ricerca del dominio interessato}
+\label{fig:search_section}
 \end{figure}
 
 \section{Fase di Discovery}
 
-Il primo passo è la ricerca del dominio da monitorare da parte dell'utente. Il flusso inizia dalla schermata \ref{fig:search_section} in cui l'utente inserirà nella barra di
-ricerca il nome del dominio di cui desidera ricevere informazioni a riguardo. Il nome del dominio deve essere ben formato (dominio.tld) altrimenti il pulsante di
-ricerca non si attiverà. L'action di onClick del pulsante effettua una richiesta all'endpoint del back end che effettua la discovery utilizzando come parametro il nome del dominio ricercato.
-Il primo comando eseguito è la creazione di un oggetto a database via ActiveRecord che rappresenti il Monitoring. Dopodichè viene avviato il job asincrono che completerà il processo
-di ricerca sul server esterno di RabbitMQ. Dopo aver svolto queste due azioni l'endpoint risponde al front end con l'identificativo del job e quello del Monitoring appena creato.
-Il front end al momento sta attendendo una notifica dal processo asincrono tramite la quale possa capire come si è concluso e sta mostrando un loader che indica all'utente che dovrà
-pazientare per un breve lasso di tempo. Il job asincrono nel mentre ha pubblicato sulla coda \texttt{selected\_brand} il nome del dominio. Quindi si attivano i consumers del server di RabbitMQ che preleva
-
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\linewidth]{Discovery Flowchart.png}
+\includegraphics[width=0.8\linewidth]{Discovery Flowchart.png}
 \caption{Activity diagram della funzionalità di discovery}
 \label{fig:discovery_flowchart}
 \end{figure}
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\linewidth]{First results.png}
 \caption{Wireframe dei risultati intermedi}
 \label{fig:first_results}
 \end{figure}
-
-il dato di cui è stato verificato l'acknowledgement ed effettua le sue ricerche. Conclusa la ricerca il consumer ripubblica il dato a cui sono state aggiunte informazioni sulla coda
-\texttt{discovered\_typos}. Nell'applicazione sono stati implementati una serie di cron job, fra cui uno che ogni 10 secondi si sottoscrive alla coda dove il server esterno pubblica i suoi risultati e se ne trova li
-preleva e chiama il metodo di sottoscrizione definito nell'interfaccia che funge da collegamento fra applicazione e servizio esterno. Il metodo semplicemente raccoglie la risposta
-del server e avvia la procedura di risoluzione del job. Le classi che implementano job asincroni devono tassativamente possedere un metodo resolve\_job che indichi a Sidekiq che
-metodo applicare per chiuderlo e rimuoverlo dalla memoria. In questo caso la classe \texttt{Monitoring} implementa il metodo resolve\_job che legge i dati contenuti nella risposta, li scrive su un file
-JSON che poi sarà salvato sul cloud storage di S3 in AWS e crea un'istanza della classe \texttt{MonitoringResult} dove sarà scritto il link di riferimento al file contenente i dati.
-La relazione è 1 a n, un'istanza di \texttt{Monitoring} può avere più istanze di \texttt{MonitoringResult} associate.
+Il primo passo è la ricerca di un dominio da parte dell'utente. Il flusso inizia dalla schermata \ref{fig:search_section} in cui viene inserito nella barra di
+ricerca il nome del dominio di cui si desidera ricevere informazioni a riguardo. Il nome del dominio deve essere ben formato (dominio.tld) altrimenti il pulsante di
+ricerca sulla destra non si attiverà. Il pulsante effettua una richiesta all'endpoint del back end che effettua la discovery utilizzando come parametro il nome del dominio ricercato.
+Il primo comando eseguito dall'endpoint che riceve la richiesta è la creazione di un oggetto di classe \textit{Monitoring} a database via ActiveRecord.
+Dopodiché viene creato un job asincrono associato a questo processo di Discovery e funge da riferimento al processo di ricerca sul server esterno di RabbitMQ.
+Dopo aver svolto queste due azioni l'endpoint risponde al front end con l'identificativo del job e quello dell'oggetto Monitoring appena creato.
+Sull'interfaccia si vede un loader che lascia intendere che il processo di ricerca è in corso.
+Nel mentre l'applicazione ha già pubblicato il nome del dominio cercato sulla coda \texttt{selected\_brand} del server di RabbitMQ. Rilevata la presenza di dati da elaborare,
+il server attiva i consumers esterno che prelevano l'informazione di cui è stato verificato l'acknowledgement ed effettua le sue ricerche.
+Conclusa la ricerca i consumers ripubblicano il dato a cui sono state aggiunte informazioni sulla coda \texttt{discovered\_typos}. Nell'applicazione sono stati implementati una serie di cron job,
+fra cui uno che ogni 10 secondi si sottoscrive alla coda dove il server esterno pubblica i suoi risultati e se ne trova li preleva e invoca il metodo di sottoscrizione che semplicemente raccoglie
+l'informazione elaborata dal server e avvia la procedura di risoluzione del job. Le classi che implementano job asincroni devono tassativamente possedere un metodo resolve\_job che indichi a Sidekiq che
+un job è concluso e dargli la possibilità di rimuoverlo dalla memoria. In questo caso la classe \textit{Monitoring} implementa il metodo resolve\_job che legge i dati contenuti nella risposta,
+li scrive su un file JSON che poi sarà salvato sul cloud storage di AWS S3 e crea un'istanza della classe \textit{MonitoringResult} dove sarà scritto il link di riferimento al file contenente i dati.
+La relazione fra Monitoring e i suoi risultati è 1 a n, un'istanza di \textit{Monitoring} può avere più istanze di \textit{MonitoringResult} associate.
 Il server di RabbitMQ restituisce in risposta una lista di oggetti contenenti il nome del dominio potenzialmente sospetto, la strategia utilizzata per trovarlo (Replace, Vowel Swap...), lo status
 del dominio e uno score utilizzato per stabilire se il dominio trovato appartenga alla categoria "Taken" oppure  "Flagged". Taken significa che il dominio è già stato allocato ad un'altra persona mentre
-Flagged significa che in passato qualche servizio di sicurezza informatica ha rilevato dell'attività sospetta. Questi risultati vengono utilizzati per effettuare una valutazione rapida del dominio
-interessato come viene mostrato nella figura \ref{fig:first_results}. In questa pagina che appare appena finisce il processo di discovery vengono mostrati il numero di domini liberi, il numero di domini
+Flagged indica che in passato qualche servizio di sicurezza informatica ha rilevato dell'attività sospetta collegata a quel dominio. Questi risultati vengono utilizzati per effettuare una rapida
+valutazione del dominio interessato come viene mostrato nella figura \ref{fig:first_results}. In questa pagina che appare appena finisce il processo di discovery vengono mostrati il numero di domini liberi, il numero di domini
 che appartengono all'insieme dei Taken e il numero di quelli Flagged, tutti in funzione del fatto che abbiano un nome simile a quello cercato. Si mostrano anche i nomi in chiaro dei primi cinque Taken
 e Flagged rilevati.
 
-
-
 \section{Fase del Carrello}
 
-Cliccando un bottone in fondo si arriva alla pagina in cui il cliente può vedere i prezzi dei piani di abbonamento mensile o annuale con i servizi offerti da essi.Il piano interessato può essere aggiunto al carrello attraverso un pulsante presente nei riquadri associati ad ogni piano per poi essere riportati alla pagina del carrello.
-Questo ha un periodo di obsolescenza di quindici minuti, quindi se si vuole aggiungere altro si può uscire dal carrello e aggiungere altro per poi tornarvi attraverso l'icona presente sotto il Header nell'
-interfaccia. Il carrello è un'istanza del modello \texttt{Order} che ha diverse proprietà e una di quelle più rilevanti in questo flusso è lo stato.
-Al momento della creazione dovrebbe essere in \texttt{pending} poichè nel caso in cui ci siano domini o marchi registrati o brokeraggi questi necessitano di dati ausiliari da parte
-del cliente per essere configurati. Nel caso in cui ci siano solo Domain Monitoring questi non necessitano di alcuna configurazione per cui lo si crea subito con lo stato successivo ossia \texttt{configured}.
-
+Cliccando il pulsante in fondo alla pagina \ref{fig:first_results} si giunge alla pagina in cui il cliente può visualizzare i prezzi dei piani di abbonamento mensile o annuale con i servizi offerti da
+essi. Il piano interessato può essere aggiunto al carrello attraverso un pulsante presente nei riquadri associati ad ogni piano per poi essere condotti alla pagina del carrello.
+Quest'ultimo ha un periodo di obsolescenza di quindici minuti, quindi se si vuole aggiungere altro si può uscire dal carrello e aggiungere altro per poi tornarvi attraverso l'icona presente
+sotto l'Header nell'interfaccia. Il carrello è un'istanza del modello \textit{Order} che ha diversi attributi fra cui un codice univoco, l'identificativo del cliente a cui è associato, il timestamp di
+scadenza e altri e il più rilevante in questo flusso è lo stato. Al momento della creazione è in stato \texttt{pending} poiché nel caso in cui ci siano domini, marchi registrati o brokeraggi che l'utente
+intende acquistare essi necessitano di dati ausiliari da parte del cliente per farlo passare in stato \texttt{configured} a indicare che tutti i prodotti sono configurati e pronti per l'acquisto.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\linewidth]{Cart.png}
@@ -611,12 +608,10 @@ del cliente per essere configurati. Nel caso in cui ci siano solo Domain Monitor
 \label{fig:cart}
 \end{figure}
 
-\par La pagina \ref{fig:cart} è quella del carrello configurato, che presenta la lista dei prodotti configurati pronti per essere acquistati e un riquadro sulla destra che riassume i prezzi e il totale prima
-delll'applicazione dell'IVA. I prodotti sono gestiti attraverso il modello dati generico \texttt{OrderItem} e una polymorphic reference al modello dati del prodotto in sè. Questo vuol dire che per
-acquistare un Domain Monitoring ci sarà un'istanza della classe \texttt{Monitoring} che contiene tutte le informazioni del servizio legata via una relazione 1 a 1 ad un'istanza della classe \texttt{OrderItem}
-che è l'oggetto utilizzato nel flusso della fatturazione. Quindi al momento ci sono in gioco tutte le classi necessarie: \texttt{Order}, \texttt{OrderItem} e \texttt{Monitoring}. Procedendo attraverso il
-pulsante situato nel riquadro del sommario, scatta una funziona che calcola l'IVA da applicare al totale e il carrello passa in stato \texttt{to\_pay} per poi ridirezionare l'utente alla schermata
-\ref{fig:complete_order}.
+La pagina \ref{fig:cart} è quella del carrello configurato, che presenta la lista dei prodotti configurati pronti per essere acquistati e un riquadro sulla destra che riassume i prezzi e il totale prima
+dell'applicazione dell'IVA. I prodotti sono gestiti attraverso il modello dati generico \texttt{OrderItem} e una polymorphic reference al modello dati del prodotto in sè. Questo vuol dire che per
+acquistare un Domain Monitoring ci sarà un'istanza della classe \texttt{Monitoring} che contiene tutte le informazioni del servizio legata via una relazione 1 a 1 ad un'istanza della classe \textit{OrderItem}
+che è l'oggetto utilizzato nel flusso della fatturazione. Quindi al momento ci sono in gioco tutte le classi necessarie: \textit{Order}, \textit{OrderItem} e \textit{Monitoring}.
 
 \begin{figure}[h]
 \centering
@@ -624,77 +619,85 @@ pulsante situato nel riquadro del sommario, scatta una funziona che calcola l'IV
 \caption{Wireframe della pagina del carrello configurato}
 \label{fig:complete_order}
 \end{figure}
+Cliccando il pulsante situato nel riquadro del sommario, scatta una funzione del backend che calcola l'IVA da applicare al totale e il carrello passa in stato \texttt{to\_pay} per poi direzionare
+l'utente alla schermata \ref{fig:complete_order}. Questo è l'ultimo passaggio da risolvere prima di completare l'acquisto. La pagina presenta il sommario nel riquadro sulla destra come in quella
+precedente con l'IVA calcolata, una sezione che presenta la lista dei profili di fatturazione registrati con un un pulsante per aprire una modale ed eventualmente aggiungerne uno nuovo e una sezione
+sottostante per inserire il metodo di pagamento.
 
-\par Questo è l'ultimo passaggio che l'utente deve risolvere prima di completare l'acquisto. La pagina presenta il sommario nel riquadro sulla destra come in quella precedente ma adesso è messa in conto anche
-l'IVA, una sezione che presenta la lista dei profili di fatturazione registrati con un un pulsante per aprire una modale ed aggiungerne uno nuovo eventualmente e una sezione sottostante per inserire il metodo di pagamento.
-Tutto il flusso di pagamento viene gestito tramite l'API di Stripe che opera sempre per via di oggetti, infatti ogni entità in Stripe è un oggetto a cui è stato assegnato un identificativo univoco. I dati inseriti per creare
-profilo di fatturazione servono a costruire l'oggetto \texttt{Customer} nell'ambiente di Stripe che richiede una serie di informazioni per gestire correttamente il passaggio del denaro dal cliente ad un altro estremo.
-Tutti i metodi di pagamento inseriti vengono relazionati all'entità \texttt{Customer} su Stripe. Se non sono presenti metodi di pagamento il primo inserito sarà anche impostato come default e questa informazione è molto
-delicata per quanto riguarda come Stripe gestisca i pagamenti ricorrenti. Dopo aver accetto Termini e Condizioni in fondo alla pagina l'acquisto può essere effettuato completat cliccando il pulsante in fondo a destra.
-Quest'ultimo effettua una chiamata importante al back end che in questo momento ha a disposizione il profilo di fatturazione e il metodo di pagamento validato dal front end al momento dell'inserimento.
-Questa richiesta fa partire tutto il flusso di gestione dei dati che si interfaccia tra Stripe e il database del software.
+Tutto il flusso di pagamento viene gestito tramite l'API di Stripe che opera sempre per via di oggetti, infatti ogni entità in Stripe è un oggetto a cui è stato assegnato un identificativo univoco.
+I dati inseriti per creare il profilo di fatturazione servono a costruire l'oggetto \textit{Customer} nell'ambiente di Stripe che richiede una serie di informazioni per gestire correttamente il
+passaggio del denaro dal cliente ad un altro estremo. Tutti i metodi di pagamento inseriti vengono relazionati all'entità \textit{Customer} su Stripe appena descritta. Se non sono presenti metodi di
+pagamento il primo inserito sarà anche impostato come default e questa informazione è molto delicata per quanto riguarda come Stripe gestisca i pagamenti ricorrenti. Dopo aver accetto Termini e
+Condizioni in fondo alla pagina l'acquisto può essere effettuato completato cliccando il pulsante in fondo a destra.
+Quest'ultimo effettua una chiamata importante al back end che in questo momento ha a disposizione il profilo di fatturazione e il metodo di pagamento validato dal frontend al momento dell'inserimento.
+Questa richiesta fa partire tutto il flusso di gestione dei dati del pagamento che si interfaccia tra Stripe e il database del software.
 
-Inizialmente viene fatto un controllo sullo stato del carrello che a questo punto deve essere tassativamente in stato \texttt{to\_pay} e sui prodotti presenti nel carrello. Un caso per cui si fanno questi controlli è ad
-esempio quello in cui per qualche motivo l'utente ha aggiunto un dominio che già appartiene a qualcun altro e quindi non lo si potrebbe acquistare se non passando per un brokeraggio. Con il carrello validato si procede a
-controllare se ci siano prodotti gratuiti che quindi non richiedono spostamento di denaro e passano per un altro flusso. Si prosegue in base al tipo di prodotti presenti che sono ricorrenti oppure a singolo
-acquisto: se il carrello contiene prodotti di entrambi i tipi viene definito carrello misto ma gli oggetti ricorrenti vengono elaborati come nel caso in cui il carrello contenesse solo questo tipo
-di prodotti. I prodotti ad acquisto singolo hanno un loro metodo di gestione aggiuntivo che viene gestito in parallelo a quelli ricorrenti nel caso il carrello sia misto. Per semplicità sarà assunto che
-il carrello contenga solo abbonamenti essendo questo il focus della tesi. Viene creato un job asincrono che andrà di pari passo con il processo di pagamento che succede dal lato di Stripe e in base a come
-questo finirà il back end riferirà al front end l'esito per comunicare all'utente il successo del pagamento oppure ridirezionarlo al carrello e mandare una notifica contenente il motivo del fallimento di esso.
-Creato il job che monitora e registra l'esito del pagamento viene lanciato il worker asincrono di creazione degli abbonamenti via API di Stripe. Questo processo è associato al job asincrono creato precedentemente
-e quello che va a fare è creare gli oggetti \texttt{Subscription} nel profilo del cliente su Stripe con tutte le informazioni necessarie fra cui il metodo di pagamento su cui addebitare i rinnovi e la frequenza
-di rinnovo. Al momento della creazione di ogni abbonamento viene personalizzata la fattura associata, tentato il primo pagamento e generata la fattura lato applicazione in caso di successo. Viene sfruttato
-il sistema di callback di Stripe ossia delle notifiche in JSON che l'applicazione può leggere e utilizzarne i dati attraverso un controller dedicato ai webhooks. Quindi se fallisce il pagamento
-di una fattura Stripe genera una notifica di tipo \texttt{invoice.payment\_failed} che attraverso un case e un controllo sul tipo di transazione viene incanalata nel blocco corretto che ne utilizza i
-dati e attiva procedure di gestione dell'errore. Quando il pagamento ha successo Stripe genera una notifica di tipo \texttt{invoice.paid} che nel controller dei webhooks esegue il metodo che risolve il
-job creato inizialmente. La notifica viene ricevuta una volta per ogni abbonamento e il job rimane in stato di esecuzione fino a quando tutti quanti saranno stati impostati correttamente in stato
-\texttt{active}. Il resolver è scritto nella classe \texttt{Order} e ha la funzione di terminare l'esecuzione del job associato al pagamento una volta che tutti questi sono stati correttamente pagati.
-È suddiviso in una parte eseguita per ogni abbonamento che salva sull'istanza di esso la data di rinnovo comunicata da Stripe via callback e una parte che viene eseguita quando l'ordine è stato completamente processato
-che salva ulteriori informazioni fra cui l'identificativo del metodo di pagamento. A questo punto imposta lo stato dell'istanza del job da \texttt{running} a \texttt{completed} segnando la fine del processo
-di pagamento e del carrello. Nel caso in cui un abbonamento fallisca Stripe invia una notifica di tipo \texttt{invoice.payment\_failed} che viene ricevuta dal controller dei webhooks e imposta lo stato
-del job a \texttt{error} per poi notificare il cliente la causa del mancato pagamento e riportarlo alla schermata \ref{fig:cart} in cui troverà i prodotti per cui il pagamento non è andato a buon fine
-e potrà ritentare il loro acquisto.
+Inizialmente viene fatto un controllo sullo stato del carrello che a questo punto deve essere tassativamente in stato \texttt{to\_pay} e sui prodotti presenti nel carrello. Uno dei motivi per cui si
+fanno questi controlli è che se per qualche motivo l'utente ha aggiunto un dominio che già appartiene a qualcun altro e quindi non lo si potrebbe acquistare se non passando per un brokeraggio. Con
+il carrello validato si procede a controllare se ci siano prodotti gratuiti come nel caso di alcuni tipi di trasferimenti di proprietario del dominio che quindi non richiedono spostamento di denaro e
+passano per un altro flusso. Un esempio concreto sono i domini con TLD .at. Si prosegue in base al tipo di prodotti presenti che sono ricorrenti oppure ad acquisto una tantum: se il carrello contiene
+prodotti di entrambi i tipi viene definito "ordine misto" ma gli oggetti a pagamento ricorrente vengono elaborati come nel caso in cui l'ordine contenesse solo questo tipo di prodotti.
+I prodotti una tantum hanno un loro metodo di gestione aggiuntivo che viene eseguito in parallelo a quelli ricorrenti nel caso l'ordine sia misto.
+
+La tesi si concentra sulla gestione dei prodotti a pagamento ricorrente quindi procedendo sarà assunto che il carrello contenga solo abbonamenti.
+Viene dunque creato un job asincrono che andrà di pari passo con il processo di pagamento che procede dal lato di Stripe. In base a come questo job si concluderà il back end riferirà al front end l'esito
+per comunicare all'utente il successo del pagamento oppure ridirezionarlo al carrello ed inviare una notifica contenente il motivo del fallimento di esso. Le notifiche possono essere visualizzate
+cliccando l'icona della campanella accanto a quella del carrello. Quest'azione apre una modale in cui ci sono i messaggi generati dal backend inviati al frontend.
+Creato il job che monitora e registra l'esito del pagamento viene lanciato un altro job asincrono che crea gli abbonamenti via API di Stripe generando gli oggetti \textit{Subscription} nel profilo del
+cliente su Stripe. Con la creazione di questi oggetti via API vengono registrate su Stripe tutte le informazioni necessarie fra cui il metodo di pagamento su cui addebitare i rinnovi e la frequenza
+di rinnovo. Al momento della creazione di ogni abbonamento viene personalizzata la fattura associata, tentato il primo pagamento e generata la fattura dal lato dell'applicazione in caso di successo.
+Viene sfruttato il sistema di callback di Stripe ossia delle notifiche con contenuto JSON che l'applicazione può leggere e utilizzarne i dati attraverso un controller dedicato ai webhooks.
+Se il pagamento di una fattura fallisce Stripe genera una notifica di tipo \texttt{invoice.payment\_failed} che attraverso un costrutto case e un controllo sul tipo di transazione viene incanalata
+nel blocco corretto che ne utilizza i dati e attiva procedure di gestione dell'errore. Invece quando il pagamento ha successo Stripe genera una notifica di tipo \texttt{invoice.paid} in cui viene
+chiamato il resolver del job  scritto nella classe \texttt{Order} associato al processo di pagamento una volta che tutti i pagamenti sono andati a buon fine.
+È suddiviso in una porzione eseguita per ogni abbonamento che salva sull'istanza di esso la data di rinnovo comunicata da Stripe via callback e un'altra che viene eseguita quando l'ordine è stato
+completamente processato che salva ulteriori informazioni fra cui l'identificativo del metodo di pagamento e imposta l'ordine come pagato. A questo punto imposta lo stato dell'istanza del job da
+\texttt{running} a \texttt{completed} segnando la fine del processo di pagamento e della fase del carrello. Nel caso in cui il pagamento di un abbonamento fallisca Stripe invia una notifica di tipo
+\texttt{invoice.payment\_failed} che viene ricevuta dal controller dei webhooks e imposta lo stato del job a \texttt{error} per poi notificare il cliente la causa del mancato pagamento e riportarlo
+alla schermata \ref{fig:cart} in cui troverà i prodotti per cui il pagamento non è andato a buon fine e potrà ritentare il loro acquisto.
 
 % Possibile aggiunta di flowchart
 
 \section{Fase dell'Advanced Scanning}
 
-Una volta che il prodotto è stato acquistato correttamente si passa alla fase di reperimento dei dati da mostrare al cliente sul dominio da monitorare. Procedendo consideremo una generica istanza di monitoring
-dato che in caso ci siano più istanze da elaborare viene iterato lo stesso processo per ognuna di esse. Al momento sono in gioco l'istanza del monitoring e quella del risultato della Discovery
-eseguita al momento della ricerca del dominio interessato.
-I dati vengono ricavati sempre attraverso un'analisi eseguita dal server di RabbitMQ sulla base di parametri inseriti nella richiesta che dipendono dal piano di abbonamento. È stato aggiunto un
-Worker asincrono che attraverso la gemma sidekiq\_cron viene eseguito ogni 5 minuti che rileva le istanze degli abbonamenti che sono attivi e hanno una data di rinnovo più avanti nel tempo rispetto
-alla data attuale, come nel caso degli abbonamenti appena acquistati. Per ogni istanza di \texttt{Monitoring} trovata da questa query viene eseguita una nuova Discovery con più parametri di ricerca
-questa volta in modo da avere informazioni più dettagliate. Prodotto il nuovo risultato di Discovery, quello pre-esistente creato con la prima ricerca e associato al monitoring in questione viene
-cancellato e viene creata una nuova istanza di \texttt{MonitoringResult} associata allo stessocon gli ultimi dati ricevuti. Il modello dati della classe \texttt{MonitoringResult} comprende un attributo
-che è un flag dedito a testimoniare se la scansione avanzata sia stata eseguita oppure no e questo viene utilizzato da un altro Worker asincrono che viene eseguito ogni 2 minuti e rileva tutti quelli che
-hanno quest flag ancora impostato a false. Trovato il record per cui bisogna effettuare la scansione avanzata viene letto il file JSON dei risultati depositato precedentemente su S3 per estrapolare i nomi
-dei domini da inviare al server di RabbitMQ per farli analizzare. Si invia dunque la richiesta al server esterno il cui payload contiene i nomi dei domini estrapolati nel passaggio precedente e un insieme
-di parametri in funzione del piano di abbonamento, quindi per un abbonamento di fascia Premium verranno inseriti più parametri e quindi la risposta sarà comprensiva di un maggior numero di attributi
-oppure più specifici rispetto ad un abbonamento di fascia Business oppure Starter. I parametri di ricerca vengono pubblicati come pacchetti su un'altra coda che si chiama \texttt{selected\_domains}.
+% mettere elenco job oppure flowchart
+
+Una volta che il prodotto è stato correttamente acquistato si passa alla fase di reperimento dei dati da mostrare al cliente sul dominio da monitorare. Procedendo sarà considerata l'elaborazione di
+una generica istanza di \textit{Monitoring} dato che in caso ci siano più istanze da elaborare viene iterato lo stesso processo per ognuna di esse. Al momento sono in gioco l'istanza del monitoring
+e quella del risultato della Discovery eseguita al momento della ricerca del dominio interessato.
+I dati vengono ricavati attraverso un'analisi diversa dalla Discovery eseguita sempre dal server di RabbitMQ sulla base di parametri inseriti nella richiesta che dipendono dal piano di abbonamento.
+È stato definito un job asincrono che attraverso la gemma sidekiq\_cron viene eseguito ogni 5 minuti che rileva le istanze degli abbonamenti che sono attivi e hanno una data di rinnovo più avanti
+nel tempo rispetto alla data attuale, come nel caso degli abbonamenti appena acquistati. Per ogni istanza di \texttt{Monitoring} rilevata viene eseguita una nuova Discovery con più parametri di ricerca
+in modo da avere informazioni più dettagliate. Prodotto il nuovo risultato di Discovery, viene elaborata una nuova istanza di \textit{MonitoringResult} che viene sostituita a quella creata con la prima
+ricerca. Il modello dati della classe \textit{MonitoringResult} include un attributo flag dedito a testimoniare se la scansione avanzata sia stata eseguita oppure no e questo viene utilizzato da un altro
+job asincrono che viene eseguito ogni 2 minuti e rileva tutti quelli che hanno tale flag ancora impostato a false. Trovato il record per cui bisogna effettuare la scansione avanzata viene letto il
+file JSON dei risultati depositato precedentemente su S3 per estrapolare i nomi dei domini da inviare al server di RabbitMQ per farli analizzare.
+Si invia dunque la richiesta al server esterno il cui payload contiene i nomi dei domini estrapolati nel passaggio precedente e un insieme di parametri in funzione del piano di abbonamento, quindi
+per un abbonamento di fascia Premium verranno inseriti più parametri e la risposta sarà comprensiva di un quantità maggiore di dati oppure questi saranno più specifici rispetto ad un abbonamento di 
+fascia Business oppure Starter. I parametri di ricerca vengono pubblicati come pacchetti su una coda diversa da quelle utilizzate per la Discovery che si chiama \texttt{selected\_domains}.
 Dato che una Discovery può trovare una gran numero di di domini (nell'ordine dell centinaia di migliaia nel caso peggiore), un pacchetto di dati sulla coda corrisponde a 32 domini e ognuno di essi ha
-un job associato dal lato dell'applicazione per tenere traccia del processo e ciò ha causato alcuni problemi di performance sia dal punto di vista della memoria causando diversi memory leak durante
-l'esecuzione che dal punto di vista del tempo come sarà descritto nel capitolo riguardante il Testing dell'applicazione.
-Quando il server ha elaborato un pacchetto di domini pubblica il risultato dell'analisi sulla coda \texttt{checked\_domains} a cui l'applicazione si sottoscrive ogni 2 minuti mediante un altro Worker
+un job associato dal lato dell'applicazione per tenere traccia della loro elaborazione.
+Quando il server ha elaborato un pacchetto di domini pubblica il risultato dell'analisi sulla coda \texttt{checked\_domains} a cui l'applicazione si sottoscrive ogni 2 minuti mediante un altro job
 asincrono. Il pacchetto ripubblicato consiste nei domini inviati a cui sono state aggiunte diverse informazioni in base ai parametri inviati nella richiesta. Alcune di queste informazioni più rilevanti
 riguardante un dominio nella risposta sono l'indirizzo IP, i Name Servers (NS) e i Mail eXchanger (MX) associati, il titolo della homepage in HTML, una serie di informazioni sul livello di sicurezza
 come la presenza di certificati e altri. Associato ad ogni pacchetto si trova un sommario del processo di cui fa parte quel pacchetto in cui ci sono scritte informazioni come il numero totale di domini
-con status Available. Ogni pacchetto è comprensivo anche dell'identificativo del job associato lato applicazione in modo che vi si possa applicare il resolver della classe \texttt{MonitoringResult}.
-Questo resolver imposta nell'immediato lo status del job a \texttt{completed} e salva su S3 una copia JSON della risposta così com'è. Avere una copia "grezza" di ciò che è arrivato in prima battuta dal
+con status Available. Ogni pacchetto è comprensivo dell'identificativo del job associato lato applicazione in modo che vi si possa applicare il resolver della classe \texttt{MonitoringResult}.
+Questo resolver imposta nell'immediato lo status del job a \texttt{completed} e salva su AWS S3 una copia JSON della risposta così com'è.
+Avere una copia "grezza" di ciò che è arrivato in prima battuta dal
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{Monitoring Page.png}
     \caption{Wireframe della pagina del monitoring in fase di calcolo}
     \label{fig:monitoring_page}
 \end{figure}
-server esterno è una cosa che è tornata molto utile più avanti per facilitare sessioni di debugging e capire se i problemi fossero lato applicazione oppure lato server esterno. Dopodichè viene caricato
-il file in cui sono scritte le informazioni data dalla Discovery effettuata subito dopo l'acquisto (da cui sono stati estratti i nomi dei domini da inviare per la scansione avanzata) e andando per exact
-match, quindi cercando nel file il record dove il nome del dominio nella risposta coincide con esso, ricostruisce un oggetto contenente le informazioni della scansione avanzata sostituendolo a quello che
-si trovava prima nel file. Per i domini con status Available viene anche effettuata una richiesta esterna verso un'altro servizio API che calcola il prezzo del dominio. Questo processo viene ripetuto
-per ogni pacchetto ricevuto e quando tutti quanti i job sono stati risolti tutte le informazioni da mostrare al cliente saranno disponibili. Mentre questo processo sussiste il cliente può comunque aprire
-la lista dei suoi abbonamenti e aprire la pagina dell'abbonamento appena comprato che appare come in figura \ref{fig:monitoring_page} presentando un riepilogo dell'abbonamento e un pulsante per scaricare
-il report datato alla data selezionata nel riquadro a fianco che al momento è disattivato non avendo ancora a disposizione tutti i dati da mostrare.
-
+server esterno è una cosa che è tornata molto utile più avanti per facilitare sessioni di debugging e capire se i problemi fossero lato applicazione oppure lato server esterno. Dopodiché viene caricato
+il file in cui sono scritte le informazioni derivanti dalla Discovery effettuata subito dopo l'acquisto (da cui sono stati estratti i nomi dei domini da inviare per la scansione avanzata). Andando
+per exact match, quindi cercando nel file il record dove il nome del dominio nella risposta coincide con esso, viene ricostruito un oggetto contenente le informazioni della scansione avanzata
+sostituendolo a quello che si trovava prima nel file JSON. Per i domini con status Available viene anche effettuata una richiesta esterna verso un'altro servizio API che calcola il prezzo di acquisto
+del dominio. Questo processo viene ripetuto per ogni pacchetto ricevuto e quando tutti quanti i job sono stati risolti tutte le informazioni da mostrare al cliente saranno disponibili.
+Mentre questo processo sussiste il cliente può comunque aprire la lista dei suoi abbonamenti e aprire la pagina dell'abbonamento appena comprato che appare come in figura \ref{fig:monitoring_page}
+presentando un riepilogo dell'abbonamento e un pulsante per scaricare il report datato alla data selezionata nel riquadro a fianco che al momento è disattivato non avendo ancora a disposizione
+tutti i dati da mostrare.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{Monitoring Complete.png}
@@ -702,17 +705,17 @@ il report datato alla data selezionata nel riquadro a fianco che al momento è d
     \label{fig:monitoring_complete_page}
 \end{figure}
 
-Finito il processo di elaborazione dei dati la barra si carica al 100\% e questo dato rappresenta il fatto che tutti i job associati ai pacchetti pubblicati sono stati tutti risolti e tutte le infomazioni
-aui domini sono state processate. La pagina \ref{fig:monitoring_page} ora ha l'aspetto che si può vedere in figura \ref{fig:monitoring_complete_page} con tutte le informazioni necessarie. Il pulsante per
-scaricare il report ora è attivo e si può scaricare il primo report disponibile, poi ad ogni rinnovo saranno disponibili nuovi report aggiornati sulla situazione del dominio.
-Il report consiste in un file PDF strutturato similmente alla pagina via HTML attraverso una gemma che quindi contiene i componenti visibili nella pagina in stile dashboard.
+Finito il processo di elaborazione dei dati la barra si presenta carica al 100\% e questo dato rappresenta il fatto che tutti i job associati ai singoli pacchetti pubblicati sono stati tutti risolti
+e tutte le informazioni sui domini sono state processate. La pagina \ref{fig:monitoring_page} ora ha l'aspetto che si può vedere in figura \ref{fig:monitoring_complete_page} con tutte le informazioni
+necessarie visualizzabili dal cliente.
+Il pulsante per scaricare il report ora è attivo e si può ottenere il primo report disponibile, successivamente ad ogni rinnovo saranno disponibili nuovi report aggiornati sulla situazione del dominio.
+Il report consiste in un file PDF strutturato similmente alla pagina \ref{fig:monitoring_complete_page} impaginato via HTML attraverso un modulo dedicato alla generazione dei file PDF.
 Sotto al riepilogo si mostra un riquadro simile a quello che si poteva vedere nella fase iniziale di Discovery gratuita (\ref{fig:first_results}) ma adesso i numeri sono più precisi e significativi.
-Dal pulsante presente in esso si può aprire la sezione dei risultati \ref{fig:lists} che contiene le liste dei nomi dei domini rilevati raggruppandoli in base al loro stato, ossia Free, Taken o Flagged e da questo
-punto si può scaricare la lista dei nomi dei domini in un file Excel dove sono riportati i dati trovati dall'analisi presso il server esterno.
+Dal pulsante presente in esso si può aprire la sezione dei risultati \ref{fig:lists} che contiene le liste dei nomi dei domini rilevati raggruppandoli in base al loro stato, ossia Free, Taken o
+Flagged e da questo punto si può scaricare la lista dei nomi dei domini in un file Excel dove sono riportati i dati trovati dall'analisi presso il server esterno.
 Sulla destra si vede un riquadro che mostra il Protection Level calcolato in base ad una formula definita dai gestori del server di RabbitMQ e che va in funzione del numero di domini Free, Taken e Flagged.
 Sotto si trova un altro riquadro che contiene un pulsante che rimanda alla sezione Whitelist associata al dominio cercato dove si possono aggiungere o eliminare nomi di domini. I domini in Whitelist
-non vengono fatti analizzare e non sono esclusi contati dai calcoli.
-Completano la pagina un grafico a torta costruito sulla base dei dati dell'ultimo riquadro illustrato e un istogramma aggiunto successivamente.
+non vengono fatti analizzare e non sono contati nei calcoli. Completano la pagina un grafico a torta costruito sulla base dei dati dell'ultimo riquadro descritto e un istogramma aggiunto successivamente.
 
 \begin{figure}[h]
 \centering
@@ -723,25 +726,30 @@ Completano la pagina un grafico a torta costruito sulla base dei dati dell'ultim
 
 \section{I rinnovi automatici}
 
-La questione dei rinnovi automatici è stata affidata all'API di Stripe che emette delle notifiche che vengono captate dall'applicazione sempre attraverso il controller dedicato alla gestione dei Webhooks.
-Le notifiche che riguardano i rinnovi hanno un attributo \texttt{billing\_reason} con valore "\texttt{subscription\_cycle}" che le distinguono da quelle del primo acquisto.
-Quando arriva il momento di un rinnovo di un abbonamento Stripe genera automaticamente la fattura relativa al pagamento da eseguire e invia una norifica di tipo "\texttt{invoice.created}" e l'applicazione
-è messa al corrente dell'evento. Il blocco di codice eseguito nel momento della ricezione della notifica ha la funzione di trattare il rinnovo come se fosse un nuovo ordine di acquisto.
-Dalle informazioni presenti nella notifica si risale all'istanza di \texttt{Monitoring}, al cliente e al profilo di fatturazione coinvolti. Con questi dati si può creare un nuovo carrello impostato come
-già pagato e associarci l'istanza di \texttt{OrderItem} che sarà ciò che dal lato applicazione sarà contato come acquisto. Dopodichè vengono scritti sulla fattura presente su Stripe dei metadata di
-riferimento che torneranno utili nei prossimi passaggi, in particolare l'identificativo dell'istanza di \texttt{Order} appena creata. Dopo questi passaggi è stato scritto un blocco di codice che gestisce
-eventuali cambio di prezzo dell'abbonamento in caso l'utente abbia cambiato il piano di abbonamento precedentemente. Questo blocco controlla se il prezzo della fattura generata da Stripe coincide con quello
-calcolato in base ai dati presenti nel database dell'applicazione e se non coincidono la fattura esistente viene cancellata creandone una nuova con il prezzo corretto.
-\par Il pagamento effettivo viene tentato da Stripe un'ora esatta dopo la creazione della fattura utilizzando il metodo di pagamento di default impostato dall'utente nel suo profilo.
+La questione dei rinnovi automatici è stata affidata all'API di Stripe che emette delle notifiche captate dall'applicazione attraverso il controller dedicato alla gestione dei Webhooks.
+Le notifiche che riguardano i rinnovi hanno un attributo \texttt{billing\_reason} con valore "\texttt{subscription\_cycle}" che le distinguono da quelle del primo acquisto che hanno questo valore
+impostato a "\texttt{subscription\_create}".
+Quando arriva il momento di un rinnovo di un abbonamento Stripe genera automaticamente la fattura relativa al pagamento da eseguire e invia una notifica di tipo "\texttt{invoice.created}" e
+l'applicazione è messa al corrente dell'evento. Il blocco di codice eseguito nel momento della ricezione della notifica ha la funzione di trattare il rinnovo come se fosse un nuovo ordine di acquisto.
+Dalle informazioni presenti nella notifica si risale all'istanza di \texttt{Monitoring}, al cliente e al profilo di fatturazione coinvolti. Con questi dati viene creato un nuovo carrello impostato come
+già pagato e viene associata l'istanza di \textit{OrderItem} che sarà ciò che dal lato dell'applicazione sarà contato come oggetto di acquisto. Dopodiché vengono scritti sulla fattura presente su
+Stripe dei metadata di riferimento che torneranno utili nei prossimi passaggi, in particolare l'identificativo dell'istanza di \textit{Order} appena creata. Dopo questi passaggi è stato aggiunto un
+blocco di codice che gestisce eventuali cambio di prezzo dell'abbonamento in caso l'utente abbia cambiato il piano di abbonamento precedentemente. Questo blocco controlla se il prezzo della fattura
+generata da Stripe coincide con quello calcolato in base ai dati presenti nel database dell'applicazione e se non coincidono la fattura esistente viene cancellata creandone una nuova con il prezzo
+corretto.
+
+Il pagamento effettivo viene tentato da Stripe un'ora esatta dopo la creazione della fattura utilizzando il metodo di pagamento di default impostato dall'utente nel suo profilo.
 Se il pagamento va a buon fine Stripe invia una notifica di tipo \texttt{invoice.paid} da cui si estrapola la data del prossimo rinnovo e viene generata la fattura dal lato dell'applicazione in modo che
-il cliente la possa scaricare direttamente dall'applicazione. Se invece il pagamento fallisce Stripe invia una notifica di tipo \texttt{invoice.payment\_failed} da cui si può evincere il motivo del
-fallimento ed impostare l'ordine in uno stato intermedio in cui è come se fosse scaduto ma non cancellato in quanto ci sono ancora 4 giorni a disposizione per risolvere il pagamento.
+il cliente la possa scaricare direttamente da lì. Se invece il pagamento fallisce Stripe invia una notifica di tipo \texttt{invoice.payment\_failed} da cui si può evincere il motivo del
+fallimento ed impostare l'abbonamento in uno stato intermedio \texttt{unsubscribed}. Un abbonamento in questo stato non è stato cancellato, ma significa che non è stato rinnovato correttamente e
+consente l'accesso ai dati dei report precedenti. Questo stato serve a dare tempo al cliente di risolvere eventuali problemi con il pagamento.
+
 Sono state adottate delle politiche di gestione dell'abbonamento che comprendono 3 tentativi in 4 giorni di tempo per far sì che il rinnovo sia eseguito correttamente.
 Se il primo tentativo fallisce l'ordine viene impostato in stato di errore e viene inviata una email all'utente in cui si riferisce tale evento e la ragione per cui il pagamento non sia andato a buon
-fine. Dopodichè Stripe automaticamente ritenterà il pagamento automaticamente dopo un giorno e se anche questo fallisce attenderà 3 giorni per eseguire l'ultimo tentativo. Se anche il terzo tentativo
-fallisce l'abbonamento viene impostato come cancellato e non si rinnoverà ulteriormente avvisando opprtunamente l'utente attraverso una email. Se invece dopo un tentativo fallito che non sia il terzo, il
-pagamento va a buon fine viene eseguita una funzione che permette al carrello di passare dallo stato di errore ad uno stato regolare e allineare i dati per quanto riguarda l'istanza di \texttt{Monitoring}
-coinvolta come nel caso in cui il pagamento vada subito a buon fine. 
+fine. Dopodiché Stripe automaticamente ritenterà il pagamento dopo un giorno e se anche questo sarà fallito attenderà altri 3 giorni per eseguire l'ultimo tentativo. Se anche il terzo tentativo
+non sarà andato a buon fine l'abbonamento viene impostato in stato \texttt{expired} e non si rinnoverà ulteriormente. L'utente sarà opportunamente avvisato attraverso una email e una notifica.
+Se invece dopo un tentativo fallito che non sia il terzo, il pagamento va a buon fine viene eseguita una funzione che permette al carrello di passare dallo stato di errore ad uno stato regolare
+e allineare i dati per quanto riguarda l'istanza di \textit{Monitoring} coinvolta come nel caso in cui il pagamento vada subito a buon fine. 
 
 \begin{figure}[h]
 \centering
@@ -753,12 +761,13 @@ coinvolta come nel caso in cui il pagamento vada subito a buon fine.
 \section{Aggiornamento e Annullamento}
 
 L'abbonamento si può cancellare dalla pagina \ref{fig:monitoring_complete_page} attraverso un apposito pulsante che si attiva quando la barra di caricamento arriva al 100\%.
-Il pulsante apre una modale che chiede all'utente la conferma e data questa l'abbonamento viene impostato come cancellato sia dal lato di Stripe che quello dell'applicazione e non sarà più rinnovato.
-Qualora l'utente volesse sottoscrivere un nuovo abbonamento per lo stesso dominio lo può fare ripetendo il flusso di acquisto dall'inizio.
+Il pulsante apre una modale che chiede all'utente la conferma e data quest'ultima l'abbonamento viene impostato in stato \texttt{expired} sia dal lato di Stripe che quello dell'applicazione
+e non sarà più rinnovato. Qualora l'utente volesse sottoscrivere un nuovo abbonamento per lo stesso dominio lo può fare ripetendo il flusso di acquisto dall'inizio.
 L'aggiornamento del piano di abbonamento si può eseguire cliccando il pulsante alla sinistra di quello per eseguire l'annullamento di esso. Cliccando quel pulsante si apre una modale in cui l'utente
 inserisce il nuovo piano a cui vorrebbe abbonarsi e poi attraverso Stripe avviene immediatamente il prelievo della somma dovuta come primo mese. L'ammontare può avere degli sconti in base a quanto
-usufruito del precedente piano cioè se l'upgrade viene eseguito a metà del mese corrente pagato, aggiornando ad un piano superiore metà della somma pagata sarà detratta da quella del primo pagamento
-del nuovo piano. Se invece l'utente passa ad un piano di fascia inferiore rispetto a quello attuale non si applicano queste politiche.
+usufruito del precedente piano: se l'upgrade viene eseguito a metà del mese corrente pagato, metà della somma pagata sarà detratta da quella del primo pagamento del nuovo piano aggiornando ad un piano
+di fascia superiore. Se invece l'utente passa ad un piano di fascia inferiore rispetto a quello attuale non si applicano queste politiche dato che sarebbe occorso un meccanismo per tenere conto del
+denaro avanzato e rimborsi, cosa che il committente non aveva richiesto.
 
 \begin{figure}[h]
 \centering
@@ -791,7 +800,7 @@ possibilità di dare per certo il punto di partenza è un grande vantaggio. I te
 \begin{itemize}
     \item Integration Test (in RSpec chiamati Request Specs): sono associati ad un endpoint dell'API attraverso il percorso relativo nell'applicazione e ne simulano il comportamento;
     \item Unit Test (Model Specs): con RSpec si possono scrivere file di test associati as una classe e scrivere un test per ogni metodo di classe o istanza per verificare la correttezza di input e output;
-    \item Job/Worker Test (Job Specs): i Job e i Worker implementati via sidekiq hanno dei test associati per controllare che vengano effettivamente eseguiti e svolgano correttamente la funzione a loro assegnata;
+    \item Job/Worker Test (Job Specs): i Job implementati via sidekiq hanno dei test associati per controllare che vengano effettivamente eseguiti e svolgano correttamente la funzione a loro assegnata;
     \item Helper Test: nel codice sono presenti delle classi che implementano metodi globali oppure spesso utilizzati nel progetto e anche queste hanno dei test associati;
     \item View Test (View Specs): nel caso si stia adottando Ruby On Rails con un approccio full stack, quindi per realizzare anche il frontend, si possono scrivere test che verifichino le logiche di
           costruzione dei template delle interfacce.
