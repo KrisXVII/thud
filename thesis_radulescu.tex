@@ -771,112 +771,120 @@ denaro avanzato e rimborsi, cosa che il committente non aveva richiesto.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.4\linewidth]{Flowchart.png}
+\includegraphics[width=0.3\linewidth]{Flowchart.png}
 \caption{Activity diagram che mostra il funzionamento della funzionalità}
 \label{fig:flowchart}
-\end{figure}
+\end{figure} % TODO: refactorizzare diagramma
 
 \chapter{Valutazione}
 
 \section{Modalità di testing}
 
-Finita l'implementazione di un modulo l'attività di testing è fondamentale per verificare se esso si comporti come ci si aspetta. In azienda però il testing non avviene solo alla fine degli sviluppi
-perchè come i principi dello sviluppo Agile insegnano, un errore rilevato tardi può essere molto costoso da risolvere alla fine degli sviluppi. Durante l'implementazione della parte backend viene
-utilizzata una metodologia Test Driven \cite{ibm_tdd_2025} anche se in forma rielaborata. Il Test Driven Development puro consiste nel scrivere il test prima dell'implementazione del codice che viene
-aggiunto e aggiustato poco alla volta eseguendo il test a ripetizione. Ogni volta che il test fallisce si aggiusta e si aggiunge il codice strettamente necessario a soddisfare il test. Questo metodo di
-sviluppo è efficiente perchè cattura subito gli errori e quindi una volta soddisfatto il test si potrebbe assumere che tutto sia funzionante. Inoltre riduce i tempi di debug, facilita l'integrazione
-continua, predilige la semplicità del codice e attraverso librerie come \cite{rswag} si può generare velocemente una documentazione delle richieste ad un API. Dall'altro lato però aumenta i tempi di
-sviluppo perchè c'è più codice da scrivere includendo quello dei test e ci sono più passaggi aggiunti allo sviluppo della funzionalità e poterbbe creare un senso di falsa fiducia nel senso che un test
-potrebbe essere corretto ma non completo, per cui potrebbe comunque mancare qualcosa al codice finale nonostante tutto torni.
-L'attività di testing dei componenti accompagna lo sviluppo quindi va di pari passo con la scrittura del codice. Non è che il test viene scritto inizialmente e poi si scrive il codice intorno per
-soddisfare il test, si ha comunque un progetto sotto e le varie user stories per cui gli sviluppatori hanno già un'idea di ciò che si debba implementare. Il test dunque viene scritto per validare gli
+Completata l'implementazione di un modulo l'attività di testing è fondamentale per verificare se esso si comporti come ci si aspetta. In azienda però il testing non avviene solo alla fine degli sviluppi
+perché come i principi dello sviluppo Agile insegnano, un errore rilevato tardi può essere molto costoso da risolvere alla fine degli sviluppi. Durante l'implementazione della parte backend viene
+utilizzata una metodologia Test Driven \cite{ibm_tdd_2025} anche se in forma rielaborata. Il Test Driven Development puro consiste nel scrivere il test prima del codice che viene
+aggiunto e aggiustato poco alla volta eseguendo il test a ripetizione. Ogni volta che il test fallisce si implementa il codice strettamente necessario a soddisfare il test. Questo metodo di
+sviluppo è efficiente perché cattura subito gli errori e quindi una volta soddisfatta ogni clausola che il test richiede si potrebbe assumere che tutto sia funzionante.
+Inoltre riduce i tempi di debug, facilita i processi di Continuous Integration, predilige la semplicità del codice e attraverso librerie come \cite{rswag} si può velocemente generare una documentazione
+delle richieste al server API. Dall'altro lato però aumenta i tempi di sviluppo perché c'è più codice da scrivere includendo quello dei test, ci sono più passaggi aggiunti allo sviluppo della
+funzionalità e potrebbe creare un senso di falsa fiducia nel senso che un test potrebbe essere corretto ma non completo, per cui potrebbe comunque mancare qualcosa al codice finale nonostante tutto sembri
+corretto. L'attività di testing dei componenti accompagna lo sviluppo, quindi va di pari passo con la scrittura del codice. Il test non è il punto di partenza per poi scriverci il codice intorno per
+soddisfarlo, si ha comunque un progetto da seguire e le varie user stories per cui gli sviluppatori hanno già un'idea di ciò che si debba implementare. Il test dunque viene scritto per validare gli
 input e gli output impostando dei vincoli che vanno rispettati dalle variabili. Si può dire che il test serva più come conferma del fatto che quello che si stia scrivendo sia corretto. È comunque Test
-Driven perchè il test scritto in contemporanea al codice funge da guida per capire se si stia andando nella direzione giusta oppure se ci sia qualcosa da riconsiderare.
-\par Il Test Driven Development viene adottato tramite la gemma RSpec \cite{rspec_home}.
-RSpec opera esecuzione di ogni test viene creando un file .sqlite che sarebbe il database temporaneo dove vengono scritti gli oggetti fittizi e che verrà eliminato alla fine dell'esecuzione del test.
-È un operazione estremamente veloce e poco costosa che garantisce che il componente che il test sta simulando sia isolato e quindi se viene rilevato qualche errore si ha la garanzia che il problema si
-parta da quell'esatto componente. Il problema potrebbe trovarsi in una classe in cui è scritto un metodo chiamato dopo diversi passaggi, i flussi testati non sempre sono brevi e semplici, ma avere la
-possibilità di dare per certo il punto di partenza è un grande vantaggio. I test possono essere classificati in base a ciò che stanno effettivamente testando:
+Driven perché il test scritto in contemporanea al codice funge da guida per capire se si stia andando nella direzione giusta oppure se ci sia qualcosa da riconsiderare.
+
+Il Test Driven Development viene adottato tramite la gemma RSpec \cite{rspec_home}.
+RSpec opera creando un file .sqlite che sarebbe il database temporaneo dove vengono memorizzati gli oggetti fittizi temporanei e che verrà eliminato alla fine dell'esecuzione del test.
+È un operazione estremamente veloce e poco costosa che garantisce che il componente che il test sta simulando sia isolato dal resto dell'implementazione e quindi se viene rilevato qualche errore
+si ha la garanzia che il punto di partenza del problema sia quell'esatto componente. Il problema potrebbe trovarsi in una classe in cui è scritto un metodo chiamato dopo diversi passaggi,
+i flussi testati non sempre sono brevi e semplici, ma avere la possibilità di dare per certo il punto di partenza è un grande vantaggio. I test possono essere classificati in base a ciò che
+stanno effettivamente testando:
 \begin{itemize}
     \item Integration Test (in RSpec chiamati Request Specs): sono associati ad un endpoint dell'API attraverso il percorso relativo nell'applicazione e ne simulano il comportamento;
-    \item Unit Test (Model Specs): con RSpec si possono scrivere file di test associati as una classe e scrivere un test per ogni metodo di classe o istanza per verificare la correttezza di input e output;
-    \item Job/Worker Test (Job Specs): i Job implementati via sidekiq hanno dei test associati per controllare che vengano effettivamente eseguiti e svolgano correttamente la funzione a loro assegnata;
+    \item Unit Test (Model Specs): con RSpec si possono scrivere file di test associati ad una classe e definire un test case per ogni metodo di classe o istanza per verificare la correttezza di
+    input e output;
+    \item Job/Worker Test (Job Specs): i Job implementati via sidekiq hanno dei test associati per controllare che vengano effettivamente eseguiti dove richiesti e svolgano correttamente la funzione
+    a loro assegnata;
     \item Helper Test: nel codice sono presenti delle classi che implementano metodi globali oppure spesso utilizzati nel progetto e anche queste hanno dei test associati;
     \item View Test (View Specs): nel caso si stia adottando Ruby On Rails con un approccio full stack, quindi per realizzare anche il frontend, si possono scrivere test che verifichino le logiche di
-          costruzione dei template delle interfacce.
+          costruzione dei template che formano le interfacce.
 \end{itemize}
-Può succedere che un endpoint effettui una richiesta ad un servizio API esterno ma se si tenta di eseguire un semplice test si otterrà un messaggio d'errore ad avvisare il fatto che nell'ambiente di
-test in cui RSpec opera non si possono effettuare richieste API chiedendo di scrivere uno \texttt{stub}. Ogni servizio API esterno deve avere un suo file di test, un Mock associato in cui è elencata ogni
-richiesta utilizzata nel codice. Ogni richiesta carica un file JSON salvato nella Test Suite che verrà effettivamente utilizzata nella simulazione degli endpoint.
-Il testing delle richieste API al di fuori dell'ambiente di test viene facilitato dalle sandbox che i servizi esterni implementano. Le sandbox sono ambienti a parte in cui si possono creare
-oggetti fittizi con cui effettuare prove realistiche per verificare le interazioni tra applicazione e API. In particolare, nello sviluppo di questo modulo e per il testing e la validazione dei flussi
-di pagamento è stato largamente utilizzato l'ambiente di sandbox\cite{stripe_sandbox_env} messo a disposizione da Stripe.
 
-Tutto il codice che costruisce la Test Suite è raccolto in una directory del progetto chiamata \texttt{spec}. Entrando nella root del progetto da un terminale e scrivendo \texttt{rspec} come prompt
+Può succedere che un endpoint debba effettuare una richiesta ad un servizio API esterno. Se si tenta di eseguire un test del codice così come è scritto si otterrà un messaggio d'errore ad avvisare
+il fatto che nell'ambiente di test in cui RSpec opera non si possono effettuare richieste API richiedendo di scrivere uno \texttt{stub}. Ogni servizio API esterno deve avere un suo file di test,
+un Mock associato in cui è elencata ogni richiesta utilizzata nel codice. Ogni richiesta carica un file JSON salvato nella Test Suite che verrà effettivamente utilizzata nella simulazione degli endpoint.
+Il testing delle richieste API al di fuori dell'ambiente di test viene facilitato dalle sandbox che i servizi esterni mettono a disposizione degli sviluppatori. Le sandbox sono ambienti a sè in
+cui si possono creare oggetti fittizi con cui effettuare prove realistiche per verificare le interazioni tra applicazione e API. In particolare, nello sviluppo di questo modulo e per il testing e
+la validazione dei flussi di pagamento è stato largamente utilizzato l'ambiente di sandbox\cite{stripe_sandbox_env} messo a disposizione da Stripe.
+
+Tutto il codice che costituisce la Test Suite è raccolto in una directory del progetto chiamata \texttt{spec}. Entrando nella root del progetto da un terminale ed inviando \texttt{rspec} come prompt
 verrà eseguita tutta la Test Suite che idealmente dovrebbe coprire tutto il codice del progetto e ognuno di essi deve avere esito positivo per proseguire. È vero che sviluppando in modo isolato un
-componente si abbassa la probabilità di ottenere errori ma dopo aver finito questo si deve sempre rieseguire tutta la Test Suite in modo da rilevare se il codice aggiunto o modificato interferisca con
-il comportamento di altri componenti. Se tutto ciò che la Test Suite ha simulato ha esito positivo allora si può procedere con rilasci nella repository.
+componente si abbassa la probabilità di ottenere errori ma dopo aver finito lo sviluppo di esso si deve sempre rieseguire tutta la Test Suite in modo da rilevare se il codice aggiunto o modificato
+interferisca con il comportamento di altri componenti. Se tutti i test eseguiti dalla Test Suite hanno avuto esito positivo allora si può procedere considerare il codice come testato e lo si può
+rilasciare almeno nell'ambiente development.
 
-Lo sviluppo del frontend comprende altri strumenti di testing come \texttt{Cypress}\cite{cypress}, un framework progettato a posta per testare interfacce scritte in Javascript.
+Lo sviluppo del frontend utilizza altri strumenti di testing come \texttt{Cypress}\cite{cypress}, un framework progettato a posta per testare interfacce scritte in Javascript.
 Cypress esegue i test direttamente nel browser a differenza di altri strumenti che eseguono i test in un ambiente separato. Supporta sia test end-to-end che simulano il flusso completo di un utente sia
 test a livello di componente. È facilmente integrabile nei cicli di Continuous Integration permettendo un test rapido ed efficace quando si adottano tecniche di rilascio automatizzate.
 
-Fino a qui sono state descritte le tecniche di testing automatizzato che supportano gli sviluppatori nell'implementazione delle funzionalità ma prima del rilascio effettivo bisogna superare un'altra
+Fino a qui sono state descritte le tecniche di testing automatizzato che supportano gli sviluppatori nell'implementazione del codice ma prima del rilascio effettivo bisogna superare un'altra
 fase di testing: quella dal punto di vista dell'utente. In azienda questo tipo di testing è comunque affidato anche agli sviluppatori che a fine implementazione del codice con il supporto dei test
-automatizzati provano il flusso che un utente dovrebbe attraversare nell'utilizzo del gestionale. In questo modo si assume la prospettiva dell'utente finale e se tutto va bene si può comunicare che
-il processo di implementazione della funzionalità è stato concluso. Ma non si può ancora rilasciare perchè sì è stato effettuato il testing da parte da chi ha implementato il codice ma manca il testing
-dalla prospettiva di chi non ha direttamente lavorato all'implementazione che è diversa da quella dello sviluppatore. Questa attività è svolta dai project managers che sapendo relativamente poco dell'
-implementazione riescono ad avere una user experience in cui non si conoscono i minimi dettagli di essa. In questo modo potrebbero sollevare obiezioni e osservazioni che uno sviluppatore non farebbe.
-Se le obiezioni risultano critiche il project manager può annotarle sul ticket associato alla sezione della funzionalità da rivedere così che lo svilupaptore possa tornare indietro e confermare l'esistenza
-di un problema replicandolo oppure fornire spiegazioni sul perchè il software si comporti in quel modo. Dopo questi processi di testing la funzionalità viene considerata validata all'interno dell'azienda
-e viene rilasciata in ambiente di staging in modo che il cliente possa provare in prima persona quanto è stato sviluppato, comunicare se le aspettative sono state soddisfatte e fornire feedback.
-Superato anche questo tipo di testing si può procedere al rilascio effettivo in ambiente di produzione come versione successiva del software e gli utenti possono usufruirne. % Flowchart testing da mettere
+automatizzati provano il flusso dall'istanza development del del gestionale. In questo modo si assume la prospettiva dell'utente finale e se tutto sembra funzionare secondo le aspettative si può
+stabilire che il processo di implementazione della funzionalità è stato concluso. Ma non si può ancora rilasciare negli altri ambienti perché è stato effettuato il testing da parte da chi ha implementato
+il codice ma manca il testing dalla prospettiva di chi non ha direttamente lavorato all'implementazione che è diversa da quella dello sviluppatore. Questa attività è svolta dai project managers
+che sapendo relativamente poco dell'implementazione riescono ad avere una user experience in cui non si conoscono i minimi dettagli di essa. In questo modo potrebbero sollevare obiezioni e osservazioni
+che uno sviluppatore non farebbe. Se le obiezioni risultano critiche il project manager può annotarle sul ticket associato alla sezione della funzionalità da rivedere così che lo sviluppatore possa
+tornare indietro e confermare l'esistenza di un problema replicandolo oppure fornire spiegazioni sul perché il software si comporti in quel modo. Dopo questi processi di testing la funzionalità viene
+considerata validata all'interno dell'azienda e viene rilasciata in ambiente di staging in modo che il cliente possa provare in prima persona quanto è stato sviluppato, comunicare se le aspettative
+sono state soddisfatte e fornire feedback. Superato anche questo tipo di testing si può procedere al rilascio effettivo in ambiente di produzione come versione successiva del software e gli utenti
+possono usufruirne. % Flowchart testing da mettere
 
 \section{Problemi riscontrati durante il testing}
 
-Durante l'attività di testing sono stati rilevati due problemi importanti da risolvere in fatto di performance sia spaziale che temporale.
+Durante l'attività di testing sono stati rilevati alcuni problemi importanti da risolvere in fatto di performance sia spaziale che temporale.
 
-Ci sono stati anche altri bug minori che però hanno richiesto abbastanza tempo di indagine come il caso di un report Excel che risultava corrotto cercando di aprirlo. Dopo diverso tempo passato a cercare
-la causa di questo problema si è scoperto che dal server RabbitMQ può capitare che si riceva una stringa contenente caratteri non riconosciuti dal parser di Excel che alla fine dei conti consiste
-in una struttura in XML. Il problema è stato poi risolto implementando un metodo "sanitizer" studiato per analizzare le stringhe e sostituire eventuali simboli "sospetti" e garantire un formato in UTF-8.
+Ci sono stati anche altri bug minori che però hanno richiesto abbastanza tempo di indagine come il caso di un report .xlsx che risultava corrotto cercando di aprirlo con Excel. Dopo diverso tempo
+passato a cercare la causa di questo problema si è scoperto che dal server RabbitMQ può capitare che si riceva una stringa contenente caratteri non riconosciuti dal parser di Excel che alla fine dei
+conti consiste in una struttura in XML. Il problema è stato poi risolto implementando un metodo "sanitizer" studiato per analizzare le stringhe e sostituire eventuali simboli "sospetti" e garantire
+un formato UTF-8 di esse.
 
 Nelle prime versioni della funzionalità si poteva percepire una chiara mancanza per quanto riguardava i tempi di risposta. Mettendo sotto pressione il test simulando una situazione in cui più utenti
-diversi utilizzano il modulo questo subiva gravi rallentamenti. Inoltre analizzando i record dei job salvati nel database si notava che esistevano alcuni gruppi di 5 o 6 di essi che rimanevano in stato
-di esecuzione, senza alcuna traccia del perchè. Non è che andassero in errore oppure producessero risultati errati, ma se non cambiavano stato rimanendo in esecuzione poteva significare solo che non
-passavano per il resolver. Quindi bisognava trovare il motivo per cui non passavano per il resolver e sembrava non ci fosse alcun motivo per cui questo evento si potesse verificare, a meno che i job
-non venissero persi in qualche modo durante il flusso nel suo complesso. L'unica cosa che rimaneva da fare era provare con il gestionale interagendo con il modulo e osservando i log della macchina
-virtuale su AWS in ambiente di sviluppo. Avviando un flusso si vedeva che tutti i record necessari venivano correttamente creati, fra cui tutti quanti i job necessari associati ai pacchetti inviati al
-server. Lo strumento di gestione del database utilizzato è stato \texttt{DataGrip}\cite{jetbrains_datagrip}, un IDE che offre un'interfaccia intuitiva per la visualizzazione delle tabelle del database
-e una funzionalità tramite cui si può impostare un continuo refresh impostando un intervallo temporale. Dopo aver risolto un certo numero di job si vedeva apparire il gruppo di job non risolti per poi
-notare che quelli dopo ricominciavano ad essere regolarmente risolti. Leggendo i log della macchina virtuale si vedeva che nel momento in cui quei job sono stati saltati la macchina virtuale effettuava
-automaticamente un riavvio perchè la memoria si saturava: memory leak era quindi il problema da risolvere. La causa della saturazione della memoria era il fatto che ci fossero troppi job da risolvere
-per ottenere i dati di un monitoring di fascia alta. Si è osservato che gran parte di quei job erano riferiti a pacchetti che contenevano domini Free che spesso non necessitano di analisi dato che essendo
-liberi non risolvono a nessun indirizzo IP, non ha NameServers o eMail eXchanger per cui non rappresenta un particolare pericolo per il dominio cercato in partenza. I domini Flagged e Taken invece 
-ichiedono l'analisi ed è ciò che interessa particolarmente a chi usufruisce del servizio di Domain Monitoring.
-Dopo aver concordato con i gestori del server di RabbitMQ che sarebbero stati inviati per
-l'analisi approfondita solo i domini con questi status è stato eseguito un breve refactor per risolvere il problema che non si è più verificato. I tempi di risposta erano migliorati per monitoring
-di fascia più bassa mentre per quelli di fascia alta che comunque richiedevano l'analisi di un gran numero di domini si percepiscono ancora dei rallentamenti a causa della grande quantità di dati da
-gestire ma senza che si verifichi il problema descritto.
+diversi utilizzano il modulo questo subiva gravi rallentamenti. Inoltre analizzando i record dei job salvati nel database associati ai pacchetti si notava che esistevano alcuni gruppi di 5 o 6 di
+essi che rimanevano in stato di esecuzione, senza alcuna traccia del perché. Nessun errore segnalo e nessuna produzione di risultati errati, ma il fatto che non cambiassero stato rimanendo in
+esecuzione poteva significare solo che non passavano per il resolver. Quindi bisognava trovare il motivo per cui non passavano per il resolver e sembrava non ci fosse alcun motivo valido per cui
+questo evento si potesse verificare, a meno che i job non venissero persi in qualche modo durante il flusso nel suo complesso. L'unica cosa che rimaneva da fare era provare con il gestionale in ambiente
+development interagendo con il modulo e osservando i log della macchina virtuale su AWS associata. Avviando un flusso si vedeva che tutti i record necessari venivano correttamente creati, fra cui tutti
+quanti i job necessari associati ai pacchetti inviati al server. Lo strumento di gestione del database utilizzato è stato \texttt{DataGrip}\cite{jetbrains_datagrip}, un IDE che offre un'interfaccia
+intuitiva per la visualizzazione delle tabelle del database e una funzionalità tramite cui si può impostare un continuo refresh impostando un intervallo temporale. Dopo aver risolto un certo numero
+di job si vedeva apparire il gruppo di job non risolti per poi notare che quelli dopo ricominciavano ad essere regolarmente risolti. Leggendo i log della macchina virtuale si poteva notare che nel
+momento in cui quei job sono stati saltati la macchina virtuale aveva effettuato automaticamente un riavvio perché la memoria si saturava: memory leak era quindi il problema da risolvere.
+La causa della saturazione della memoria era il fatto che ci fossero troppi job da risolvere per ottenere i dati di un monitoring di fascia alta. Si è osservato che gran parte di quei job erano
+riferiti a pacchetti che contenevano domini Free che spesso non necessitano di analisi dato che essendo liberi non risolvono a nessun indirizzo IP, non hanno NameServers o eMail eXchanger associati
+per cui non rappresenta un particolare pericolo per il dominio cercato in partenza. I domini Flagged e Taken invece richiedono l'analisi ed è ciò che interessa particolarmente a chi usufruisce del
+servizio di Domain Monitoring. Dopo aver concordato con i gestori del server di RabbitMQ che sarebbero stati inviati per l'analisi approfondita solo i domini con questi status è stato eseguito un
+piccolo refactor per risolvere il problema. I tempi di risposta erano migliorati per monitoring di fascia più bassa mentre per quelli di fascia alta che comunque richiedevano l'analisi di un gran
+numero di domini si percepivano ancora dei rallentamenti a causa della grande quantità di dati da gestire ma senza che si verificasse il problema descritto.
 
 Un altro problema critico è stato riscontrato quando si cercava di accedere alla pagina \ref{fig:lists} in cui la richiesta al backend falliva con codice HTTP 504 Gateway Timeout: per qualche motivo la
 richiesta impiegava troppo tempo a raccogliere i nomi di tutti i domini da mostrare in pagina.
-Attraverso l'infrastruttura del gestionale costruita via AWS EC2 si deve impostare un timeout per API REST che è configurabile da 50ms a 29s e questo vincolo viene imposto su ogni singola richiesta
-effettuata al backend. In questo caso è impostato a 29s e quindi si doveva trovare un modo per ridurre il carico di dati inviato nella risposta che ci metteva troppo tempo ad essere elaborata.
+Attraverso l'infrastruttura del gestionale costruita via AWS EC2 si imposta un timeout per API REST che è configurabile da 50ms a 29s e questo vincolo viene imposto su ogni singola richiesta
+effettuata al backend. In questo caso è impostato a 29s e quindi si doveva trovare un modo per ridurre il carico di dati processato dal backend per elaborare la risposta.
 Attraverso la gemma \texttt{benchmark}\cite{benchmark_memory_gem} si è potuto confermare che il problema era il numero troppo grande di nomi di domini free che per monitoring di fascia alta potevano
-essere dell'ordine delle centinaia di migliaia.  Questo fatto risultava in una grande quantità di dati per arrivare a payload anche di 10MB. Per risolvere questo problema si è giunti ad un compromesso
-con i gestori del server di RabbitMQ in modo da ricevere meno domini Free nei file JSON dal lato dell'applicazione. Nella sezione dove ci sono le liste dei domini vengono mostrati solo un numero fisso
-di essi rimanendo nell'ordine delle migliaia in modo che i payload inviati al frontend siano ragionevolmente contenuti. Questo cambiamente aveva parzialmente risolto il problema che si verficava ancora
-ma con una frequenza molto bassa. Per risolvere definitivamente questo inconveniente è stato aggiunto un meccanismo di compressione dei payload più grandi inviati in risposta tramite un middleware di
-Rack \cite{rack} che è una libreria su cui Rails si basa per interfacciarsi con il web server. Questa libreria contiene un modulo che si chiama Deflater che effettua una compressione efficace fino
-all'80\%. Questo modulo controlla se il client che ha effettuato la richiesta supporti la compressione e quindi aggiunge l'header \texttt{Content-Encoding:gzip} per segnalare al browser che i dati
-inviati sono compressi in modo che quest'ultimo sappia che deve automaticamente effettuare una decompressione. La compressione viene applicata solo quando i payload che risultano più voluminosi
-superando la dimensione di 1MB. Attraverso compromessi e compressione si è risolto completamente il problema migliorando la velocità di rendering dei dati nell'interfaccia.
+essere dell'ordine delle centinaia di migliaia. Questo fatto risultava in una grande quantità di dati che portavano alla composizione payload anche di 10MB.
+Per risolvere questo problema si è giunti ad un compromesso con i gestori del server di RabbitMQ in modo da ricevere meno domini Free nei file JSON dal lato dell'applicazione. Nella sezione dove sono
+mostrate le liste dei domini vengono mostrati solo un numero fisso di essi rimanendo nell'ordine delle migliaia in modo che i payload inviati al frontend siano ragionevolmente contenuti.
+Questo cambiamento aveva parzialmente risolto il problema che si verificava ancora ma con una frequenza molto bassa. Per risolvere definitivamente questo inconveniente è stato aggiunto un
+meccanismo di compressione dei payload più grandi inviati in risposta tramite un middleware di Rack\cite{rack} che è una libreria su cui Rails si basa per interfacciarsi con il web server.
+Questa libreria contiene un modulo che si chiama Deflater che effettua una compressione efficace fino all'80\%. Questo modulo controlla se il client che ha effettuato la richiesta supporti la
+compressione e quindi aggiunge l'header \texttt{Content-Encoding:gzip} per segnalare al browser che i dati inviati sono compressi in modo che quest'ultimo sappia che deve automaticamente effettuare
+una decompressione. La compressione viene applicata solo quando i payload che risultano più voluminosi superando la dimensione di 1MB. Attraverso compromessi e compressione si è risolto completamente
+il problema migliorando la velocità di rendering dei dati nell'interfaccia.
 
 \section{Valutazione dell'esperienza utente}
 
 Per valutare l'efficacia del modulo sviluppato è stata condotta un'intervista ad alcuni utilizzatori. L'obiettivo era quello di raccogliere feedback e impressioni qualitative sugli aspetti principali
-di un software quali usabilità, chiarezza delle informazioni e percezioni delle performance. A tal fine è stato somministrato un questionario di nove domande a scala Likert (1-10) in cui 10 significa
-"completamente d'accordo" mentre 1 vuol dire "per nulla d'accordo" aggiungendo una domanda aperta per fornire dello spazio libero in cui l'intervistato poteva esprimere pareri su criticità.
+di un software quali usabilità, chiarezza delle informazioni e percezione delle performance. A tal fine è stato somministrato un questionario di nove domande a scala Likert (1-10) in cui 10 significa
+"completamente d'accordo" mentre 1 vuol dire "per nulla d'accordo", aggiungendo una domanda aperta per fornire dello spazio libero in cui l'intervistato potesse esprimere pareri su criticità.
 Le nove domande possono essere ricondotte a tre aree principali: usabilità (domande 1,2,6,9), performance e affidabilità (domande 3,4,7), completezza dei dati (domanda 8) e consistenza dei dati
 (domanda 5). Il questionario è stato strutturato in questo modo con Microsoft Forms:
 \begin{enumerate}
@@ -896,37 +904,38 @@ Questo risultato conferma l'efficacia delle scelte implementative riguardo ai se
 apprezzate indipendentemente dal volume di domini analizzati, segno che il processo di normalizzazione dei dati funziona correttamente anche sotto carico.
 È stata giudicata positivamente l'area dell'usabilità con punteggi medi dell'8.0 segnalando chiarezza sull'orientamento durante l'uso e sulla facilità di comprensione iniziale. Questa valutazione dell'
 usabilità ha espresso approvazione per il flusso di acquisto confermando l'intuitività dell'interfaccia. È emersa una criticità dal punto di vista dei tempi di risposta: un utente ha segnalato che
-questi tendono ad aumentare notevolmente all'aumentare dei dati richiesti suggerendo che potrebbero esserci margini di miglioramento e possibili ottimizzazioni eseguibili. Il sistema è stato
-sviluppato con l'intezione di prediligere la correttezza dei dati piuttosto che la velocità di ottenerli, aspetto penalizzato dall'architettura a code del server di RabbitMQ collegato al backend 
-dell'applicazione via API. Per questo motivo i tempi di elaborazione tendono ad aumentare quando ha a che fare con un gran numero di pacchetti di dati da analizzare.
-Il fatto il server RabbitMQ debba prelevare i dati pubblicati su una coda, effettuare le necessarie richieste ad altri server esterni, ad esempio server WHOIS, probabilmente anche rispettando eventuali
-rate limit, attendere le risposte e poi ripubblicare i risultati su una coda diversa introduce inevitabilmente delle latenze temporali. Se si aggiunge anche il fatto che in presenza di un gran numero
-di domini, i messaggi si accumulano i tempi di attesa si allungano. Pur non essendo la scelta ottimale per quanto riguarda i tempi le informazioni ottenute mantengono una certa qualità garantendo
+questi tendono ad aumentare notevolmente all'incrementare dei dati richiesti suggerendo che potrebbero esserci margini di miglioramento e possibili ottimizzazioni eseguibili. Il sistema è stato
+sviluppato con l'intenzione di prediligere la correttezza dei dati piuttosto che la velocità di ottenerli, aspetto penalizzato dall'architettura a code del server di RabbitMQ collegato al backend 
+dell'applicazione via API. Per questo motivo i tempi di elaborazione tendono ad aumentare quando si ha a che fare con un gran numero di pacchetti di dati da analizzare.
+Il fatto che il server RabbitMQ debba prelevare i dati pubblicati su una coda, effettuare le necessarie richieste ad altri server esterni, ad esempio server WHOIS, probabilmente anche rispettando eventuali
+rate limit, attendere le risposte e poi ripubblicare i risultati su una coda diversa introduce inevitabilmente delle latenze. Se si aggiunge anche il fatto che in presenza di un gran numero
+di domini i messaggi si accumulano, i tempi di attesa si allungano. Pur non essendo la scelta ottimale per quanto riguarda i tempi, le informazioni ottenute mantengono una certa qualità garantendo
 affidabilità e scalabilità. Questa modalità di implementazione rappresenta uno dei classici trade-off che vengono adottati nell'ingegneria del software dove spesso bisogna scegliere tra performance e
 completezza dei dati. Le richieste del committente enfatizzavano maggiormente la necessità di informazioni complete e corrette che l'utente finale avrebbe utilizzato. Ciò non significa che il tema delle
-performance sia stato eclissato completamente dalla qualità dei dati anzi, sono stati svolti refactoring e accordi per risolvere problemi e migliorare sezioni legate a tale tema come descritto nella
-sezione precedente. Non si esclude che futuri sviluppi possano optare per una soluzione ibrida che vada incontro anche alle aspettative dei clienti.
+performance sia stato eclissato completamente dalla qualità dei dati anzi, sono stati svolti refactoring e condotti accordi con gli sviluppatori del server RabbitMQ per risolvere problemi e
+migliorare sezioni legate a tale tema come descritto nella sezione precedente. Non si esclude che futuri sviluppi possano optare per una soluzione ibrida che vada incontro anche alle aspettative
+dei clienti.
 
 \chapter{Conclusioni e Sviluppi Futuri}
 
-Nella versione successiva del prodotto è stata aggiunta una nuova sezione su richiesta del cliente: il monitoring custom. Questi aveva richiesto la possibilità di creare un Monitoring che uscisse
-dagli schemi dei tre piani disponibili quindi cambiando i parametri che sono fissi per come sono stati implementati. Ad esempio un abbonamento standard comprende tre metodi di ricerca, mentre quello
-successivo ne comprende dieci, ma il cliente vorrebbe un monitoring con sette metodologie mirate a ciò di cui necessita e questo non si limita ai parametri di ricerca. È stato aggiunto nella pagina
-della lista delle scansioni effettuate un bottone che solo un backoffice vedrà nell'interfaccia e che apre una modale contenente un form in cui vengono inseriti i parametri personalizzati richiesti.
-Il concetto viene implementato attraverso la classe \texttt{Monitoring} e risulta in una particolare istanza di essa creata a parte che non passa per il flusso che comprende Stripe per il pagamento
-che sarebbe eseguito a parte fra cliente e committente. Questa particolare istanza viene creata da un endpoint diverso da quello che crea i monitoring che passano per il flusso di Stripe e viene
-scritto a database con uno stato "\texttt{custom}" a simboleggiare questa differenza. I parametri personalizzati vengono salvati a database tramite un attributo \texttt{custom\_scan\_data} che contiene
-il blob dei parametri impostati per tenerne traccia.
+Nella versione successiva del prodotto è stata aggiunta una nuova sezione su richiesta del committente: il monitoring custom. Questi aveva richiesto la possibilità di creare un Monitoring che uscisse
+dagli schemi dei tre piani disponibili quindi cambiando i parametri che per come sono stati implementati che sono fissi. Ad esempio un abbonamento standard comprende tre metodi di ricerca, mentre quello
+successivo ne comprende dieci, ma il committente voleva un monitoring personalizzato con sette metodologie mirate a ciò di cui necessitava in un dato momento e questo non si limitava ai parametri di
+ricerca. È stato aggiunto nella pagina della lista delle scansioni effettuate un pulsante che solo un utente backoffice vede nell'interfaccia e che apre una modale contenente un form in cui vengono inseriti
+i parametri personalizzati richiesti. Il concetto viene implementato attraverso la classe \textit{Monitoring} e risulta in una particolare istanza di essa creata a parte, che non passa per il flusso
+che comprende Stripe per il pagamento che sarebbe eseguito a parte fra cliente e committente. Questa particolare istanza viene creata da un endpoint diverso da quello che crea i monitoring che passano
+per il flusso di Stripe e viene scritto a database con uno stato "\texttt{custom}" a simboleggiare questa differenza. I parametri personalizzati vengono salvati a database tramite un attributo
+\texttt{custom\_scan\_data} che contiene il blob dei parametri impostati per tenerne traccia.
 
 Oltre a questa funzionalità il cliente ha richiesto successivamente un refactor del sistema di pagamento e di gestione generale degli abbonamenti. Nella versione corrente Stripe gestisce sia gli
-acquisti che la creazione che i rinnovi automatici e ciò pesava sui costi imposti dall'API per fornire tutte queste funzionalità. Allora i requisiti di questo modulo erano mirati a limitare
+acquisti che la creazione che i rinnovi automatici e ciò pesava sul prezzo imposto dall'API all'azienda per fornire tutte queste funzionalità. I requisiti di questo modulo erano mirati a limitare
 l'affidamento della gestione dei rinnovi automatici a Stripe. È stato steso quindi un progetto per sbilanciare la responsabilità della gestione degli abbonamenti dal lato dell'applicazione in modo che
 Stripe gestisca solo l'acquisto e fornisca il template delle fatture. Questo ha implicato un completo reset dei meccanismi di pagamento e una rivisitazione dei modelli dati. Concettualmente il da farsi
-avrebbe riguardato il riutilizzo del meccanismo di acquisto "secco" già esistente all'inizio degli sviluppi del modulo e automatizzarlo in modo che fosse utilizzato per effettuare acquisti ricorrenti.
-Questa metodologia implicava l'introduzione di un nuovo modello dati \texttt{Subscription} in modo che l'oggetto del pagamento si trovasse dal lato applicazione invece che dal lato di Stripe quindi non
+avrebbe riguardato il riutilizzo del meccanismo di acquisto una tantum già esistente all'inizio degli sviluppi del modulo e automatizzarlo in modo che fosse utilizzato per effettuare acquisti ricorrenti.
+Questa metodologia implicava l'introduzione di un nuovo modello dati \textit{Subscription} in modo che l'oggetto del pagamento si trovasse dal lato applicazione invece che dal lato di Stripe quindi non
 ci sarebbe più stato il sistema di notifiche da gestire eccetto le due di tipo \texttt{invoice.paid} e \texttt{invoice.payment\_failed} che sarebbero rimaste per capire se i pagamenti fossero andati
-a buon fine o meno. Per gestire il pagamento automatizzato si sarebbe ricorso ad un worker asincrono che ogni giorno ad un dato orario avrebbe eseguito una query per trovare gli abbonamenti da rinnovare
-quel giorno e poi effettuare il pagamento manualmente. Questo refactor è stato progettato e implementato ma a causa del subentro di altri sviluppi di maggiore importanza non è più stato testato e
+a buon fine o meno. Per gestire il pagamento automatizzato si sarebbe ricorso ad un job asincrono che ogni giorno ad un dato orario avrebbe eseguito una query per trovare gli abbonamenti da rinnovare
+e poi effettuare il pagamento manualmente. Questo refactor è stato progettato e implementato ma a causa del subentro di altri sviluppi di maggiore importanza non è più stato testato e
 rilasciato rimanendo in sospeso.
 
 % Creazione Ticket sui Taiga
