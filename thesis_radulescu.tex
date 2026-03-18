@@ -31,32 +31,12 @@
 
 \abstract
 
-Lo scopo di questa tesi è esporre e valutare il risultato dello sviluppo di un modulo implementato in una piattaforma e-commerce presso Archeido S.r.l.
-L'azienda si occupa di web app, mobile app e, categoria a cui appartiene la piattaforma descritta, gestionali in cloud. Il contesto in cui si inserisce questo lavoro è quello della vendita online di
-servizi digitali quali domini, marchi registrati e attività di brokeraggio relative ai domini. Prima dell'aggiunta della funzionalità oggetto di analisi in questa tesi era già implementato un flusso di
-acquisto per gestire gli acquisti una tantum che ancora permane nel software. Il committente ha richiesto lo sviluppo di un nuovo servizio chiamato Domain Monitoring che controlla i domini con nomi
-simili ad un dominio interessato fornendo un report strutturato che possa aiutare l'utente ad identificare e ottenere informazioni rilevanti sui domini potenzialmente pericolosi.
-I requisiti principali emersi dell'analisi e del progetto iniziale riguardavano:
-\begin{itemize}
-    \item l'integrazione con fonti di dati esterne (server RabbitMQ) per ottenere informazioni aggiornate;
-    \item la gestione di grandi volumi di dati in modo efficiente;
-    \item l'implementazione di un sistema di pagamento ricorrente per poterne usufruire mensilmente;
-    \item la progettazione di un'interfaccia semplice e intuitiva per la visualizzazione dei risultati;
-    \item la garanzia di correttezza e completezza dei dati;
-    \item la possibilità di estrarre report in PDF ed Excel per consentire all'utente di lavorare con quei dati.
-\end{itemize}
-
-La tesi si concentra sulla parte backend del modulo, che ha costituito il nucleo principale dell'attività svolta dallo scrivente presso l'azienda. Sebbene abbia contribuito anche all'implementazione
-dell'interazione dell applicazione con il server esterno di RabbitMQ, tale sezione è stata sviluppata prevalentemente da un collega e verrà descritta solo per gli aspetti funzionali all'integrazione
-con il sistema di pagamento. Particolare attenzione è dedicata alla costruzione del sistema di pagamento ricorrente, integrato con Stripe che rappresenta lo stesso servizio di pagamento già impiegato
-per gli acquisti una tantum.
-
-Nel primo capitolo vengono discussi i processi software e le modalità operative adottate dall'azienda nello sviluppo di software. Nel secondo capitolo viene esplorato lo stack tecnologico utilizzato
-negli sviluppi e i problemi che particolari tecnologie risolvono. Il capitolo terzo espone il flusso di acquisto implementato approfondendo gli aspetti implementativi del modulo. Il quarto capitolo è
-incentrato sul testing: vengono discusse approfonditamente le modalità di test del backend, descritti alcuni problemi riscontrati durante la fase di test del modulo e, infine, presentata un'analisi
-qualitativa del prodotto finale attraverso un sondaggio condotto su un campione di utenti. L'ultimo capitolo è dedicato alle conclusioni e agli sviluppi futuri come alcuni refactoring richiesti dal
-committente a fine sviluppi non rilasciati e spunti di implementazione per possibili miglioramenti delle versioni successive.
-
+Lo scopo di questa tesi è esporre e valutare il risultato dello sviluppo di un modulo per il monitoraggio di domini (Domain Monitoring), implementato presso Archeido S.r.l. all'interno di una
+piattaforma e-commerce dedicata alla vendita di domini, marchi e servizi di brokeraggio.
+Il lavoro si concentra sulla parte backend del modulo, con particolare attenzione alla costruzione del sistema di pagamento ricorrente integrato con Stripe, lo stesso servizio già impiegato per gli
+acquisti una tantum. Sebbene lo scrivente abbia contribuito anche all'implementazione dell'interazione con RabbitMQ, tale componente è stata sviluppata prevalentemente da un collega e verrà descritta
+solo per gli aspetti funzionali all'integrazione con il sistema di pagamento. L'elaborato illustra le scelte progettuali, le tecnologie impiegate, le modalità di test adottate e i risultati di
+un'analisi qualitativa condotta con un campione di utenti, concludendo con una riflessione sugli sviluppi futuri.
 
 %% Indice
 \tableofcontents
@@ -68,6 +48,62 @@ committente a fine sviluppi non rilasciati e spunti di implementazione per possi
 \mainmatter
 
 %% Capitolo
+
+\chapter{Introduzione}
+
+Il modulo descritto in questa tesi è stato sviluppato per conto di Archeido S.r.l. , azienda che opera nel settore dello sviluppo di web app, mobile app e gestionali in cloud,
+categoria a cui appartiene la piattaforma oggetto del lavoro.
+Il contesto in cui opera la piattaforma è quello della vendita online di servizi digitali. Nel caso del software considerato in questa tesi il focus è posto nell'ambito di domini, marchi
+registrati e attività di brokeraggio relative ai domini. Nel tempo il settore dei domini ha assunto una rilevanza strategica per le imprese. Da un lato, i
+domini di prima fascia continuano a rappresentare asset di grande valore: nel 2025 sono state registrate transazioni a otto e nove cifre per alcuni domini,
+confermando il .com come investimento prioritario per le aziende che vogliono espandere la propria presenza online. Dall'altro lato, la continua espansione dell'intelligenza artificiale ha favorito la
+crescita di domini con TLD come .ai, che hanno mantenuto una forte domanda per tutto l'anno. Alla fine del 2025 risultavano registrati oltre 908.000 domini .ai (con una crescita di circa l’1\% a settimana).
+L'AI stessa sta incidendo su come i domini vengano scelti dalle aziende. Gli e-commerce di domini come GoDaddy\cite{godaddy_it} hanno implementato delle funzionalità basate sull'AI
+in cui l'utente inserisce un testo che rappresenti le sue necessità e l'AI svolgendo ricerche e analisi consiglierà alcuni nomi di domini che potrebbero soddisfarlo.
+Alla data del 30 Settembre 2025 i domini .com contano 159.4 milioni ribadendo il dominio di questo TLD sugli altri come .it, .net e altri. Il tasso di rinnovo dei domini .com, stabile al 75,3\%,
+testimonia la loro consolidata necessità nel mercato. I domini con gTLD che rappresentano dei nuovi TLD come .xyz, .shop e .online hanno registrato una crescita del 21\% sul numero delle registrazioni
+ma solo il 32,3\% viene rinnovato essendo utilizzati principalmente per attività di sperimentazione e scopi a breve termine.
+
+Nonostante il .com dimostri una netta dominanza anche i ccTLD hanno una certa rilevanza nel mercato dei domini. I ccTLD sono TLD associati ad uno stato, ad esempio .it per l'Italia o .de per la Germania.
+Il numero totale di ccTLD attivi risulta 144.8 milioni verso la fine del 2025. Prevalgono in numerosità i ccTLD come .uk, .de e .nl riflettendo le solide economie interne dei paesi associati. Anche .ru
+(Russia) e .cn (Cina) hanno alte richieste a causa delle rigide politiche interne in ambito digitale definite nei rispettivi paesi.
+Nel contesto di una qualsiasi azienda presente online il nome del dominio rappresenta la prima fonte di credibilità di essa. Il nome del dominio lo si vede dovunque: nella barra dell'URL dei browser,
+negli indirizzi email, nelle pubblicità e in materiali di marketing. Proprio per questo la sua protezione e il suo monitoraggio sono diventati aspetti cruciali per la sicurezza e la credibilità del brand
+affermandone una certa necessità da parte delle aziende.
+
+Nonostante la piattaforma gestisse già gli acquisti una tantum di domini e marchi, mancava una funzionalità di monitoraggio continuo. I clienti non avevano modo di controllare se, dopo l'acquisto,
+venissero registrati domini simili al loro (ad esempio con errori di battitura o parole chiave aggiuntive), potenzialmente utilizzabili per attività fraudolente. Per colmare questa lacuna,
+il committente ha richiesto lo sviluppo del servizio Domain Monitoring, in grado di:
+\begin{itemize}
+    \item rilevare automaticamente domini simili a quelli di interesse;
+    \item raccogliere informazioni strutturate su ciascun dominio (proprietario, scadenza, variazioni);
+    \item generare report chiari per identificare tempestivamente potenziali attività sospette.
+\end{itemize}
+
+Prima di questo sviluppo, non esistevano strumenti integrati nella piattaforma per il monitoraggio dei domini. I clienti che volevano proteggersi da domini simili dovevano affidarsi a
+servizi esterni, spesso costosi e non collegati al resto delle loro attività. Questa soluzione era poco pratica e poco efficiente.
+La modalità di servizio via abbonamento era già implementata ma il meccanismo di rinnovo era comunque effettuato attivamente dall'applicazione mascherando pagamenti attivi come rinnovi passivi.
+Il meccanismo implementato funzionava ma il committente necessitava di un'implementazione passiva dei rinnovi, cosa che è stata resa possibile attraverso l'API di Stripe come sarà descritto nel quarto
+capitolo.
+
+I requisiti principali emersi dall'analisi e dal progetto iniziale riguardavano:
+\begin{itemize}
+\item l'integrazione con fonti di dati esterne (server RabbitMQ) per ottenere informazioni aggiornate;
+\item la gestione di grandi volumi di dati in modo efficiente;
+\item l'implementazione di un sistema di pagamento ricorrente per poterne usufruire mensilmente;
+\item la progettazione di un'interfaccia semplice e intuitiva per la visualizzazione dei risultati;
+\item la garanzia di correttezza e completezza dei dati;
+\item la possibilità di estrarre report in PDF ed Excel per consentire all'utente di lavorare con quei dati.
+\end{itemize}
+
+Nel secondo capitolo vengono discussi i processi software e le modalità operative adottate dall'azienda nello sviluppo. Nel terzo capitolo viene esplorato lo stack tecnologico utilizzato e i problemi
+che particolari tecnologie risolvono. Il capitolo quarto espone il flusso di acquisto implementato approfondendo gli aspetti implementativi del modulo. Il quinto capitolo è incentrato sul testing:
+vengono discusse approfonditamente le modalità di test del backend, descritti alcuni problemi riscontrati durante la fase di test del modulo e, infine, presentata un'analisi qualitativa del prodotto
+finale attraverso un sondaggio condotto su un campione di utenti. L'ultimo capitolo è dedicato alle conclusioni e agli sviluppi futuri come alcuni refactoring richiesti dal committente a fine sviluppi
+non rilasciati e spunti di implementazione per possibili miglioramenti delle versioni successive.
+
+\textit{Le informazioni e i dati di contesto presentati in questa sezione sono tratti da analisi di settore e report specializzati [\cite{dnjournal_soti_2026}, \cite{itcom_trend_2026}, \cite{circleid_2025}].}
+
 
 \chapter{Background Aziendale}
 
