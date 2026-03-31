@@ -900,22 +900,25 @@ passato a cercare la causa di questo problema si è scoperto che dal server Rabb
 conti consiste in una struttura in XML. Il problema è stato poi risolto implementando un metodo ``sanitizer" studiato per analizzare le stringhe e sostituire eventuali simboli ``sospetti" e garantire
 un formato UTF-8 di esse.
 
-Nelle prime versioni della funzionalità si poteva percepire una chiara mancanza per quanto riguardava i tempi di risposta. Mettendo sotto pressione il test simulando una situazione in cui più utenti
-diversi utilizzano il modulo questo subiva gravi rallentamenti. Inoltre analizzando i record dei job salvati nel database associati ai pacchetti si notava che esistevano alcuni gruppi di 5 o 6 di
-essi che rimanevano in stato di esecuzione, senza alcuna traccia del perché. Nessun errore segnalo e nessuna produzione di risultati errati, ma il fatto che non cambiassero stato rimanendo in
-esecuzione poteva significare solo che non passavano per il resolver. Quindi bisognava trovare il motivo per cui non passavano per il resolver e sembrava non ci fosse alcun motivo valido per cui
-questo evento si potesse verificare, a meno che i job non venissero persi in qualche modo durante il flusso nel suo complesso. L'unica cosa che rimaneva da fare era provare con il gestionale in ambiente
-development interagendo con il modulo e osservando i log della macchina virtuale su AWS associata. Avviando un flusso si vedeva che tutti i record necessari venivano correttamente creati, fra cui tutti
-quanti i job necessari associati ai pacchetti inviati al server. Lo strumento di gestione del database utilizzato è stato \texttt{DataGrip} \cite{jetbrains_datagrip}, un IDE che offre un'interfaccia
-intuitiva per la visualizzazione delle tabelle del database e una funzionalità tramite cui si può impostare un continuo refresh impostando un intervallo temporale. Dopo aver risolto un certo numero
-di job si vedeva apparire il gruppo di job non risolti per poi notare che quelli dopo ricominciavano ad essere regolarmente risolti. Leggendo i log della macchina virtuale si poteva notare che nel
-momento in cui quei job sono stati saltati la macchina virtuale aveva effettuato automaticamente un riavvio perché la memoria si saturava: memory leak era quindi il problema da risolvere.
-La causa della saturazione della memoria era il fatto che ci fossero troppi job da risolvere per ottenere i dati di un monitoring di fascia alta. Si è osservato che gran parte di quei job erano
-riferiti a pacchetti che contenevano domini Free che spesso non necessitano di analisi dato che essendo liberi non risolvono a nessun indirizzo IP, non hanno NameServers o eMail eXchanger associati
-per cui non rappresenta un particolare pericolo per il dominio cercato in partenza. I domini Flagged e Taken invece richiedono l'analisi ed è ciò che interessa particolarmente a chi usufruisce del
-servizio di Domain Monitoring. Dopo aver concordato con i gestori del server di RabbitMQ che sarebbero stati inviati per l'analisi approfondita solo i domini con questi status è stato eseguito un
-piccolo refactor per risolvere il problema. I tempi di risposta erano migliorati per monitoring di fascia più bassa mentre per quelli di fascia alta che comunque richiedevano l'analisi di un gran
-numero di domini si percepivano ancora dei rallentamenti a causa della grande quantità di dati da gestire ma senza che si verificasse il problema descritto.
+Nelle prime versioni della funzionalità si poteva percepire una chiara mancanza per quanto riguardava i tempi di risposta.
+Mettendo sotto pressione il sistema simulando una situazione in cui più utenti diversi utilizzano il modulo questo riscontrava gravi rallentamenti.
+Inoltre analizzando i record dei job salvati nel database si notava che esistevano alcuni gruppi di 5 o 6 di essi rimanevano in stato di esecuzione, senza alcun apparente motivo.
+Nessun errore segnalato e non venivano prodotti risultati errati, ma i job non avanzavano verso il completamento. Questo comportamento suggeriva che non raggiungessero il resolver incaricato di
+processarli ed impostarli come completati, senza alcuna ragione evidente. Le prime ipotesi riguardavano la possibilità che i job in qualche modo venissero persi nella comunicazione con il server
+esterno di RabbitMQ ma non si riusciva a dare alcuna spiegazione. Per indagare il fenomeno e cercare la causa della mancata risoluzione dei job si è deciso di testare il modulo nell'ambiente di development
+interagendo direttamente con esso e osservando i log della macchina virtuale su AWS. Lo strumento di gestione del database utilizzato è stato DataGrip \cite{jetbrains_datagrip}, un IDE che offre una
+visione chiara delle tabelle del database e consente di impostare un refresh periodico per osservare le variazioni in tempo reale. In questo modo si sarebbe potuto vedere l'esatto momento in cui i
+job sarebbero stati saltati e poi passare ai logs per cercare qualche evento che potesse essere la causa. Avviando un flusso di lavoro si notava che tutti i record necessari, inclusi i job associati
+ai pacchetti inviati al server, venivano creati correttamente. Tuttavia, dopo aver risolto un certo numero di job compariva il gruppo di quelli che non venivano completati mentre quelli successivi
+riprendevano ad essere regolarmente risolti. I logs della macchina virtuale in tempo reale hanno rivelato la causa del problema: nel momento in cui i job venivano saltati, la macchina virtuale
+eseguiva un riavvio automatico a causa della saturazione della memoria e i job da processare in quel momento venivano scartati nel riavvio. Si trattava quindi di un memory leak.
+La saturazione della memoria era dovuta all'eccessivo numero di job da processare per elaborare i dati di un monitoring di fascia alta. Gran parte di questi job erano associati a pacchetti
+contenenti domini con status Free. Poiché questo tipo di dominio non risolve ad alcun indirizzo IP, non ha NameServers né eMail eXchanger associati, la loro analisi non fornisce informazioni rilevanti
+per la sicurezza del dominio monitorato. Al contrario, i domini con status Flagged o Taken rappresentano le informazioni realmente utili per chi utilizza il servizio di Domain Monitoring.
+Dopo aver concordato con i gestori del server di RabbitMQ di inviare per l'analisi approfondita solo i domini con status Flagged e Taken è stato eseguito un refactoring per filtrare i domini free a monte
+ed elaborarli in parallelo per ottenere il loro prezzo di allocazione tramite una richiesta API ad un altro servizio esterno diverso.
+I tempi di risposta migliorati significativamente per i monitoring di fascia bassa mentre per quelli di fascia alta che comunque richiedono l'analisi di un gran numero di domini rilevanti persistevano
+rallentamenti dovuti alla mole di dati da processare. Tuttavia il problema dei job bloccati non si è più verificato.
 
 Un altro problema critico è stato riscontrato quando si cercava di accedere alla pagina \ref{fig:lists} in cui la richiesta al backend falliva con codice HTTP 504 Gateway Timeout: per qualche motivo la
 richiesta impiegava troppo tempo a raccogliere i nomi di tutti i domini da mostrare in pagina.
