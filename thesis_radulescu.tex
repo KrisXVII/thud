@@ -51,7 +51,7 @@ un'analisi qualitativa condotta con un campione di utenti, concludendo con una r
 
 \chapter{Introduzione}
 
-Il modulo descritto in questa tesi è stato sviluppato per conto di Archeido S.r.l. , azienda che opera nel settore dello sviluppo di web app, mobile app e gestionali in cloud,
+Il modulo descritto in questa tesi è stato sviluppato per conto di Archeido S.r.l., azienda che opera nel settore dello sviluppo di web app, mobile app e gestionali in cloud,
 categoria a cui appartiene la piattaforma oggetto del lavoro.
 Il contesto in cui opera la piattaforma è quello della vendita online di servizi digitali. Nel caso del software considerato in questa tesi il focus è posto nell'ambito di domini, marchi
 registrati e attività di brokeraggio relative ai domini. Nel tempo il settore dei domini ha assunto una rilevanza strategica per le imprese. Da un lato, i
@@ -60,13 +60,13 @@ confermando il .com come investimento prioritario per le aziende che vogliono es
 crescita di domini con TLD come .ai, che hanno mantenuto una forte domanda per tutto l'anno. Alla fine del 2025 risultavano registrati oltre 908.000 domini .ai (con una crescita di circa l’1\% a settimana).
 L'AI stessa sta incidendo su come i domini vengano scelti dalle aziende. Gli e-commerce di domini come GoDaddy \cite{godaddy_it} hanno implementato delle funzionalità basate sull'AI
 in cui l'utente inserisce un testo che rappresenti le sue necessità e l'AI svolgendo ricerche e analisi consiglierà alcuni nomi di domini che potrebbero soddisfarlo.
-Alla data del 30 Settembre 2025 i domini .com contano 159.4 milioni ribadendo il dominio di questo TLD sugli altri come .it, .net e altri. Il tasso di rinnovo dei domini .com, stabile al 75,3\%,
-testimonia la loro consolidata necessità nel mercato. I domini con gTLD che rappresentano dei nuovi TLD come .xyz, .shop e .online hanno registrato una crescita del 21\% sul numero delle registrazioni
+Alla data del 30 Settembre 2025 i domini .com contano 159.4 milioni ribadendo la prevalenza di questo TLD sugli altri come .it, .net. Il tasso di rinnovo dei domini .com, stabile al 75,3\%,
+testimonia la loro consolidata necessità nel mercato. I nuovi gTLD come .xyz, .shop e .online hanno registrato una crescita del 21\% sul numero delle registrazioni
 ma solo il 32,3\% viene rinnovato essendo utilizzati principalmente per attività di sperimentazione e scopi a breve termine.
 
-Nonostante il .com dimostri una netta dominanza anche i ccTLD hanno una certa rilevanza nel mercato dei domini. I ccTLD sono TLD associati ad uno stato, ad esempio .it per l'Italia o .de per la Germania.
-Il numero totale di ccTLD attivi risulta 144.8 milioni verso la fine del 2025. Prevalgono in numerosità i ccTLD come .uk, .de e .nl riflettendo le solide economie interne dei paesi associati. Anche .ru
-(Russia) e .cn (Cina) hanno alte richieste a causa delle rigide politiche interne in ambito digitale definite nei rispettivi paesi.
+Nonostante il .com dimostri una netta dominanza, anche i ccTLD hanno una certa rilevanza nel mercato dei domini. I ccTLD sono TLD associati ad uno stato, ad esempio .it per l'Italia o .de per la Germania.
+Il numero totale di ccTLD attivi ammonta a 144.8 milioni verso la fine del 2025. Prevalgono in numerosità i ccTLD come .uk, .de e .nl, riflettendo le solide economie interne dei paesi associati. Anche .ru
+(Russia) e .cn (Cina) registrano alte richieste a causa delle rigide politiche interne in ambito digitale definite nei rispettivi paesi.
 Nel contesto di una qualsiasi azienda presente online il nome del dominio rappresenta la prima fonte di credibilità di essa. Il nome del dominio lo si vede dovunque: nella barra dell'URL dei browser,
 negli indirizzi email, nelle pubblicità e in materiali di marketing. Proprio per questo la sua protezione e il suo monitoraggio sono diventati aspetti cruciali per la sicurezza e la credibilità del brand
 affermandone una certa necessità da parte delle aziende.
@@ -83,7 +83,7 @@ il committente ha richiesto lo sviluppo del servizio Domain Monitoring, in grado
 Prima di questo sviluppo, non esistevano strumenti integrati nella piattaforma per il monitoraggio dei domini. I clienti che volevano proteggersi da domini simili dovevano affidarsi a
 servizi esterni, spesso costosi e non collegati al resto delle loro attività. Questa soluzione era poco pratica e poco efficiente.
 La modalità di servizio via abbonamento era già implementata ma il meccanismo di rinnovo era comunque effettuato attivamente dall'applicazione mascherando pagamenti attivi come rinnovi passivi.
-Il meccanismo implementato funzionava ma il committente necessitava di un'implementazione passiva dei rinnovi, cosa che è stata resa possibile attraverso l'API di Stripe come sarà descritto nel quarto
+Il meccanismo implementato funzionava, ma il committente necessitava di un'implementazione passiva dei rinnovi, cosa che è stata resa possibile attraverso l'API di Stripe come sarà descritto nel quarto
 capitolo.
 
 I requisiti principali emersi dall'analisi e dal progetto iniziale riguardavano:
@@ -97,7 +97,7 @@ I requisiti principali emersi dall'analisi e dal progetto iniziale riguardavano:
 \end{itemize}
 
 Nel secondo capitolo vengono discussi i processi software e le modalità operative adottate dall'azienda nello sviluppo. Nel terzo capitolo viene esplorato lo stack tecnologico utilizzato e i problemi
-che particolari tecnologie risolvono. Il capitolo quarto espone il flusso di acquisto implementato approfondendo gli aspetti implementativi del modulo. Il quinto capitolo è incentrato sul testing:
+che particolari tecnologie risolvono. Il quarto capitolo espone il flusso di acquisto implementato approfondendo gli aspetti implementativi del modulo. Il quinto capitolo è incentrato sul testing:
 vengono discusse approfonditamente le modalità di test del backend, descritti alcuni problemi riscontrati durante la fase di test del modulo e, infine, presentata un'analisi qualitativa del prodotto
 finale attraverso un sondaggio condotto su un campione di utenti. L'ultimo capitolo è dedicato alle conclusioni e agli sviluppi futuri come alcuni refactoring richiesti dal committente a fine sviluppi
 non rilasciati e spunti di implementazione per possibili miglioramenti delle versioni successive.
@@ -110,7 +110,7 @@ non rilasciati e spunti di implementazione per possibili miglioramenti delle ver
 \section{Processi Software}
 
 Nell'ambito dello sviluppo software è particolarmente importante adottare un approccio ingegneristico e strutturato al fine di sviluppare software di
-qualità riducendo i costi e i tempi di sviluppo. Convenire in primis il modello di processo software su cui incentrare lo
+qualità riducendo i costi e i tempi di sviluppo. Scegliere in primis il modello di processo software su cui incentrare lo
 sviluppo diventa cruciale qualora si desideri ridurre i tempi e l'entità degli imprevisti che si possono verificare durante oppure a fine sviluppi. Le alternative principali si dividono fra modelli
 plan-driven e modelli Agile.\\ Il modello plan-driven si caratterizza per:
 \begin{itemize}
@@ -119,7 +119,7 @@ plan-driven e modelli Agile.\\ Il modello plan-driven si caratterizza per:
     \item ampia produzione di documentazione del software.
 \end{itemize}
 Passando ad una fase successiva, tutto ciò che è stato svolto fino a quel punto viene bloccato (in gergo si dice ``frozen") una volta confermato e non si può più tornare indietro perché eventuali
-variazioni nei requisti durante lo sviluppo potrebbero essere molto costosi da sviluppare sia in fatto di tempo che di risorse.\\ Il modello contrapposto è quello Agile invece punta su flessibilità
+variazioni nei requisiti durante lo sviluppo potrebbero essere molto costosi da sviluppare sia in fatto di tempo che di risorse.\\ Il modello contrapposto è quello Agile invece punta su flessibilità
 e adattabilità permettendo di:
 \begin{itemize}
     \item dare una risposta immediata ai cambiamenti nei requisiti;
@@ -127,12 +127,12 @@ e adattabilità permettendo di:
     \item documentare l'essenziale in modo da concentrarsi sulla scrittura di codice funzionante di qualità.
 \end{itemize}
 L'azienda adotta una variazione del modello agile per cui nei paragrafi seguenti verrà approfondito tale approccio allo sviluppo, con particolare attenzione alle sue implementazioni concrete quali la
-gestione dei task, i meeting ricorrenti e i strumenti di supporto.
+gestione dei task, i meeting ricorrenti e gli strumenti di supporto.
 
 \section{Lo sviluppo Agile}
 
 Verso la fine degli anni Sessanta, periodo che segnò gli albori dell'Ingegneria del Software, le aziende adottavano esclusivamente il Waterfall Model,
-un modello plan-driven a fasi ben definite che richiedeva l'impiego di tante risorse: team di grandi dimensioni e tante finanze ma soprattutto tanto tempo
+un modello plan-driven a fasi ben definite che richiedeva l'impiego di molte risorse: team di grandi dimensioni e ingenti finanze ma soprattutto tanto tempo
 poiché era necessario pianificare accuratamente ogni fase e documentare nei minimi particolari l'intero progetto. Se verso le fasi finali dello
 sviluppo si fossero riscontrati errori o inconsistenze derivate dalle fasi iniziali, aggiustare i problemi sarebbe stata un'operazione molto complicata.
 Ad esempio un'incongruenza passata inosservata nella definizione dei requisiti avrebbe potuto incidere negativamente su una delle fasi finali come quella del rilascio.
@@ -140,7 +140,7 @@ Ad esempio un'incongruenza passata inosservata nella definizione dei requisiti a
 Studi come il \textit{CHAOS Report} \cite{standish1994chaos} dello Standish Group (1994) rilevavano un tasso di fallimento del 30\% dei software
 sviluppati in questo modo. Spesso succedeva anche che venissero cancellati ancora prima di essere conclusi a causa dell'incapacità di adeguarsi ai cambiamenti.
 Inoltre i costi di sviluppo finali non coincidevano mai con i numeri previsti inizialmente con una media di incremento finale del 189\%.
-I tempi complessivi di sviluppo non rispettavano mai quelli aspettati dall'inizio dei lavori, con un incremento del 400\% dato dal fatto che ogni 100 progetti 94 di essi ricominciavano da capo
+I tempi complessivi di sviluppo non rispettavano mai quelli aspettati dall'inizio dei lavori, con un incremento del 400\% dato dal fatto che ogni 100 progetti, 94 di essi ricominciavano da capo
 anche più di una volta. Altre volte succedeva che il prodotto finale non rispettava del tutto le richieste del cliente o risultava incompleto richiedendo ulteriori risorse oppure addirittura rifare
 il progetto da capo perché ormai modificare quanto prodotto risultava impossibile.
 
@@ -150,10 +150,10 @@ seguenti concetti:
 \begin{itemize}
     \item storie utente: scenari scritti in linguaggio naturale su schede che descrivono situazioni in cui l'utente potrebbe trovarsi.
     Sono risultate particolarmente utili perché permettevano di descrivere velocemente i requisiti e potevano essere modificate o riscritte in base alle necessità del momento.
-    La loro implementazione risulta in un incremento, una versione aggiornata del software che il committente o l'utente finale proverà in prima persona per fornire feedback ai team di sviluppo;
-    \item refactoring: continuo miglioramento del codice con l'obiettivo di facilitare implementazioni future e a mitigare il progressivo deterioramento di esso. Se il codice è semplice e di alta
+    La loro implementazione si traduce in un incremento, una versione aggiornata del software che il committente o l'utente finale proverà in prima persona per fornire feedback ai team di sviluppo;
+    \item refactoring: continuo miglioramento del codice con l'obiettivo di facilitare implementazioni future e mitigare il progressivo deterioramento di esso. Se il codice è semplice e di alta
     qualità può diventare auto-esplicativo richiedendo meno documentazione e tutto il team ne può trarre vantaggi;
-    \item test: si cominciò a parlare di sviluppo Test Driven, una nuovo modus operandi che consisteva nello scrivere prima un test che chiarisse le aspettative
+    \item test: si cominciò a parlare di sviluppo Test Driven, un nuovo modus operandi che consisteva nello scrivere prima un test che chiarisse le aspettative
     della prossima implementazione e poi scrivere il codice strettamente necessario a soddisfarli. Il vantaggio principale era che i test potevano
     essere automatizzati e definivano anche una sorta di specifica comportamentale della funzionalità da implementare riducendo i tempi di sviluppo;
     \item pair programming: due sviluppatori davanti alla stessa macchina che sviluppano la stessa funzionalità permettendo un confronto
@@ -172,7 +172,7 @@ uscire dallo schema plan-driven ritenendolo troppo rigido e inadatto alle richie
     necessaria viene investito nella produzione di nuovo codice o nel miglioramento del codice già esistente, in questo modo si alza
     la qualità generale del software;
     \item collaborazione col cliente anziché negoziazione di contratti: al contrario dei modelli plan-driven che coinvolgevano il cliente
-    solo nella fasi iniziali di negoziazione e definizione dei requisiti, nell'Agile il coinvolgimento si protrae fino alla fine dello sviluppo.
+    solo nelle fasi iniziali di negoziazione e definizione dei requisiti, nell'Agile il coinvolgimento si protrae fino alla fine dello sviluppo.
     Il supporto maggiore del cliente è dato da continui riscontri sulle versioni intermedie del software in modo che il team capisca come soddisfare al meglio le sue esigenze;
     \item capacità di rispondere al cambiamento anziché conformità a un piano: nella visione Agile il cambiamento è un valore aggiunto al
     prodotto. Saper rispondere prontamente ad esso è più importante di formulare un piano d'azione che potrebbe richiedere troppo tempo.
@@ -188,23 +188,23 @@ di sviluppo nell'adattarsi alle sue richieste.
 Il team di sviluppo di un progetto è formato tipicamente da due o tre sviluppatori e da uno o più project manager. I team non sono indipendenti l'uno dall'altro in quanto gli sviluppatori
 che lavorano ad un progetto possono far parte anche di team di sviluppo di altri progetti, quindi le stesse figure risultavano condivise fra i vari progetti.
 I project managers gestiscono i team per ogni progetto attraverso il software di supporto \textit{Jira Software} di Atlassian \cite{atlassian_jira} che permette
-di creare uno spazio dedicata ad ogni progetto e assegnare persone che comporranno il team di sviluppo di esso.
+di creare uno spazio dedicato ad ogni progetto e assegnare persone che comporranno il team di sviluppo di esso.
 
-All'interno di ogni spazio si trova una board in cui vengono aperti i ticket che praticamente sono delle user stories come quelle che si usano in eXtreme Programming. Un ticket
+All'interno di ogni spazio si trova una board in cui vengono aperti i ticket che corrispondono sostanzialmente a user stories come quelle che si usano in eXtreme Programming. Un ticket
 è formato da un titolo che deve essere il più esplicativo possibile di cosa deve essere sviluppato o del problema che deve essere risolto e da una descrizione aggiuntiva per approfondire alcuni punti
-se necessario. Questi possono essere anche commentati dai membri del team del progetto in modo da lasciare delle note o degli appunti per gli altri. Ogni board è dinamica, cioè inizialmente viene
+se necessario. I ticket possono essere anche commentati dai membri del team del progetto in modo da lasciare delle note o degli appunti per gli altri. Ogni board è dinamica, cioè inizialmente viene
 pianificato lo sprint settimanale del Lunedì e durante gli sviluppi possono essere aperti altri ticket all'occorrenza.
 
 Lo spazio offre anche un backlog in cui sono raccolti tutti i ticket, sia quelli dello sprint corrente che quelli da pianificare in sprint futuri.
 I ticket possono essere raggruppati per categorie, le epics, che rappresentano il modulo a cui sono associati. Inoltre è presente una timeline in cui i project manager definiscono gli archi di
 tempo previsti da dedicare ad ognuna di esse. È possibile visualizzare anche un riepilogo che fa da dashboard principale del progetto e mostra diverse informazioni sullo stato di esso a livello
-di ticket, una sezione report, un elenco di tutti i ticket (anche quelli già svolti e consegnati al cliente che non si vedono più nel backlog) ed infine una sezione dedicata a monitorare il tempo
+di ticket, una sezione report, un elenco di tutti i ticket (anche quelli già svolti e consegnati al cliente che non si vedono più nel backlog) e infine una sezione dedicata a monitorare il tempo
 dedicato ogni giorno e mensilmente al progetto da parte di ogni membro.
 La board è divisa in più sezioni e un ticket attraversa tutte le fasi prima di essere definitivamente concluso:
 \begin{itemize}
     \item to do: il ticket è stato stabilito nello sprint settimanale come da sviluppare durante la settimana;
     \item in progress: il ticket è stato preso in carico da uno sviluppatore ed è in fase di sviluppo;
-    \item ready: l'attività di sviluppo relativa al ticket è stata effettuata, sia attende il rilascio in ambiente di sviluppo;
+    \item ready: l'attività di sviluppo relativa al ticket è stata effettuata, e attende il rilascio in ambiente di sviluppo;
     \item in dev to test: il codice sviluppato è stato rilasciato in ambiente di sviluppo ed è pronto per il testing da parte dei project manager;
     \item in dev approved: i test del codice sviluppato sono stati superati, pronto per essere rilasciato in ambiente di staging;
     \item in staging: il ticket è stato approvato internamente ed è stato rilasciato in ambiente staging per essere sottoposto a test da parte del committente;
@@ -221,26 +221,26 @@ Gli ambienti di sviluppo sono tre, ciascuno con una funzione specifica:
 
 La comunicazione fra i membri del team assume un ruolo centrale poiché lo sviluppo di un progetto coinvolge tipicamente project manager, almeno un back ender e almeno un
 front ender. Esistono anche progetti affidati ad una singola persona ed in questi casi la comunicazione rimane attiva con il project manager.
-A volte si ricorre anche al pair programming specialmente nel momento in cui ci sia un problema che un singolo non riesce a risolvere. In certi la collaborazione si estende oltre la
+A volte si ricorre anche al pair programming specialmente nel momento in cui ci sia un problema che un singolo non riesce a risolvere. In certi casi la collaborazione si estende oltre la
 coppia ricorrendo a riunioni che coinvolgono l'intero team. Questo accade soprattutto durante fasi di debugging approfondito, troubleshooting oppure in fase di progettazione per
 allinearsi sulle scelte operative migliori.
 Questo aspetto lavorativo viene supportato da \textit{Slack} \cite{slack}, un software sviluppato su misura per la comunicazione aziendale.
 Slack offre la possibilità di creare canali e gruppi di essi a cui aggiungere il profilo dei singoli membri. I membri dei canali possono scambiare messaggi, condividere media ed effettuare meeting
-all'occorrenza. Grazie al supporto di questo strumento la comunicazione è resa possibile anche quando tutti i membri lavorano da remoto in giornata oppure in situazioni ibride in cui parte del team è in
+all'occorrenza. Grazie al supporto di questo strumento la comunicazione è resa possibile anche quando tutti i membri lavorano da remoto oppure in situazioni ibride in cui parte del team è in
 ufficio e parte lavora da remoto. Ogni persona diventa così reperibile durante l'intera giornata lavorativa, salvo impegni che richiedano momenti di indisponibilità.
 
-L'azienda si discosta dal Manifesto dal punto di vista della documentazione ponendo un accento particolarmente forte su questo aspetto che si è rivelato nella pratica un fattore di efficienza
-e indipendenza per il team. Se è vero che dedicare meno tempo a scrivere documentazione permette di concentrarsi maggiormente sul codice è anche vero che se si stanno sviluppando progetti di grandi
-dimensioni con tanti moduli e sotto-moduli, tante logiche diverse di gestione dei dati e numerosi componenti diventa facile che chi le ha sviluppate stesso si dimentichi del funzionamento di
+L'azienda si discosta dal Manifesto dal punto di vista della documentazione ponendo un accento particolarmente forte su questo aspetto. Nella pratica, questo approccio si è rivelato un fattore di efficienza
+e indipendenza per il team. Se è vero che dedicare meno tempo a scrivere documentazione permette di concentrarsi maggiormente sul codice, è anche vero che se si stanno sviluppando progetti di grandi
+dimensioni con tanti moduli e sotto-moduli, tante logiche diverse di gestione dei dati e numerosi componenti diventa facile che chi le ha sviluppate si dimentichi del funzionamento di
 tutti questi aspetti se poi non ci si torna per tanto tempo. Documentare ogni aspetto rimanendo nei limiti della sintesi diventa una risorsa preziosa.
 Al momento del bisogno, qualunque membro del team può consultare la documentazione condivisa, risparmiando tempo e rimanendo autonomo nella risoluzione dei problemi.
 
 La capacità di adattarsi ai cambiamenti nei requisiti è un concetto fondamentale dell'Agile che viene proferito ai nuovi membri del team fin dal primo giorno
 in ufficio. È noto che il committente, nelle fasi iniziali di un progetto, possa non avere una visione completa e definitiva delle proprie esigenze, richiedendo revisioni e aggiustamenti
-durante lo sviluppo. Per questo motivo studiare un piano approfondito risulta appropriata solo nelle fasi iniziali di progettazione di un nuovo modulo, mentre nella gestione degli sprint si mantiene
+durante lo sviluppo. Per questo motivo studiare un piano approfondito risulta appropriato solo nelle fasi iniziali di progettazione di un nuovo modulo, mentre nella gestione degli sprint si mantiene
 un approccio più flessibile in modo che un cambiamento durante gli sviluppi non stravolga lo sviluppo corrente. Nella pratica non è sempre possibile mantenere un livello così alto di semplicità
-e in alcuni casi che richiedono cambiamenti più radicali potrebbero comunque essere necessari lavori onerosi di modifiche del codice o architetture anche radicali,
-ma nella maggioranza dei casi si può cambiare direzione facilmente e senza eccessive complicazioni se il requisito è realistico e ben definito.
+e in alcuni casi, quando i cambiamenti richiesti sono più radicali, potrebbero rendersi necessari interventi onerosi di modifiche del codice o dell'architettura.
+Nella maggioranza dei casi si può comunque cambiare direzione facilmente e senza eccessive complicazioni se il requisito è realistico e ben definito.
 
 La collaborazione con il committente è fondamentale durante gli sviluppi perché è necessario sapere nei minimi dettagli cosa stia commissionando.
 Fissati i requisiti della nuova release, che può essere un intero modulo, un bug nel software da risolvere oppure una nuova funzionalità, viene sviluppata
@@ -255,10 +255,10 @@ sono i servizi esterni che si intersecano con le tecnologie interne per realizza
 Non mi dilungherò nella spiegazione delle tecnologie utilizzate per il frontend (\textit{ReactJS} \cite{react_dev_home}, \textit{NextJS} \cite{nextjs_home},
 \textit{Cypress} \cite{cypress}...) e approfondirò quelle utilizzate per lo sviluppo del backend.
 Oltre ai principi dell'Agile l'azienda si avvale anche della pratica del \textit{Commercial-Off-The-Shelf} (COTS) definita nello standard ISO/IEC del 2017 \cite{iso_iec_12207_2017}
-che consiste nel utilizzare software già sviluppato pronti per l'uso sia che siano open-source che a pagamento. Le gemme sono librerie per Ruby che sono state sviluppate a posta
+che consiste nell'utilizzare software già sviluppato pronti per l'uso sia che siano open-source che a pagamento. Le gemme sono librerie per Ruby che sono state sviluppate appositamente
 per il supporto alla produzione di codice Ruby. Il frontend utilizza componenti già sviluppati e personalizzabili a seconda delle necessità come la libreria di \textit{Ant Design} \cite{antdesign}.
 Il vantaggio di questa pratica è chiaramente il notevole risparmio di tempo e semplificazione del codice sviluppato con la
-contropartita di dover ponderare correttamente la scelta poiché una sbagliare tecnologia avrebbe l'effetto contrario. Un'altra cosa da tenere presente quando si
+contropartita di dover ponderare correttamente la scelta poiché scegliere una tecnologia sbagliata avrebbe l'effetto contrario. Un'altra cosa da tenere presente quando si
 lavora con software pre-esistente è che diventa raro trovarne uno che soddisfa completamente le necessità e potrebbe essere necessario apportare qualche modifica al
 componente già scritto. Questo tipo di prodotti sono abbastanza complicati da alterare a meno che non siano esplicitamente descritti come liberamente modificabili.
 
@@ -281,7 +281,7 @@ Questa idea di implementare tutto come oggetto viene realizzata facendo ereditar
 dei metodi che si possono applicare a qualsiasi istanza delle classi che la ereditano. I metodi di default a meno di override sono il metodo .to\_s, il metodo .is\_a?(Type) che
 restituisce in output True se la classe a cui appartiene la struttura a cui è stato applicato coincide con quella passata come parametro. Altri esempi sono il metodo .dup che duplica la struttura,
 il metodo .nil? per verificare se l'oggetto a cui è applicato esiste nel contesto e molti altri.
-È stato sviluppato in C che essendo un linguaggio a basso livello apporta alcuni vantaggi al linguaggio in questione fra cui la portabilità per cui è utilizzabile su ogni sistema
+Ruby è stato sviluppato in C, che essendo un linguaggio a basso livello, apporta alcuni vantaggi al linguaggio in questione fra cui la portabilità per cui è utilizzabile su ogni sistema
 operativo esistente senza la necessità di riscrivere interpreters per ognuno di essi e le performance migliorate per operazioni di I/O, threading e gestione della memoria che sono
 aspetti in cui il linguaggio C eccelle. Anche il fatto che sia facilmente integrabile con il vasto ecosistema di librerie esistenti scritte in C e C++ quindi supporta
 di base gemme che contengono al loro interno estensioni scritte in C come \textit{mysql2} \cite{mysql2_gem}, \textit{pg} \cite{pg_gem} o \textit{sqlite3} \cite{sqlite_home} che servono per
@@ -297,7 +297,7 @@ e leggibile. Ad oggi l'ultima versione di Ruby pubblicata è la 3.3.9 datata il 
 \end{figure}
 
 L'idea centrale del framework Rails \cite{ruby_on_rails} è offrire un insieme di strumenti da usare seguendo il pattern Model-View-Controller in modo che si possa sviluppare applicazioni
-web intero senza servizi esterni, quindi nel suo utilizzo nativo ha un approccio full-stack allo sviluppo web. Suddivide la costruzione dell'applicazione in client attraverso le Views e server
+web intere senza servizi esterni, quindi nel suo utilizzo nativo ha un approccio full-stack allo sviluppo web. Suddivide la costruzione dell'applicazione in client attraverso le Views e server
 attraverso Controllers e Models e queste tre macro-componenti interagiscono fra di loro come mostrato nella figura \ref{fig:mvc-sequence}.
 I Models consistono nelle classi di oggetti che verranno utilizzate nell'applicazione in cui si possono definire i metodi di classe e di istanza che verranno applicati agli oggetti
 della classe in cui sono definiti. Le Views compongono l'interfaccia del prodotto finale e vengono codificate attraverso dei file .erb (Embedded Ruby Language) che consistono di una combinazione
@@ -312,7 +312,7 @@ Altre directories rilevanti presenti in un'applicazione Ruby On Rails sono:
     \item tmp in cui vengono salvati file temporanei.
 \end{itemize}
 Infine nella root directory del progetto si trovano i file di supporto come il README.md inizializzato nel momento in cui è stata creata la repository gestita tramite
-\textit{Git} \cite{git_scm}, il CHANGELOG.md che serve a tenere presente le versioni dei rilasci  e il Gemfile.rb che consiste nella lista delle gemme di Ruby aggiunte nel progetto ossia
+\textit{Git} \cite{git_scm}, il CHANGELOG.md che serve a tenere traccia delle versioni dei rilasci e il Gemfile.rb che consiste nella lista delle gemme di Ruby aggiunte nel progetto ossia
 le librerie aggiuntive scaricate nel progetto. Nel caso di questo software il client è stato sostituito con un client scritto in ReactJS e quindi di Ruby On Rails vengono usate principalmente le
 componenti per costruire il server mentre le Views vengono utilizzate per definire template interni come le e-mails.
 
@@ -320,12 +320,12 @@ L'\textit{ActiveRecord} è il componente del framework di Rails che gestisce l'a
 In particolare implementa il pattern \textit{Create-Read-Update-Delete} (CRUD) \cite{ibm_crud} che permette di creare, visualizzare, modificare
 e cancellare record di dati. Queste operazioni sono implementate direttamente nel codice senza la necessità di dover scrivere SQL puro a parte. Ad esempio, ogni classe ha un metodo built-in dinamico
 chiamato .create() a cui vengono passati in formato chiave-valore i parametri corrispondenti agli attributi del modello dati di cui si sta creando il record e sarà l'ActiveRecord stesso a tradurre
-quel codice in SQL puro da eseguire sul database collegato al progetto. Questo metodo di interfacciarsi con il database molto vantaggioso dal punto di vista della semplicità e leggibilità del codice.
+quel codice in SQL puro da eseguire sul database collegato al progetto. Questo metodo di interfacciarsi con il database è molto vantaggioso dal punto di vista della semplicità e leggibilità del codice.
 Reperire l'informazione dal database è un'operazione fondamentale del software che viene eseguita attraverso query che possono essere anche molto intricate
 da scrivere e da comprendere. L'ActiveRecord semplifica questa operazione permettendo di scrivere clausole WHERE attraverso il metodo .where() che identifica la classe dell'oggetto
 a cui è applicato e i parametri passati allo stesso modo di come vengono passati alla creazione seleziona i record interessati. Esiste anche un metodo .select\{\} che però va utilizzato
 attraverso la classe di oggetti Proc in uno stile funzionale rielaborato nel linguaggio Ruby, si noti l'utilizzo di parentesi graffe al posto di quelle tonde. Spesso nei linguaggi
-object-oriented più vecchi iterare attraverso una lista di oggetti si rivelava un'operazione che necessitava di molte risorse e richiedevano una gestione manuale dell'indicizzazione di essi.
+object-oriented più vecchi iterare attraverso una lista di oggetti si rivelava un'operazione che necessitava di molte risorse e richiedeva una gestione manuale dell'indicizzazione di essi.
 Ovviamente con l'introduzione di nuove tecnologie moderne il problema si è risolto attraverso costrutti come gli iteratori ma verso la fine degli anni Novanta quando Ruby era in sviluppo
 questi non erano ancora stati introdotti. Tuttavia esisteva già il paradigma funzionale che non prevedeva la creazione di oggetti e operava solo attraverso funzioni e dati semplici.
 I linguaggi funzionali sono conosciuti principalmente per la sintassi molto diversa da quella dei linguaggi object-oriented e per la loro particolare affinità alla gestione
@@ -341,7 +341,7 @@ Per quanto riguarda la gestione delle richieste effettuate dall'interfaccia all'
 dell'API, è una sorta di indirizzo in modo che la richiesta effettuata dall'interfaccia venga inviata al componente corretto.
 Una route viene definita accostando il verb del tipo di richiesta che si intende implementare (GET, POST, PUT, DELETE o PATCH), il nome arbitrario dato alla richiesta e una clausola to:
 nome\_classe\#nome\_endpoint che rappresenta l'endpoint nel file a cui la richiesta è diretta. Il modulo prevede che la sezione principale di ricerca sia disponibile in uno spazio in
-cui un utente autenticato possa liberamente utilizzare e la stessa pagina disponibile in area pubblica dove utenti non autenticati possano provare ad utilizzare la funzionalità.
+cui un utente autenticato possa liberamente utilizzare la funzionalità e la stessa pagina disponibile in area pubblica dove utenti non autenticati possano provare ad utilizzare la funzionalità.
 Il framework Rails permette di utilizzare la stessa route e collegarla a due punti diversi del sito web, una si troverà sotto una keyword ``unauth" e l'altra sarà nella sezione ordinaria.
 La classe built-in per eseguire le richieste HTTP a server API esteri è \textit{Net::HTTP} che non richiede alcun servizio aggiuntivo e può essere usata facilmente in un'applicazione sviluppata con Rails.
 Una richiesta verso un'API esterna, autenticata ad esempio tramite API Key o Bearer Token, viene tipicamente costruita come un oggetto che riceve come parametri:
@@ -362,10 +362,10 @@ HTTP passerà per l'interfaccia astratta di Faraday.
 
 \subsection{Il versionamento del codice}
 
-Nel processo dello sviluppo del codice è molto importante gestire il versionamento di esso con Git, soprattutto quando ci sono più sviluppatori coinvolti. Al fine di gestire al meglio questo aspetto
+Nel processo di sviluppo del codice è molto importante gestire il versionamento di esso con Git, soprattutto quando ci sono più sviluppatori coinvolti. Al fine di gestire al meglio questo aspetto
 l'azienda adotta \textit{Gitflow} \cite{gitflow}, un modello di branching pubblicato e reso popolare da Vincent Driessen che definisce una gestione ben definita dei branch in Git. Il modello definito
-di basa su più branch di più lunga durata e commit di maggiori dimensioni. I branch principali sono \texttt{develop} in cui gli sviluppatori implementano nuovo codice e \texttt{main} dove viene
-rilasciato il codice definitivo utilizzato nell'applicazione disponibile agi utenti finali. Da questi rami principali si possono creare nuovi branch temporanei che possono essere di tipo:
+si basa su più branch di più lunga durata e commit di maggiori dimensioni. I branch principali sono \texttt{develop} in cui gli sviluppatori implementano nuovo codice e \texttt{main} dove viene
+rilasciato il codice definitivo utilizzato nell'applicazione disponibile agli utenti finali. Da questi rami principali si possono creare nuovi branch temporanei che possono essere di tipo:
 \begin{itemize}
 \item \textbf{feature/}: derivati da \textit{develop}, sono dedicati allo sviluppo di nuove funzionalità. Una volta completati, vengono reintegrati in \textit{develop};
 \item \textbf{release/}: creati da \textit{develop} quando si prepara una nuova versione. Qui si eseguono gli ultimi ritocchi e test prima di rilasciare. Al termine, il ramo viene integrato sia in
@@ -407,7 +407,7 @@ modifiche introdotte da una nuova release:
 
 \subsection{Amazon Web Services}
 
-Come anticipato precedentemente, il blocco di servizi offerti da Amazon Web Services sono una componente fondamentale dei software sviluppati in azienda.
+Come anticipato precedentemente, il blocco di servizi offerti da Amazon Web Services è una componente fondamentale dei software sviluppati in azienda.
 AWS è una piattaforma di cloud computing che dispone di un catalogo di oltre 200 servizi IT on-demand accessibili via Internet con un modello di pagamento a consumo. Per costruire l'architettura
 dell'applicazione discussa è stato utilizzato il servizio \textit{Elastic Compute Cloud} (EC2) che permette di definire più istanze virtuali della stessa applicazione per avere i tre ambienti del software:
 development (ambiente di sviluppo), staging (ambiente di pre-rilascio per i test del cliente) e production (ambiente live per gli utenti finali). L'accesso alle diverse istanze è gestito tramite
@@ -415,13 +415,13 @@ development (ambiente di sviluppo), staging (ambiente di pre-rilascio per i test
 e Continuous Delivery. Il processo usa script Python e sfrutta \textit{Docker} \cite{docker} per la containerizzazione dell'applicazione garantendo coerenza e portabilità tra i vari ambienti.
 I container in esecuzione vengono monitorati attraverso CloudWatch, che raccoglie e rende consultabili i log, strumento essenziale per le sessioni di debugging.
 Anche i database sono separati per ambiente e gestiti attraverso il servizio \textit{Amazon RDS} (Relational Database Service) in modo che ogni ambiente abbia il suo storage. In particolare è stato
-utilizzato \textit{Amazon Aurora} compatibile con \textit{MYSQL} \cite{mysql}. Allo stesso modo di EC2, l'accesso ai database per operazioni di amministrazione avviene tramite SSH.
+utilizzato \textit{Amazon Aurora} compatibile con \textit{MYSQL} \cite{mysql}. L'autenticazione dell'utente per accedere ai database istanziati su RDS richiede il possesso della chiave SSH per effettuare il Tunnelling SSH.
 \textit{Amazon S3} (Simple Storage Service) è un servizio di storage in cloud che offre la possibilità di salvare media di qualsiasi tipo utilizzati nel software. Risulta particolarmente utile
 perché permette di separare la componente miscellanea dal software riducendone la dimensione. I file e media sono organizzati in bucket a livello di directory a cui ci si può collegare via API
 per caricare, cancellare, aggiornare i media necessari. Infine viene utilizzato il servizio \textit{DynamoDB} che offre un database NoSQL serverless, utile per immagazzinare dati non strutturati.
 Nel caso di questo software DynamoDB viene utilizzato per memorizzare le notifiche utilizzate per gestirne il sistema che segnala lo stato di avanzamento e conclusione dei processi asincroni
 largamente utilizzati nello sviluppo di questo modulo.
-Nel software è implementato anche un modulo che si interfaccia con \textit{Amazon Cognito}, un servizio che trova la sua utilità nell flusso di creazione e autenticazione dell'utente combinandosi con
+Nel software è implementato anche un modulo che si interfaccia con \textit{Amazon Cognito}, un servizio che trova la sua utilità nel flusso di creazione e autenticazione dell'utente combinandosi con
 i componenti di \textit{Amplify} \cite{aws_amplify_docs} implementati nel frontend.
 Le email vengono inviate tramite il servizio \textit{Simple Email Service} (SES) di AWS. L'integrazione è realizzata direttamente dal backend dell'applicazione tramite template .erb.
 Tutte le richieste inviate dal frontend al backend sono firmate attraverso \textit{aws4}, una libreria Javascript integrata con AWS.
@@ -432,17 +432,17 @@ I processi asincroni che d'ora in avanti saranno chiamati ``job" sono implementa
 Redis è un data store open source che può essere utilizzato come database, cache o broker di messaggi. Funziona salvando i dati nella RAM in forma di chiave-valore minimizzando le latenze nell'ordine dei
 microsecondi dato che l'accesso ai dati salvati su disco è più lento rispetto all'accesso dei dati presenti in RAM. In questo caso Redis viene utilizzato per salvare le informazioni necessarie ai
 job per svolgere le loro computazioni, di conseguenza ottimizza la velocità di esecuzione del job dato che l'accesso ai dati è molto veloce.
-Vengono creati attraverso la gemma di Ruby On Rails di \textit{Sidekiq} \cite{sidekiq} che mette a disposizione un efficiente sistema di gestione di processi asincroni attraverso
-metodi di una superclasse fatta ereditare dalle classi che implementano questo tipo di asincronismo. Il job viene astratto come un oggetto, dopotutto in
+Vengono creati attraverso la gemma \textit{Sidekiq} \cite{sidekiq} di Ruby On Rails che mette a disposizione un efficiente sistema di gestione di processi asincroni attraverso
+metodi di una superclasse fatta ereditare dalle classi che implementano questo tipo di asincronismo. Il job viene astratto come un oggetto, in
 Ruby qualsiasi entità è un oggetto, con i suoi attributi fra cui i più rilevanti sono lo status, la data di creazione, di inizio e di fine processo e l'identificativo dell'oggetto associato a tale job.
-Il ciclo di vita è molto semplice: alla creazione ha status ``running" e alla risoluzione diventa ``complete" mentre se occorrono eccezioni durante la sua esecuzione
+Il ciclo di vita è molto semplice: alla creazione ha status ``running" e alla risoluzione diventa ``complete" mentre se si verificano eccezioni durante la sua esecuzione
 si imposta automaticamente uno status ``error" e viene salvato il messaggio d'errore in un attributo apposito. La classe che implementa questo meccanismo deve possedere obbligatoriamente un metodo
 ``resolve\_job" che si potrà chiamare da qualsiasi punto del codice su un'istanza dell'oggetto. Spesso il frontend ha bisogno di ricevere un segnale che un certo processo ha concluso il suo task e
 l'esito finale di esso. A questo scopo si usa un sistema di notifiche in tempo reale che comunichi lo stato finale del job ed eventualmente apportando dei dati al frontend in modo che quest'ultimo
-sappia se poter proseguire con un redirect ad un'altra pagina mostrare un messaggio d'errore. Queste notifiche vengono salvate sul database di DynamoDB, servizio di AWS citato
-prima e vengono cancellate dopo un dato periodo di tempo che sono state create. Questo sistema di asincronismo contribuisce al parallelismo di task uguali tra loro rendendo
+sappia se poter proseguire con un redirect ad un'altra pagina o mostrare un messaggio d'errore. Queste notifiche vengono salvate sul database di DynamoDB, servizio di AWS citato
+prima e vengono cancellate dopo un dato periodo di tempo da che sono state create. Questo sistema di asincronismo contribuisce al parallelismo di task uguali tra loro rendendo
 l'applicazione più responsiva e migliorando le prestazioni. Con Sidekiq vengono gestiti due tipi di job: i job ordinari e i cron job. I primi vengono definiti ognuno nel suo file nella directory
-/sidekiq e per essere eseguiti devono essere chiamati nel codice con un comando. La funzionalità richiesta in questo modulo però aveva la necessità di eseguire job senza doverli chiamare nel
+/sidekiq e per essere eseguiti devono essere chiamati nel codice con un comando. La funzionalità richiesta per questo modulo aveva la necessità di eseguire job senza doverli chiamare nel
 codice che quindi venissero messi in coda ed eseguiti periodicamente e autonomamente. Questo requisito viene soddisfatto con il supporto della gemma \textit{sidekiq-cron} \cite{sidekiq_cron_gem} che
 permette di creare un file con estensione .yml che agisce da scheduler. Creato il file del job la sua esecuzione si può automatizzare scrivendo nello scheduler delle stringhe come '0 5 * * *'
 (questa forma significa ``sia eseguito il job ogni giorno alle ore 5") accostando il nome della classe del job in modo che lo scheduler capisca quale file eseguire.
@@ -470,7 +470,7 @@ Il server esterno riceve richieste dall'applicazione attraverso un canale che co
 Il servizio opera principalmente secondo il pattern publish/subscribe: l'applicazione pubblica su una coda i dati interessati che devono essere elaborati,
 successivamente questo dato pubblicato viene consumato dal server esterno che a fine elaborazione pubblica i risultati dell'analisi su una coda diversa
 a cui l'applicazione si sottoscrive periodicamente per ricevere la risposta con i dati rielaborati.
-Questo tipo di comunicazione non passa per l'interfaccia di Faraday citata nelle sezioni precedenti poichè non sono richieste HTTP.
+Questo tipo di comunicazione non passa per l'interfaccia di Faraday citata nelle sezioni precedenti poiché non sono richieste HTTP.
 
 \subsection{Gemme di Ruby}
 
@@ -492,7 +492,7 @@ istruzioni composte da ``can" oppure ``cannot", nome dell'endpoint a cui si vuol
 parametri come l'identificativo dell'utente se si vuole fare in modo che nessun altro utente a parte l'amministratore possa accedere ad una certa risorsa.
 
 Avendo questo insieme di strumenti e modelli a disposizione si può implementare il flusso di login che comincia dal frontend. Inizialmente l'utente si deve registrare sulla piattaforma inserendo dei dati
-richiesti in un form apposito. Il frontend crea il profilo e l'identity pool dell'utente su Cognito attraverso una lambda e nello stesso momento ed invia al backend alcune delle informazioni che
+richiesti in un form apposito. Il frontend crea il profilo e l'identity pool dell'utente su Cognito attraverso una lambda e nello stesso momento invia al backend alcune delle informazioni che
 quest'ultimo salverà a database. Verificata l'email tramite OTP, l'utente ora può effettuare il login. Dal punto di vista tecnico il flusso di login è implementato principalmente dal frontend dell'
 applicazione. È stato implementato un componente di Amplify ossia Authenticator, strumento che consente all'utente di autenticarsi anche con Google e Apple. Il login ordinario inizia con l'inserimento di
 email e password da parte dell'utente che poi clicca un pulsante per entrare nella sua area personale dell'applicazione. Dopo aver cliccato il pulsante il frontend invia questi due dati a Cognito via
@@ -502,7 +502,7 @@ Fra questi header possono essere presenti quello di impersonamento di un altro u
 di un altro utente, oppure quello degli utenti ospiti non registrati per cui viene ricevuto il Guest-Id invece del token JWT. Il meccanismo del Guest-Id è necessario nel momento in cui un utente del
 genere ha composto un carrello da non autenticato e se poi decide di acquistarlo sarà necessario tenere traccia di quale utente lo abbia composto per assegnarlo correttamente anche nell'area personale
 a cui accederebbe dopo il login. Il back end utilizza il token JWT e l'id dell'utente per effettuare una richiesta via API a Cognito e autenticare definitivamente l'utente inviando una notifica al
-frontend che ora può effettuare un redirect all pagina principale dell'area personale dell'utente. Il backend infine crea nella sessione l'oggetto current\_user.
+frontend che ora può effettuare un redirect alla pagina principale dell'area personale dell'utente. Il backend infine crea nella sessione l'oggetto current\_user.
 Andato a buon fine questo processo viene composto un oggetto ``permissions" che rappresenta il grado di accesso per ogni ruolo che può essere
 già presente nel record dell'utente nel database. La relazione principale della classe utente è quella con la classe cliente: un utente può avere più sotto-clienti
 da utilizzare con permessi diversi ma legati allo stesso utente. L'oggetto ``permissions" menzionato prima accorda proprio questa funzionalità poiché vengono
@@ -514,7 +514,7 @@ avrà questo attributo con valore false.
 A supporto dello sviluppo in ambiente di test vengono utilizzate le gemme del framework di testing per Ruby, \textit{RSpec} \cite{rspec_home} che verrà spiegato
 approfonditamente nel capitolo riguardante il testing del modulo. Nella test suite del progetto vengono utilizzate anche le gemme \textit{faker} \cite{faker_gem}
 che permette di creare facilmente dati e oggetti fittizi realistici che rendono i test molto più precisi e \textit{webmock} che permette di creare dei moduli utili
-alla scrittura di stub.L a gemma \textit{factory\_bot\_rails} \cite{factory_bot_rails_gem} si rivela fondamentale nella scrittura dei test.
+alla scrittura di stub. La gemma \textit{factory\_bot\_rails} \cite{factory_bot_rails_gem} si rivela fondamentale nella scrittura dei test.
 Essa permette la creazione rapida di oggetti finti in un database di test gestito con SQLite che viene cancellato e ricreato ogni volta che si avviano i test automatici.
 Oggetti e strutture hanno dati fissi che si possono comunque alterare in blocchi \texttt{before} i cui comandi vengono eseguiti prima di eseguire il test effettivo ma per evitare di
 fare questa cosa per ogni singolo test case con factory\_bot si possono definire dei trait in cui si possono definire le alterazioni più comuni.
@@ -524,17 +524,17 @@ Lo stesso vale anche per le richieste API che hanno dei valori di default che si
 Dalla definizione degli integration test la gemma \textit{Rswag} \cite{rswag_gem} trae le informazioni necessarie alla generazione di un file con estensione .yml che codifica uno swagger che funge
 da documentazione API automatica utile al front end per capire come strutturare alcune richieste al back end.
 
-Siccome non esiste software completamente a prova di errori, viene impiegato uno strumento in tutti i progetti azienda per catturare le eccezioni è \textit{Sentry} \cite{sentry}, letteralmente ``sentinella".
+Siccome non esiste software completamente a prova di errori, in tutti i progetti azienda viene impiegato uno strumento per catturare le eccezioni: \textit{Sentry} \cite{sentry}, letteralmente ``sentinella".
 L'applicazione integra questo servizio attraverso le gemme \textit{sentry-rails} \cite{sentry_rails_gem} e \textit{sentry-sidekiq} \cite{sentry_sidekiq_gem}, la prima
 sorveglia l'applicazione principale mentre l'altra monitora le eccezioni derivanti dai job asincroni creati tramite Sidekiq.
-Sentry ha il suo file di configurazione all'interno dell'applicazione quindi automaticamente rileva le eccezioni ma in alcuni punti del codice potrebbe essere necessario
+Sentry ha il suo file di configurazione all'interno dell'applicazione, quindi automaticamente rileva le eccezioni ma in alcuni punti del codice potrebbe essere necessario
 formattare un errore più preciso in modo che venga rilevato con un messaggio d'errore deciso dallo sviluppatore.
 Sul sito web del servizio ci sono alcune funzionalità di monitoring ma quella che viene utilizzata prevalentemente è la lista degli errori rilevati e il report
 settimanale con il resoconto delle transazioni e degli errori rilevati nel software. Sentry presenta in dettaglio gli errori catturati con un messaggio d'errore, una descrizione,
 il numero di occorrenze nel periodo di tempo per cui è impostato il filtro, il linguaggio di programmazione del codice e il sistema operativo rilevati, l'ambiente in cui si è
-verificato l'errore e se arriva da Sidekiq oppure dall'applicazione. Si può visualizzare una sezione che mostra il codice critico, tutto la stack trace quindi il percorso fatto per arrivare all'errore
+verificato l'errore e se arriva da Sidekiq oppure dall'applicazione. Si può visualizzare una sezione che mostra il codice critico, tutta la stack trace quindi il percorso fatto per arrivare all'errore
 dall'inizio al codice critico, le query eseguite e una sezione con elenchi di dati che riassume le informazioni generali dell'errore come l'url della richiesta
-e i parametri inviati. Avere una schematizzazazione delle eccezioni spesso risulta in un buon supporto all'attività di debugging.
+e i parametri inviati. Avere una schematizzazione delle eccezioni spesso risulta in un buon supporto all'attività di debugging.
 Un altro punto di forza di questo servizio è che si può integrare con Slack in modo da avere un canale per progetto che notifica il fatto che sia stato rilevato un errore con un messaggio che
 contiene il collegamento alla pagina che raccoglie le informazioni su di esso.
 
@@ -561,7 +561,7 @@ visiva dei record nel database non è il massimo se si prova a stamparne uno con
 Stampando un record tramite il metodo ap l'output sarà colorato ed indentato per livelli di profondità in modo che sia facilmente leggibile e distinguibile dal resto
 dell'output sul terminale che di default è bianco su nero. ap non è ristretto agli oggetti della classe ActiveRecord ma si può applicare anche a qualsiasi variabile o costante.
 Stampando una stringa questa verrà colorata di giallo nell'output, i numeri interi saranno blu mentre quelli decimali appariranno rosa sul terminale, poi i colori sono personalizzabili.
-Sembra un cosa da poco ma nelle attività di debugging aiuta a visualizzare ed identificare con un'occhiata strutture che se fossero colorate di bianco e formattate o indentate male
+Sembra una cosa da poco ma nelle attività di debugging aiuta a visualizzare ed identificare con un'occhiata strutture che se fossero colorate di bianco e formattate o indentate male
 risulterebbero molto complesse da analizzare.
 
 \begin{figure}[h]
@@ -614,9 +614,9 @@ Il primo comando eseguito dall'endpoint che riceve la richiesta è la creazione 
 Dopodiché viene creato un job asincrono associato a questo processo di Discovery e funge da riferimento al processo di ricerca sul server esterno di RabbitMQ.
 Dopo aver svolto queste due azioni l'endpoint risponde al front end con l'identificativo del job e quello dell'oggetto Monitoring appena creato.
 Sull'interfaccia si vede un loader che lascia intendere che il processo di ricerca è in corso.
-Nel mentre l'applicazione ha già pubblicato il nome del dominio cercato sulla coda \texttt{selected\_brand} del server di RabbitMQ. Rilevata la presenza di dati da elaborare,
-il server attiva i consumers esterno che prelevano l'informazione di cui è stato verificato l'acknowledgement ed effettua le sue ricerche.
-Conclusa la ricerca i consumers ripubblicano il dato a cui sono state aggiunte informazioni sulla coda \texttt{discovered\_typos}. Nell'applicazione sono stati implementati una serie di cron job,
+Nel frattempo l'applicazione ha già pubblicato il nome del dominio cercato sulla coda \texttt{selected\_brand} del server di RabbitMQ. Rilevata la presenza di dati da elaborare,
+il server attiva i consumers esterni che prelevano l'informazione di cui è stato verificato l'acknowledgement ed effettua le sue ricerche.
+Conclusa la ricerca i consumers ripubblicano il dato a cui sono state aggiunte informazioni sulla coda \texttt{discovered\_typos}. Nell'applicazione è stata implementata una serie di cron job,
 fra cui uno che ogni 10 secondi si sottoscrive alla coda dove il server esterno pubblica i suoi risultati e se ne trova li preleva e invoca il metodo di sottoscrizione che semplicemente raccoglie
 l'informazione elaborata dal server e avvia la procedura di risoluzione del job. Le classi che implementano job asincroni devono tassativamente possedere un metodo resolve\_job che indichi a Sidekiq che
 un job è concluso e dargli la possibilità di rimuoverlo dalla memoria. In questo caso la classe \textit{Monitoring} implementa il metodo resolve\_job che legge i dati contenuti nella risposta,
@@ -625,7 +625,7 @@ La relazione fra Monitoring e i suoi risultati è 1 a n, un'istanza di \textit{M
 Il server di RabbitMQ restituisce in risposta una lista di oggetti contenenti il nome del dominio potenzialmente sospetto, la strategia utilizzata per trovarlo (Replace, Vowel Swap...), lo status
 del dominio e uno score utilizzato per stabilire se il dominio trovato appartenga alla categoria ``Taken" oppure  ``Flagged". Taken significa che il dominio è già stato allocato ad un'altra persona mentre
 Flagged indica che in passato qualche servizio di sicurezza informatica ha rilevato dell'attività sospetta collegata a quel dominio. Questi risultati vengono utilizzati per effettuare una rapida
-valutazione del dominio interessato come viene mostrato nella figura \ref{fig:first_results}. In questa pagina che appare appena finisce il processo di discovery vengono mostrati il numero di domini liberi, il numero di domini
+valutazione del dominio interessato come viene mostrato nella figura \ref{fig:first_results}. In questa pagina che appare appena finisce il processo di discovery, vengono mostrati il numero di domini liberi, il numero di domini
 che appartengono all'insieme dei Taken e il numero di quelli Flagged, tutti in funzione del fatto che abbiano un nome simile a quello cercato. Si mostrano anche i nomi in chiaro dei primi cinque Taken
 e Flagged rilevati.
 
@@ -633,7 +633,7 @@ e Flagged rilevati.
 
 Cliccando il pulsante in fondo alla pagina \ref{fig:first_results} si giunge alla pagina in cui il cliente può visualizzare i prezzi dei piani di abbonamento mensile o annuale con i servizi offerti da
 essi. Il piano interessato può essere aggiunto al carrello attraverso un pulsante presente nei riquadri associati ad ogni piano per poi essere condotti alla pagina del carrello.
-Quest'ultimo ha un periodo di obsolescenza di quindici minuti, quindi se si vuole aggiungere altro si può uscire dal carrello e aggiungere altro per poi tornarvi attraverso l'icona presente
+Quest'ultimo ha un periodo di validità di quindici minuti, quindi se si vuole aggiungere altro si può uscire dal carrello e aggiungere altro per poi tornarvi attraverso l'icona presente
 sotto l'Header nell'interfaccia. Il carrello è un'istanza del modello \textit{Order} che ha diversi attributi fra cui un codice univoco, l'identificativo del cliente a cui è associato, il timestamp di
 scadenza e altri e il più rilevante in questo flusso è lo stato. Al momento della creazione è in stato \texttt{pending} poiché nel caso in cui ci siano domini, marchi registrati o brokeraggi che l'utente
 intende acquistare essi necessitano di dati ausiliari da parte del cliente per farlo passare in stato \texttt{configured} a indicare che tutti i prodotti sono configurati e pronti per l'acquisto.
@@ -645,7 +645,7 @@ intende acquistare essi necessitano di dati ausiliari da parte del cliente per f
 \end{figure}
 
 La pagina \ref{fig:cart} è quella del carrello configurato, che presenta la lista dei prodotti configurati pronti per essere acquistati e un riquadro sulla destra che riassume i prezzi e il totale prima
-dell'applicazione dell'IVA. I prodotti sono gestiti attraverso il modello dati generico \textit{OrderItem} e una polymorphic reference al modello dati del prodotto in sè. Questo vuol dire che per
+dell'applicazione dell'IVA. I prodotti sono gestiti attraverso il modello dati generico \textit{OrderItem} e una polymorphic reference al modello dati del prodotto in sé. Questo vuol dire che per
 acquistare un Domain Monitoring ci sarà un'istanza della classe \textit{Monitoring} che contiene tutte le informazioni del servizio legata via una relazione 1 a 1 ad un'istanza della classe \textit{OrderItem}
 che è l'oggetto utilizzato nel flusso della fatturazione. Quindi al momento ci sono in gioco tutte le classi necessarie: \textit{Order}, \textit{OrderItem} e \textit{Monitoring}.
 
@@ -657,14 +657,14 @@ che è l'oggetto utilizzato nel flusso della fatturazione. Quindi al momento ci 
 \end{figure}
 Cliccando il pulsante situato nel riquadro del sommario, scatta una funzione del backend che calcola l'IVA da applicare al totale e il carrello passa in stato \texttt{to\_pay}. L'utente viene poi
 reindirizzato alla schermata \ref{fig:complete_order}. Questo è l'ultimo passaggio da risolvere prima di completare l'acquisto. La pagina presenta il sommario nel riquadro sulla destra come in quella
-precedente con l'IVA calcolata, una sezione che presenta la lista dei profili di fatturazione registrati con un un pulsante per aprire una modale ed eventualmente aggiungerne uno nuovo e una sezione
+precedente con l'IVA calcolata, una sezione che presenta la lista dei profili di fatturazione registrati con un pulsante per aprire una modale ed eventualmente aggiungerne uno nuovo e una sezione
 sottostante per inserire il metodo di pagamento.
 
 Tutto il flusso di pagamento viene gestito tramite l'API di Stripe che opera sempre per via di oggetti, infatti ogni entità in Stripe è un oggetto a cui è stato assegnato un identificativo univoco.
 I dati inseriti per creare il profilo di fatturazione servono a costruire l'oggetto \textit{Customer} nell'ambiente di Stripe che richiede una serie di informazioni per gestire correttamente il
 passaggio del denaro dal cliente ad un altro estremo. Tutti i metodi di pagamento inseriti vengono relazionati all'entità \textit{Customer} su Stripe appena descritta. Se non sono presenti metodi di
-pagamento il primo inserito sarà anche impostato come default e questa informazione è molto delicata per quanto riguarda come Stripe gestisca i pagamenti ricorrenti. Dopo aver accetto Termini e
-Condizioni in fondo alla pagina l'acquisto può essere effettuato completato cliccando il pulsante in fondo a destra.
+pagamento il primo inserito sarà anche impostato come default e questa informazione è molto delicata per quanto riguarda come Stripe gestisca i pagamenti ricorrenti. Dopo aver accettato Termini e
+Condizioni in fondo alla pagina l'acquisto può essere completato cliccando il pulsante in fondo a destra.
 Quest'ultimo effettua una chiamata importante al back end che in questo momento ha a disposizione il profilo di fatturazione e il metodo di pagamento validato dal frontend al momento dell'inserimento.
 Questa richiesta fa partire tutto il flusso di gestione dei dati del pagamento che si interfaccia tra Stripe e il database del software.
 
@@ -675,18 +675,18 @@ passano per un altro flusso. Un esempio concreto sono i domini con TLD .at. Si p
 prodotti di entrambi i tipi viene definito ``ordine misto" ma gli oggetti a pagamento ricorrente vengono elaborati come nel caso in cui l'ordine contenesse solo questo tipo di prodotti.
 I prodotti una tantum hanno un loro metodo di gestione aggiuntivo che viene eseguito in parallelo a quelli ricorrenti nel caso l'ordine sia misto.
 
-La tesi si concentra sulla gestione dei prodotti a pagamento ricorrente quindi procedendo sarà assunto che il carrello contenga solo abbonamenti.
+La tesi si concentra sulla gestione dei prodotti a pagamento ricorrente, quindi procedendo sarà assunto che il carrello contenga solo abbonamenti.
 Viene dunque creato un job asincrono che andrà di pari passo con il processo di pagamento che procede dal lato di Stripe. In base a come questo job si concluderà il back end riferirà al front end l'esito
 per comunicare all'utente il successo del pagamento oppure ridirezionarlo al carrello ed inviare una notifica contenente il motivo del fallimento di esso. Le notifiche possono essere visualizzate
 cliccando l'icona della campanella accanto a quella del carrello. Quest'azione apre una modale in cui si possono leggere i messaggi generati dal backend inviati al frontend.
-Creato il job che monitora e registra l'esito del pagamento viene lanciato un altro job asincrono che crea gli abbonamenti via API di Stripe generando gli oggetti \textit{Subscription} nel profilo del
+Creato il job che monitora e registra l'esito del pagamento, viene lanciato un altro job asincrono che crea gli abbonamenti via API di Stripe generando gli oggetti \textit{Subscription} nel profilo del
 cliente su Stripe. Con la creazione di questi oggetti via API vengono registrate su Stripe tutte le informazioni necessarie fra cui il metodo di pagamento su cui addebitare i rinnovi e la frequenza
 di rinnovo. Al momento della creazione di ogni abbonamento viene personalizzata la fattura associata, tentato il primo pagamento e generata la fattura dal lato dell'applicazione in caso di successo.
 Viene sfruttato il sistema di callback di Stripe ossia delle notifiche con contenuto JSON che l'applicazione può leggere e utilizzarne i dati attraverso un controller dedicato ai webhooks.
 Se il pagamento di una fattura fallisce Stripe genera una notifica di tipo \texttt{invoice.payment\_failed} che attraverso un costrutto case e un controllo sul tipo di transazione viene incanalata
 nel blocco corretto che ne utilizza i dati e attiva procedure di gestione dell'errore. Invece quando il pagamento ha successo Stripe genera una notifica di tipo \texttt{invoice.paid} in cui viene
-chiamato il resolver del job  scritto nella classe \textit{Order} associato al processo di pagamento una volta che tutti i pagamenti sono andati a buon fine.
-È suddiviso in una porzione eseguita per ogni abbonamento che salva sull'istanza di esso la data di rinnovo comunicata da Stripe via callback e un'altra che viene eseguita quando l'ordine è stato
+chiamato il resolver del job scritto nella classe \textit{Order} associato al processo di pagamento una volta che tutti i pagamenti sono andati a buon fine.
+Il resolver è suddiviso in una porzione eseguita per ogni abbonamento che salva sull'istanza di esso la data di rinnovo comunicata da Stripe via callback e un'altra che viene eseguita quando l'ordine è stato
 completamente processato che salva ulteriori informazioni fra cui l'identificativo del metodo di pagamento e imposta l'ordine come pagato. A questo punto imposta lo stato dell'istanza del job da
 \texttt{running} a \texttt{completed} segnando la fine del processo di pagamento e della fase del carrello. Nel caso in cui il pagamento di un abbonamento fallisca Stripe invia una notifica di tipo
 \texttt{invoice.payment\_failed} che viene ricevuta dal controller dei webhooks e imposta lo stato del job a \texttt{error} per poi notificare il cliente la causa del mancato pagamento e riportarlo
@@ -707,7 +707,7 @@ alla schermata \ref{fig:cart} in cui troverà i prodotti per cui il pagamento no
 \label{fig:advanced_scan}
 \end{figure}
 
-Una volta che il prodotto è stato correttamente acquistato si passa alla fase di reperimento dei dati da mostrare al cliente sul dominio da monitorare. Procedendo sarà considerata l'elaborazione di
+Una volta che il prodotto è stato correttamente acquistato, si passa alla fase di reperimento dei dati da mostrare al cliente sul dominio da monitorare. Procedendo sarà considerata l'elaborazione di
 una generica istanza di \textit{Monitoring} dato che in caso ci siano più istanze da elaborare viene iterato lo stesso processo per ognuna di esse. Al momento sono in gioco l'istanza del monitoring
 e quella del risultato della Discovery eseguita al momento della ricerca del dominio interessato.
 I dati vengono ricavati attraverso un'analisi diversa dalla Discovery eseguita sempre dal server di RabbitMQ sulla base di parametri inseriti nella richiesta che dipendono dal piano di abbonamento.
@@ -718,13 +718,13 @@ ricerca. Il modello dati della classe \textit{MonitoringResult} include un attri
 job asincrono che viene eseguito ogni 2 minuti e rileva tutti quelli che hanno tale flag ancora impostato a false. Trovato il record per cui bisogna effettuare la scansione avanzata viene letto il
 file JSON dei risultati depositato precedentemente su S3 per estrapolare i nomi dei domini da inviare al server di RabbitMQ per farli analizzare.
 Si invia dunque la richiesta al server esterno il cui payload contiene i nomi dei domini estrapolati nel passaggio precedente e un insieme di parametri in funzione del piano di abbonamento, quindi
-per un abbonamento di fascia Premium verranno inseriti più parametri e la risposta sarà comprensiva di un quantità maggiore di dati oppure questi saranno più specifici rispetto ad un abbonamento di 
+per un abbonamento di fascia Premium verranno inseriti più parametri e la risposta sarà comprensiva di una quantità maggiore di dati oppure questi saranno più specifici rispetto ad un abbonamento di 
 fascia Business oppure Starter. I parametri di ricerca vengono pubblicati come pacchetti su una coda diversa da quelle utilizzate per la Discovery che si chiama \texttt{selected\_domains}.
-Dato che una Discovery può trovare una gran numero di di domini (nell'ordine dell centinaia di migliaia nel caso peggiore), un pacchetto di dati sulla coda corrisponde a 32 domini e ognuno di essi ha
+Dato che una Discovery può trovare un gran numero di domini (nell'ordine delle centinaia di migliaia nel caso peggiore), un pacchetto di dati sulla coda corrisponde a 32 domini e ognuno di essi ha
 un job associato dal lato dell'applicazione per tenere traccia della loro elaborazione.
 Quando il server ha elaborato un pacchetto di domini pubblica il risultato dell'analisi sulla coda \texttt{checked\_domains} a cui l'applicazione si sottoscrive ogni 2 minuti mediante un altro job
 asincrono. Il pacchetto ripubblicato consiste nei domini inviati a cui sono state aggiunte diverse informazioni in base ai parametri inviati nella richiesta. Alcune di queste informazioni più rilevanti
-riguardante un dominio nella risposta sono l'indirizzo IP, i Name Servers (NS) e i Mail eXchanger (MX) associati, il titolo della homepage in HTML, una serie di informazioni sul livello di sicurezza
+riguardanti un dominio nella risposta sono l'indirizzo IP, i Name Servers (NS) e i Mail eXchanger (MX) associati, il titolo della homepage in HTML, una serie di informazioni sul livello di sicurezza
 come la presenza di certificati e altri. Associato ad ogni pacchetto si trova un sommario del processo di cui fa parte quel pacchetto in cui ci sono scritte informazioni come il numero totale di domini
 con status Available. Ogni pacchetto è comprensivo dell'identificativo del job associato lato applicazione in modo che vi si possa applicare il resolver della classe \textit{MonitoringResult}.
 Questo resolver imposta nell'immediato lo status del job a \texttt{completed} e salva su AWS S3 una copia JSON della risposta così com'è.
@@ -735,12 +735,12 @@ Avere una copia ``grezza" di ciò che è arrivato in prima battuta dal
     \caption{Wireframe della pagina del monitoring in fase di calcolo}
     \label{fig:monitoring_page}
 \end{figure}
-server esterno è una cosa che è tornata molto utile più avanti per facilitare sessioni di debugging e capire se i problemi fossero lato applicazione oppure lato server esterno. Dopodiché viene caricato
+server esterno è una cosa che si è rivelata molto utile più avanti per facilitare sessioni di debugging e capire se i problemi fossero lato applicazione oppure lato server esterno. Dopodiché viene caricato
 il file in cui sono scritte le informazioni derivanti dalla Discovery effettuata subito dopo l'acquisto (da cui sono stati estratti i nomi dei domini da inviare per la scansione avanzata). Andando
 per exact match, quindi cercando nel file il record dove il nome del dominio nella risposta coincide con esso, viene ricostruito un oggetto contenente le informazioni della scansione avanzata
-sostituendolo a quello che si trovava prima nel file JSON. Per i domini con status Available viene anche effettuata una richiesta esterna verso un'altro servizio API che calcola il prezzo di acquisto
+sostituendolo a quello che si trovava prima nel file JSON. Per i domini con status Available viene anche effettuata una richiesta esterna verso un altro servizio API che calcola il prezzo di acquisto
 del dominio. Questo processo viene ripetuto per ogni pacchetto ricevuto e quando tutti quanti i job sono stati risolti tutte le informazioni da mostrare al cliente saranno disponibili.
-Mentre questo processo sussiste il cliente può comunque aprire la lista dei suoi abbonamenti e aprire la pagina dell'abbonamento appena comprato che appare come in figura \ref{fig:monitoring_page}
+Mentre questo processo sussiste, il cliente può comunque aprire la lista dei suoi abbonamenti e aprire la pagina dell'abbonamento appena comprato che appare come in figura \ref{fig:monitoring_page}
 presentando un riepilogo dell'abbonamento e un pulsante per scaricare il report datato alla data selezionata nel riquadro a fianco che al momento è disattivato non avendo ancora a disposizione
 tutti i dati da mostrare.
 \begin{figure}[h]
@@ -750,7 +750,7 @@ tutti i dati da mostrare.
     \label{fig:monitoring_complete_page}
 \end{figure}
 
-Finito il processo di elaborazione dei dati la barra si presenta carica al 100\% e questo dato rappresenta il fatto che tutti i job associati ai singoli pacchetti pubblicati sono stati tutti risolti
+Finito il processo di elaborazione dei dati, la barra si presenta carica al 100\% e questo dato rappresenta il fatto che tutti i job associati ai singoli pacchetti pubblicati sono stati tutti risolti
 e tutte le informazioni sui domini sono state processate. La pagina \ref{fig:monitoring_page} ora ha l'aspetto che si può vedere in figura \ref{fig:monitoring_complete_page} con tutte le informazioni
 necessarie visualizzabili dal cliente.
 Il pulsante per scaricare il report ora è attivo e si può ottenere il primo report disponibile, successivamente ad ogni rinnovo saranno disponibili nuovi report aggiornati sulla situazione del dominio.
@@ -774,12 +774,12 @@ non vengono fatti analizzare e non sono contati nei calcoli. Completano la pagin
 La questione dei rinnovi automatici è stata affidata all'API di Stripe che emette delle notifiche captate dall'applicazione attraverso il controller dedicato alla gestione dei Webhooks.
 Le notifiche che riguardano i rinnovi hanno un attributo \texttt{billing\_reason} con valore ``\texttt{subscription\_cycle}" che le distinguono da quelle del primo acquisto che hanno questo valore
 impostato a ``\texttt{subscription\_create}".
-Quando arriva il momento di un rinnovo di un abbonamento Stripe genera automaticamente la fattura relativa al pagamento da eseguire e invia una notifica di tipo ``\texttt{invoice.created}" e
+Quando arriva il momento di un rinnovo di un abbonamento, Stripe genera automaticamente la fattura relativa al pagamento da eseguire e invia una notifica di tipo ``\texttt{invoice.created}" e
 l'applicazione è messa al corrente dell'evento. Il blocco di codice eseguito nel momento della ricezione della notifica ha la funzione di trattare il rinnovo come se fosse un nuovo ordine di acquisto.
 Dalle informazioni presenti nella notifica si risale all'istanza di \textit{Monitoring}, al cliente e al profilo di fatturazione coinvolti. Con questi dati viene creato un nuovo carrello impostato come
 già pagato e viene associata l'istanza di \textit{OrderItem} che sarà ciò che dal lato dell'applicazione sarà contato come oggetto di acquisto. Dopodiché vengono scritti sulla fattura presente su
 Stripe dei metadata di riferimento che torneranno utili nei prossimi passaggi, in particolare l'identificativo dell'istanza di \textit{Order} appena creata. Dopo questi passaggi è stato aggiunto un
-blocco di codice che gestisce eventuali cambio di prezzo dell'abbonamento in caso l'utente abbia cambiato il piano di abbonamento precedentemente. Questo blocco controlla se il prezzo della fattura
+blocco di codice che gestisce eventuali cambi di prezzo dell'abbonamento in caso l'utente abbia cambiato il piano di abbonamento precedentemente. Questo blocco controlla se il prezzo della fattura
 generata da Stripe coincide con quello calcolato in base ai dati presenti nel database dell'applicazione e se non coincidono la fattura esistente viene cancellata creandone una nuova con il prezzo
 corretto.
 
@@ -790,10 +790,10 @@ fallimento ed impostare l'abbonamento in uno stato intermedio \texttt{unsubscrib
 consente l'accesso ai dati dei report precedenti. Questo stato serve a dare tempo al cliente di risolvere eventuali problemi con il pagamento.
 
 Sono state adottate delle politiche di gestione dell'abbonamento che comprendono 3 tentativi in 4 giorni di tempo per far sì che il rinnovo sia eseguito correttamente.
-Se il primo tentativo fallisce l'ordine viene impostato in stato di errore e viene inviata una email all'utente in cui si riferisce tale evento e la ragione per cui il pagamento non sia andato a buon
+Se il primo tentativo fallisce l'ordine viene impostato in stato di errore e viene inviata un'email all'utente in cui si riferisce tale evento e la ragione per cui il pagamento non sia andato a buon
 fine. Dopodiché Stripe automaticamente ritenterà il pagamento dopo un giorno e se anche questo sarà fallito attenderà altri 3 giorni per eseguire l'ultimo tentativo. Se anche il terzo tentativo
 non sarà andato a buon fine l'abbonamento viene impostato in stato \texttt{expired} e non si rinnoverà ulteriormente. L'utente sarà opportunamente avvisato attraverso una email e una notifica.
-Se invece dopo un tentativo fallito che non sia il terzo, il pagamento va a buon fine viene eseguita una funzione che permette al carrello di passare dallo stato di errore ad uno stato regolare
+Se invece dopo un tentativo fallito che non sia il terzo, il pagamento va a buon fine e viene eseguita una funzione che permette al carrello di passare dallo stato di errore ad uno stato regolare
 e allineare i dati per quanto riguarda l'istanza di \textit{Monitoring} coinvolta come nel caso in cui il pagamento vada subito a buon fine. 
 
 \begin{figure}[h]
@@ -806,7 +806,7 @@ e allineare i dati per quanto riguarda l'istanza di \textit{Monitoring} coinvolt
 \section{Aggiornamento e Annullamento}
 
 L'abbonamento si può cancellare dalla pagina \ref{fig:monitoring_complete_page} attraverso un apposito pulsante che si attiva quando la barra di caricamento arriva al 100\%.
-Il pulsante apre una modale che chiede all'utente la conferma e data quest'ultima l'abbonamento viene impostato in stato \texttt{expired} sia dal lato di Stripe che quello dell'applicazione
+Il pulsante apre una modale che chiede all'utente la conferma, e data quest'ultima l'abbonamento viene impostato in stato \texttt{expired} sia dal lato di Stripe che quello dell'applicazione
 e non sarà più rinnovato. Qualora l'utente volesse sottoscrivere un nuovo abbonamento per lo stesso dominio lo può fare ripetendo il flusso di acquisto dall'inizio.
 L'aggiornamento del piano di abbonamento si può eseguire cliccando il pulsante alla sinistra di quello per eseguire l'annullamento di esso. Cliccando quel pulsante si apre una modale in cui l'utente
 inserisce il nuovo piano a cui vorrebbe abbonarsi e poi attraverso Stripe avviene immediatamente il prelievo della somma dovuta come primo mese. L'ammontare può avere degli sconti in base a quanto
@@ -825,12 +825,12 @@ denaro avanzato e rimborsi, cosa che il committente non aveva richiesto.
 
 \section{Modalità di testing}
 
-Completata l'implementazione di un modulo l'attività di testing è fondamentale per verificare se esso si comporti come ci si aspetta. In azienda però il testing non avviene solo alla fine degli sviluppi
+Completata l'implementazione di un modulo, l'attività di testing è fondamentale per verificare se esso si comporti come ci si aspetta. In azienda però il testing non avviene solo alla fine degli sviluppi
 perché come i principi dello sviluppo Agile insegnano, un errore rilevato tardi può essere molto costoso da risolvere alla fine degli sviluppi. Durante l'implementazione della parte backend viene
-utilizzata una metodologia Test Driven \cite{ibm_tdd_2025} anche se in forma rielaborata. Il Test Driven Development puro consiste nel scrivere il test prima del codice che viene
+utilizzata una metodologia Test Driven \cite{ibm_tdd_2025} anche se in forma rielaborata. Il Test Driven Development puro consiste nello scrivere il test prima del codice che viene
 aggiunto e aggiustato poco alla volta eseguendo il test a ripetizione. Ogni volta che il test fallisce si implementa il codice strettamente necessario a soddisfare il test. Questo metodo di
 sviluppo è efficiente perché cattura subito gli errori e quindi una volta soddisfatta ogni clausola che il test richiede si potrebbe assumere che tutto sia funzionante.
-Inoltre riduce i tempi di debug, facilita i processi di Continuous Integration, predilige la semplicità del codice e attraverso librerie come \cite{rswag} si può velocemente generare una documentazione
+Inoltre riduce i tempi di debug, facilita i processi di Continuous Integration, predilige la semplicità del codice e attraverso librerie come Rswag \cite{rswag} si può velocemente generare una documentazione
 delle richieste al server API. Dall'altro lato però aumenta i tempi di sviluppo perché c'è più codice da scrivere includendo quello dei test, ci sono più passaggi aggiunti allo sviluppo della
 funzionalità e potrebbe creare un senso di falsa fiducia nel senso che un test potrebbe essere corretto ma non completo, per cui potrebbe comunque mancare qualcosa al codice finale nonostante tutto sembri
 corretto. L'attività di testing dei componenti accompagna lo sviluppo, quindi va di pari passo con la scrittura del codice. Il test non è il punto di partenza per poi scriverci il codice intorno per
@@ -839,8 +839,8 @@ input e gli output impostando dei vincoli che vanno rispettati dalle variabili. 
 Driven perché il test scritto in contemporanea al codice funge da guida per capire se si stia andando nella direzione giusta oppure se ci sia qualcosa da riconsiderare.
 
 Il Test Driven Development viene adottato tramite la gemma RSpec \cite{rspec_home}.
-RSpec opera creando un file .sqlite che sarebbe il database temporaneo dove vengono memorizzati gli oggetti fittizi temporanei e che verrà eliminato alla fine dell'esecuzione del test.
-È un operazione estremamente veloce e poco costosa che garantisce che il componente che il test sta simulando sia isolato dal resto dell'implementazione e quindi se viene rilevato qualche errore
+RSpec opera creando un file .sqlite che funge da database temporaneo dove vengono memorizzati gli oggetti fittizi temporanei e che verrà eliminato alla fine dell'esecuzione del test.
+È un'operazione estremamente veloce e poco costosa che garantisce che il componente che il test sta simulando sia isolato dal resto dell'implementazione e quindi se viene rilevato qualche errore
 si ha la garanzia che il punto di partenza del problema sia quell'esatto componente. Il problema potrebbe trovarsi in una classe in cui è scritto un metodo chiamato dopo diversi passaggi,
 i flussi testati non sempre sono brevi e semplici, ma avere la possibilità di dare per certo il punto di partenza è un grande vantaggio. I test possono essere classificati in base a ciò che
 stanno effettivamente testando:
@@ -848,7 +848,7 @@ stanno effettivamente testando:
     \item Integration Test (in RSpec chiamati Request Specs): sono associati ad un endpoint dell'API attraverso il percorso relativo nell'applicazione e ne simulano il comportamento;
     \item Unit Test (Model Specs): con RSpec si possono scrivere file di test associati ad una classe e definire un test case per ogni metodo di classe o istanza per verificare la correttezza di
     input e output;
-    \item Job/Worker Test (Job Specs): i Job implementati via sidekiq hanno dei test associati per controllare che vengano effettivamente eseguiti dove richiesti e svolgano correttamente la funzione
+    \item Job/Worker Test (Job Specs): i Job implementati via Sidekiq hanno dei test associati per controllare che vengano effettivamente eseguiti dove richiesti e svolgano correttamente la funzione
     a loro assegnata;
     \item Helper Test: nel codice sono presenti delle classi che implementano metodi globali oppure spesso utilizzati nel progetto e anche queste hanno dei test associati;
     \item View Test (View Specs): nel caso si stia adottando Ruby On Rails con un approccio full stack, quindi per realizzare anche il frontend, si possono scrivere test che verifichino le logiche di
@@ -858,14 +858,14 @@ stanno effettivamente testando:
 Può succedere che un endpoint debba effettuare una richiesta ad un servizio API esterno. Se si tenta di eseguire un test del codice così come è scritto si otterrà un messaggio d'errore ad avvisare
 il fatto che nell'ambiente di test in cui RSpec opera non si possono effettuare richieste API richiedendo di scrivere uno \texttt{stub}. Ogni servizio API esterno deve avere un suo file di test,
 un Mock associato in cui è elencata ogni richiesta utilizzata nel codice. Ogni richiesta carica un file JSON salvato nella Test Suite che verrà effettivamente utilizzata nella simulazione degli endpoint.
-Il testing delle richieste API al di fuori dell'ambiente di test viene facilitato dalle sandbox che i servizi esterni mettono a disposizione degli sviluppatori. Le sandbox sono ambienti a sè in
+Il testing delle richieste API al di fuori dell'ambiente di test viene facilitato dalle sandbox che i servizi esterni mettono a disposizione degli sviluppatori. Le sandbox sono ambienti a sé in
 cui si possono creare oggetti fittizi con cui effettuare prove realistiche per verificare le interazioni tra applicazione e API. In particolare, nello sviluppo di questo modulo e per il testing e
 la validazione dei flussi di pagamento è stato largamente utilizzato l'ambiente di sandbox \cite{stripe_sandbox_env} messo a disposizione da Stripe.
 
 Tutto il codice che costituisce la Test Suite è raccolto in una directory del progetto chiamata \texttt{spec}. Entrando nella root del progetto da un terminale ed inviando \texttt{rspec} come prompt
-verrà eseguita tutta la Test Suite che idealmente dovrebbe coprire tutto il codice del progetto e ognuno di essi deve avere esito positivo per proseguire. È vero che sviluppando in modo isolato un
+verrà eseguita tutta la Test Suite che idealmente dovrebbe coprire tutto il codice del progetto e ciascun test deve avere esito positivo per proseguire. È vero che sviluppando in modo isolato un
 componente si abbassa la probabilità di ottenere errori ma dopo aver finito lo sviluppo di esso si deve sempre rieseguire tutta la Test Suite in modo da rilevare se il codice aggiunto o modificato
-interferisca con il comportamento di altri componenti. Se tutti i test eseguiti dalla Test Suite hanno avuto esito positivo allora si può procedere considerare il codice come testato e lo si può
+interferisca con il comportamento di altri componenti. Se tutti i test eseguiti dalla Test Suite hanno avuto esito positivo allora si può procedere a considerare il codice come testato e lo si può
 rilasciare almeno nell'ambiente development.
 
 Lo sviluppo del frontend utilizza altri strumenti di testing come \texttt{Cypress} \cite{cypress}, un framework progettato a posta per testare interfacce scritte in Javascript.
@@ -875,7 +875,7 @@ test a livello di componente. È facilmente integrabile nei cicli di Continuous 
 Fino a qui sono state descritte le tecniche di testing automatizzato che supportano gli sviluppatori nell'implementazione del codice ma prima del rilascio effettivo bisogna superare un'altra
 fase di testing: quella dal punto di vista dell'utente. In azienda questo tipo di testing è comunque affidato anche agli sviluppatori che a fine implementazione del codice con il supporto dei test
 automatizzati provano il flusso dall'istanza development del gestionale. In questo modo si assume la prospettiva dell'utente finale e se tutto sembra funzionare secondo le aspettative si può
-stabilire che il processo di implementazione della funzionalità è stato concluso. Ma non si può ancora rilasciare negli altri ambienti perché è stato effettuato il testing da parte da chi ha implementato
+stabilire che il processo di implementazione della funzionalità è stato concluso. Ma non si può ancora rilasciare negli altri ambienti perché è stato effettuato il testing da parte di chi ha implementato
 il codice ma manca il testing dalla prospettiva di chi non ha direttamente lavorato all'implementazione che è diversa da quella dello sviluppatore. Questa attività è svolta dai project managers
 che sapendo relativamente poco dell'implementazione riescono ad avere una user experience in cui non si conoscono i minimi dettagli di essa. In questo modo potrebbero sollevare obiezioni e osservazioni
 che uno sviluppatore non farebbe. Se le obiezioni risultano critiche il project manager può annotarle sul ticket associato alla sezione della funzionalità da rivedere così che lo sviluppatore possa
@@ -901,8 +901,8 @@ conti consiste in una struttura in XML. Il problema è stato poi risolto impleme
 un formato UTF-8 di esse.
 
 Nelle prime versioni della funzionalità si poteva percepire una chiara mancanza per quanto riguardava i tempi di risposta.
-Mettendo sotto pressione il sistema simulando una situazione in cui più utenti diversi utilizzano il modulo questo riscontrava gravi rallentamenti.
-Inoltre analizzando i record dei job salvati nel database si notava che esistevano alcuni gruppi di 5 o 6 di essi rimanevano in stato di esecuzione, senza alcun apparente motivo.
+Mettendo sotto pressione il sistema simulando una situazione in cui più utenti diversi utilizzano il modulo, questo riscontrava gravi rallentamenti.
+Inoltre analizzando i record dei job salvati nel database si notava che alcuni gruppi di 5 o 6 di essi rimanevano in stato di esecuzione, senza alcun apparente motivo.
 Nessun errore segnalato e non venivano prodotti risultati errati, ma i job non avanzavano verso il completamento. Questo comportamento suggeriva che non raggiungessero il resolver incaricato di
 processarli ed impostarli come completati, senza alcuna ragione evidente. Le prime ipotesi riguardavano la possibilità che i job in qualche modo venissero persi nella comunicazione con il server
 esterno di RabbitMQ ma non si riusciva a dare alcuna spiegazione. Per indagare il fenomeno e cercare la causa della mancata risoluzione dei job si è deciso di testare il modulo nell'ambiente di development
@@ -917,7 +917,7 @@ contenenti domini con status Free. Poiché questo tipo di dominio non risolve ad
 per la sicurezza del dominio monitorato. Al contrario, i domini con status Flagged o Taken rappresentano le informazioni realmente utili per chi utilizza il servizio di Domain Monitoring.
 Dopo aver concordato con i gestori del server di RabbitMQ di inviare per l'analisi approfondita solo i domini con status Flagged e Taken è stato eseguito un refactoring per filtrare i domini free a monte
 ed elaborarli in parallelo per ottenere il loro prezzo di allocazione tramite una richiesta API ad un altro servizio esterno diverso.
-I tempi di risposta migliorati significativamente per i monitoring di fascia bassa mentre per quelli di fascia alta che comunque richiedono l'analisi di un gran numero di domini rilevanti persistevano
+I tempi di risposta sono migliorati significativamente per i monitoring di fascia bassa mentre per quelli di fascia alta che comunque richiedono l'analisi di un gran numero di domini rilevanti persistevano
 rallentamenti dovuti alla mole di dati da processare. Tuttavia il problema dei job bloccati non si è più verificato.
 
 Un altro problema critico è stato riscontrato quando si cercava di accedere alla pagina \ref{fig:lists} in cui la richiesta al backend falliva con codice HTTP 504 Gateway Timeout: per qualche motivo la
@@ -925,7 +925,7 @@ richiesta impiegava troppo tempo a raccogliere i nomi di tutti i domini da mostr
 Attraverso l'infrastruttura del gestionale costruita via AWS EC2 si imposta un timeout per API REST che è configurabile da 50ms a 29s e questo vincolo viene imposto su ogni singola richiesta
 effettuata al backend. In questo caso è impostato a 29s e quindi si doveva trovare un modo per ridurre il carico di dati processato dal backend per elaborare la risposta.
 Attraverso la gemma \texttt{benchmark} \cite{benchmark_memory_gem} si è potuto confermare che il problema era il numero troppo grande di nomi di domini free che per monitoring di fascia alta potevano
-essere dell'ordine delle centinaia di migliaia. Questo fatto risultava in una grande quantità di dati che portavano alla composizione payload anche di 10MB.
+essere dell'ordine delle centinaia di migliaia. Questo fatto risultava in una grande quantità di dati che portavano alla composizione di payload anche di 10MB.
 Per risolvere questo problema si è giunti ad un compromesso con i gestori del server di RabbitMQ in modo da ricevere meno domini Free nei file JSON dal lato dell'applicazione. Nella sezione dove sono
 mostrate le liste dei domini vengono mostrati solo un numero fisso di essi rimanendo nell'ordine delle migliaia in modo che i payload inviati al frontend siano ragionevolmente contenuti.
 Questo cambiamento aveva parzialmente risolto il problema che si verificava ancora ma con una frequenza molto bassa. Per risolvere definitivamente questo inconveniente è stato aggiunto un
@@ -990,7 +990,7 @@ Il questionario è stato strutturato con Microsoft Forms come si può vedere nel
     \end{tabular}
 \end{table}
 
-Come si può dedurre dalla tabella \ref{tab:questionnaire_results_areas}, la qualità dei dati è stata rilevata come l'area con punteggi più alti evidenziandola come punto di forza principale del modulo
+Come si può dedurre dalla tabella \ref{tab:questionnaire_results_areas}, la qualità dei dati è stata rilevata come l'area con punteggi più alti, evidenziandola come punto di forza principale del modulo
 mantenendo una media delle valutazioni intorno all'8.2 e una bassa varianza da parte degli intervistati.
 Questo risultato conferma l'efficacia delle scelte implementative riguardo ai servizi esterni scelti per ottenere i dati. La consistenza e la completezza delle informazioni richieste sono state
 apprezzate indipendentemente dal volume di domini analizzati, segno che il processo di normalizzazione dei dati funziona correttamente anche sotto carico.
@@ -1012,19 +1012,19 @@ dei clienti.
 
 \chapter{Conclusioni e Sviluppi Futuri}
 
-Nella versione successiva del prodotto è stata aggiunta una nuova sezione su richiesta del committente: il monitoring custom. Questi aveva richiesto la possibilità di creare un Monitoring che uscisse
+Nella versione successiva del prodotto è stata aggiunta una nuova sezione su richiesta del committente: il monitoring custom. Egli aveva richiesto la possibilità di creare un Monitoring che uscisse
 dagli schemi dei tre piani disponibili quindi cambiando i parametri che per come sono stati implementati che sono fissi. Ad esempio un abbonamento standard comprende tre metodi di ricerca, mentre quello
 successivo ne comprende dieci, ma il committente voleva un monitoring personalizzato con sette metodologie mirate a ciò di cui necessitava in un dato momento e questo non si limitava ai parametri di
 ricerca. È stato aggiunto nella pagina della lista delle scansioni effettuate un pulsante che solo un utente backoffice vede nell'interfaccia e che apre una modale contenente un form in cui vengono inseriti
 i parametri personalizzati richiesti. Il concetto viene implementato attraverso la classe \textit{Monitoring} e risulta in una particolare istanza di essa creata a parte, che non passa per il flusso
 che comprende Stripe per il pagamento che sarebbe eseguito a parte fra cliente e committente. Questa particolare istanza viene creata da un endpoint diverso da quello che crea i monitoring che passano
-per il flusso di Stripe e viene scritto a database con uno stato ``\texttt{custom}" a simboleggiare questa differenza. I parametri personalizzati vengono salvati a database tramite un attributo
+per il flusso di Stripe e viene scritta a database con uno stato ``\texttt{custom}" a simboleggiare questa differenza. I parametri personalizzati vengono salvati a database tramite un attributo
 \texttt{custom\_scan\_data} che contiene il blob dei parametri impostati per tenerne traccia.
 
 Oltre a questa funzionalità il cliente ha richiesto successivamente un refactor del sistema di pagamento e di gestione generale degli abbonamenti. Nella versione corrente Stripe gestisce sia gli
-acquisti che la creazione che i rinnovi automatici e ciò pesava sul prezzo imposto dall'API all'azienda per fornire tutte queste funzionalità. I requisiti di questo modulo erano mirati a limitare
+acquisti, sia la creazione, sia i rinnovi automatici e ciò pesava sul prezzo imposto dall'API all'azienda per fornire tutte queste funzionalità. I requisiti di questo modulo erano mirati a limitare
 l'affidamento della gestione dei rinnovi automatici a Stripe. È stato steso quindi un progetto per sbilanciare la responsabilità della gestione degli abbonamenti dal lato dell'applicazione in modo che
-Stripe gestisca solo l'acquisto e fornisca il template delle fatture. Questo ha implicato un completo reset dei meccanismi di pagamento e una rivisitazione dei modelli dati. Concettualmente il da farsi
+Stripe gestisca solo l'acquisto e fornisca il template delle fatture. Questo ha implicato un completo reset dei meccanismi di pagamento e una rivisitazione dei modelli dati. Concettualmente il lavoro da svolgere
 avrebbe riguardato il riutilizzo del meccanismo di acquisto una tantum già esistente all'inizio degli sviluppi del modulo e automatizzarlo in modo che fosse utilizzato per effettuare acquisti ricorrenti.
 Questa metodologia implicava l'introduzione di un nuovo modello dati \textit{Subscription} in modo che l'oggetto del pagamento si trovasse dal lato applicazione invece che dal lato di Stripe quindi non
 ci sarebbe più stato il sistema di notifiche da gestire eccetto le due di tipo \texttt{invoice.paid} e \texttt{invoice.payment\_failed} che sarebbero rimaste per capire se i pagamenti fossero andati
@@ -1032,9 +1032,6 @@ a buon fine o meno. Per gestire il pagamento automatizzato si sarebbe ricorso ad
 e poi effettuare il pagamento manualmente. Questo refactor è stato progettato e implementato ma a causa del subentro di altri sviluppi di maggiore importanza non è più stato testato e
 rilasciato rimanendo in sospeso.
 
-% Creazione Ticket sui Taiga
-
-%% Parte conclusiva del documento; tipicamente per riassunto, bibliografia e/o indice analitico.
 \backmatter
 
 %% Bibliografia (praticamente obbligatoria)
