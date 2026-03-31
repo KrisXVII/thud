@@ -937,28 +937,67 @@ il problema migliorando la velocità di rendering dei dati nell'interfaccia.
 Per valutare l'efficacia del modulo sviluppato è stata condotta un'intervista ad alcuni utilizzatori. L'obiettivo era quello di raccogliere feedback e impressioni qualitative sugli aspetti principali
 di un software quali usabilità, chiarezza delle informazioni e percezione delle performance. A tal fine è stato somministrato un questionario di nove domande a scala Likert (1-10) in cui 10 significa
 ``completamente d'accordo" mentre 1 vuol dire ``per nulla d'accordo", aggiungendo una domanda aperta per fornire dello spazio libero in cui l'intervistato potesse esprimere pareri su criticità.
-Le nove domande possono essere ricondotte a tre aree principali: usabilità (domande 1,2,6,9), performance e affidabilità (domande 3,4,7), completezza dei dati (domanda 8) e consistenza dei dati
-(domanda 5). Il questionario è stato strutturato in questo modo con Microsoft Forms:
-\begin{enumerate}
-    \item Ho capito rapidamente come funziona il modulo, senza bisogno di supporto esterno.
-    \item Durante l'utilizzo, sapevo sempre cosa stavo facendo e come procedere.
-    \item I tempi di risposta del modulo sono soddisfacenti.
-    \item Quando si è verificato un errore (o un imprevisto), era chiaro cosa fosse successo e come comportarsi.
-    \item I risultati della scansione sono chiari e facili da leggere.
-    \item Trovare le informazioni che cercavo all'interno del modulo è stato semplice e immediato.
-    \item Il modulo è stabile e affidabile durante l'utilizzo normale.
-    \item Le informazioni restituite per ogni dominio sono complete e ben strutturate.
-    \item Nel complesso, sono soddisfatto dell'esperienza con questo modulo.
-    \item C'è qualcosa che miglioreresti? (Domanda aperta)
-\end{enumerate}
-La qualità dei dati è stata rilevata come l'area con punteggi più alti evidenziandola come punto di forza principale del modulo mantenendo una media intorno al 9.0 da parte degli intervistati.
+Le nove domande possono essere ricondotte a tre aree principali: usabilità (domande 1,2,6,9), performance e affidabilità (domande 3,4,7), completezza dei dati (domanda 8), consistenza dei dati
+(domanda 5) e una domanda aperta per lasciare spazio agli utenti di esprimere altre idee. Il gruppo di intervistati era composto da tre sviluppatori con esperienza rispettivamente di 8, 5 e 2,5 anni nel settore.
+Il questionario è stato strutturato con Microsoft Forms come si può vedere nella tabella \ref{tab:questionnaire_results} in cui sono riportati i punteggi medi e la varianza per ciascuna domanda.
+\begin{table}[h]
+\centering
+\caption{Punteggi medi e varianza per ciascuna domanda del questionario}
+    \label{tab:questionnaire_results}
+    \begin{tabular}{|p{13cm}|c|c|}
+    \hline
+    \textbf{Domanda} & \textbf{Media} & \textbf{Varianza} \\
+    \hline
+    1. Ho capito rapidamente come funziona il modulo, senza bisogno di supporto esterno & 7.67 & 6.33 \\
+    \hline
+    2. Durante l'utilizzo, sapevo sempre cosa stavo facendo e come procedere & 8.00 & 4.00 \\
+    \hline
+    3. I tempi di risposta del modulo sono soddisfacenti & 4.67 & 2.33 \\
+    \hline
+    4. Quando si è verificato un errore (o un imprevisto), era chiaro cosa fosse successo e come comportarsi & 8.00 & 4.00 \\
+    \hline
+    5. I risultati della scansione sono chiari e facili da leggere & 8.00 & 3.00 \\
+    \hline
+    6. Trovare le informazioni che cercavo all'interno del modulo è stato semplice e immediato & 7.33 & 9.33 \\
+    \hline
+    7. Il modulo è stabile e affidabile durante l'utilizzo normale & 8.00 & 1.00 \\
+    \hline
+    8. Le informazioni restituite per ogni dominio sono complete e ben strutturate & 8.33 & 1.33 \\
+    \hline
+    9. Nel complesso, sono soddisfatto dell'esperienza con questo modulo & 8.33 & 4.33 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\caption{Punteggi medi e varianza per area di valutazione}
+\label{tab:questionnaire_results_areas}
+    \begin{tabular}{|p{5cm}|c|c|c|}
+    \hline
+    \textbf{Area} & \textbf{Domande incluse} & \textbf{Media} & \textbf{Varianza} \\
+    \hline
+    Usabilità & 1, 2, 6, 9 & 7.83 & 0.19 \\
+    \hline
+    Performance e affidabilità & 3, 4, 7 & 6.89 & 3.70 \\
+    \hline
+    Qualità dei dati & 8, 5 & 8.17 & 0.05 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+Come si può dedurre dalla tabella \ref{tab:questionnaire_results_areas}, la qualità dei dati è stata rilevata come l'area con punteggi più alti evidenziandola come punto di forza principale del modulo
+mantenendo una media delle valutazioni intorno all'8.2 e una bassa varianza da parte degli intervistati.
 Questo risultato conferma l'efficacia delle scelte implementative riguardo ai servizi esterni scelti per ottenere i dati. La consistenza e la completezza delle informazioni richieste sono state
 apprezzate indipendentemente dal volume di domini analizzati, segno che il processo di normalizzazione dei dati funziona correttamente anche sotto carico.
-È stata giudicata positivamente l'area dell'usabilità con punteggi medi dell'8.0 segnalando chiarezza sull'orientamento durante l'uso e sulla facilità di comprensione iniziale. Questa valutazione dell'
-usabilità ha espresso approvazione per il flusso di acquisto confermando l'intuitività dell'interfaccia. È emersa una criticità dal punto di vista dei tempi di risposta: un utente ha segnalato che
-questi tendono ad aumentare notevolmente all'incrementare dei dati richiesti suggerendo che potrebbero esserci margini di miglioramento e possibili ottimizzazioni eseguibili. Il sistema è stato
-sviluppato con l'intenzione di prediligere la correttezza dei dati piuttosto che la velocità di ottenerli, aspetto penalizzato dall'architettura a code del server di RabbitMQ collegato al backend 
-dell'applicazione via API. Per questo motivo i tempi di elaborazione tendono ad aumentare quando si ha a che fare con un gran numero di pacchetti di dati da analizzare.
+È stata giudicata positivamente l'area dell'usabilità con una media del 7.83 e una varianza del 0.19 segnalando chiarezza sull'orientamento durante l'uso e sulla facilità di comprensione iniziale.
+Questa valutazione dell'usabilità ha espresso approvazione per il flusso di acquisto confermando l'intuitività dell'interfaccia.
+È emersa una criticità dal punto di vista delle performance come testimonia la media del 6.89 e una varianza relativamente elevata del 3.70 a segnalare opinioni discordanti tra gli intervistati.
+Un utente ha segnalato tramite la domanda aperta che i tempi di risposta tendono ad aumentare notevolmente all'incrementare dei dati richiesti suggerendo che potrebbero esserci margini di miglioramento
+e possibili ottimizzazioni eseguibili.
+Il sistema è stato sviluppato con l'intenzione di prediligere la correttezza dei dati piuttosto che la velocità di ottenerli, aspetto penalizzato dall'architettura a code del server di
+RabbitMQ collegato al backend dell'applicazione via API. Per questo motivo i tempi di elaborazione tendono ad aumentare quando si ha a che fare con un gran numero di pacchetti di dati da analizzare.
 Il fatto che il server RabbitMQ debba prelevare i dati pubblicati su una coda, effettuare le necessarie richieste ad altri server esterni, ad esempio server WHOIS, probabilmente anche rispettando eventuali
 rate limit, attendere le risposte e poi ripubblicare i risultati su una coda diversa introduce inevitabilmente delle latenze. Se si aggiunge anche il fatto che in presenza di un gran numero
 di domini i messaggi si accumulano, i tempi di attesa si allungano. Pur non essendo la scelta ottimale per quanto riguarda i tempi, le informazioni ottenute mantengono una certa qualità garantendo
