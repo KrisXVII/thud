@@ -44,6 +44,8 @@ un'analisi qualitativa condotta con un campione di utenti, concludendo con una r
 %% Lista delle figure (se presenti)
 \listoffigures
 
+% \listoftables
+
 %% Corpo principale del documento
 \mainmatter
 
@@ -413,6 +415,8 @@ dell'applicazione discussa è stato utilizzato il servizio \textit{Elastic Compu
 development (ambiente di sviluppo), staging (ambiente di pre-rilascio per i test del cliente) e production (ambiente live per gli utenti finali). L'accesso alle diverse istanze è gestito tramite
 \textit{Secure Shell Protocol} \cite{rfc4251} (SSH). Il rilascio del codice sui diversi ambienti è automatizzato tramite \textit{CodePipeline} e \textit{CodeBuild}, servizi AWS di Continuous Integration
 e Continuous Delivery. Il processo usa script Python e sfrutta \textit{Docker} \cite{docker} per la containerizzazione dell'applicazione garantendo coerenza e portabilità tra i vari ambienti.
+Ogni istanza del backend mantiene in esecuzione due container Docker principali: uno per l'applicazione Rails (avviato con rails server) e uno per Sidekiq (avviato con bundle exec sidekiq). A questi si
+aggiunge un container Redis, configurato internamente per gestire le code dei job asincroni, che funge da broker di messaggi tra l'applicazione e Sidekiq.
 I container in esecuzione vengono monitorati attraverso CloudWatch, che raccoglie e rende consultabili i log, strumento essenziale per le sessioni di debugging.
 Anche i database sono separati per ambiente e gestiti attraverso il servizio \textit{Amazon RDS} (Relational Database Service) in modo che ogni ambiente abbia il suo storage. In particolare è stato
 utilizzato \textit{Amazon Aurora} compatibile con \textit{MYSQL} \cite{mysql}. L'autenticazione dell'utente per accedere ai database istanziati su RDS richiede il possesso della chiave SSH per effettuare il Tunnelling SSH.
@@ -906,19 +910,20 @@ Inoltre analizzando i record dei job salvati nel database si notava che alcuni g
 Nessun errore segnalato e non venivano prodotti risultati errati, ma i job non avanzavano verso il completamento. Questo comportamento suggeriva che non raggiungessero il resolver incaricato di
 processarli ed impostarli come completati, senza alcuna ragione evidente. Le prime ipotesi riguardavano la possibilità che i job in qualche modo venissero persi nella comunicazione con il server
 esterno di RabbitMQ ma non si riusciva a dare alcuna spiegazione. Per indagare il fenomeno e cercare la causa della mancata risoluzione dei job si è deciso di testare il modulo nell'ambiente di development
-interagendo direttamente con esso e osservando i log della macchina virtuale su AWS. Lo strumento di gestione del database utilizzato è stato DataGrip \cite{jetbrains_datagrip}, un IDE che offre una
+interagendo direttamente con esso e osservando i log del container di Sidekiq dedicato ai job creato nella macchina virtuale su AWS. Lo strumento di gestione del database utilizzato è stato DataGrip \cite{jetbrains_datagrip}, un IDE che offre una
 visione chiara delle tabelle del database e consente di impostare un refresh periodico per osservare le variazioni in tempo reale. In questo modo si sarebbe potuto vedere l'esatto momento in cui i
-job sarebbero stati saltati e poi passare ai logs per cercare qualche evento che potesse essere la causa. Avviando un flusso di lavoro si notava che tutti i record necessari, inclusi i job associati
+job sarebbero stati saltati e poi passare ai log per cercare qualche evento che potesse essere la causa. Avviando un flusso di lavoro si notava che tutti i record necessari, inclusi i job associati
 ai pacchetti inviati al server, venivano creati correttamente. Tuttavia, dopo aver risolto un certo numero di job compariva il gruppo di quelli che non venivano completati mentre quelli successivi
-riprendevano ad essere regolarmente risolti. I logs della macchina virtuale in tempo reale hanno rivelato la causa del problema: nel momento in cui i job venivano saltati, la macchina virtuale
-eseguiva un riavvio automatico a causa della saturazione della memoria e i job da processare in quel momento venivano scartati nel riavvio. Si trattava quindi di un memory leak.
-La saturazione della memoria era dovuta all'eccessivo numero di job da processare per elaborare i dati di un monitoring di fascia alta. Gran parte di questi job erano associati a pacchetti
-contenenti domini con status Free. Poiché questo tipo di dominio non risolve ad alcun indirizzo IP, non ha NameServers né eMail eXchanger associati, la loro analisi non fornisce informazioni rilevanti
-per la sicurezza del dominio monitorato. Al contrario, i domini con status Flagged o Taken rappresentano le informazioni realmente utili per chi utilizza il servizio di Domain Monitoring.
-Dopo aver concordato con i gestori del server di RabbitMQ di inviare per l'analisi approfondita solo i domini con status Flagged e Taken è stato eseguito un refactoring per filtrare i domini free a monte
-ed elaborarli in parallelo per ottenere il loro prezzo di allocazione tramite una richiesta API ad un altro servizio esterno diverso.
-I tempi di risposta sono migliorati significativamente per i monitoring di fascia bassa mentre per quelli di fascia alta che comunque richiedono l'analisi di un gran numero di domini rilevanti persistevano
-rallentamenti dovuti alla mole di dati da processare. Tuttavia il problema dei job bloccati non si è più verificato.
+riprendevano ad essere regolarmente risolti. I log del container in tempo reale hanno rivelato la causa del problema: nel momento in cui i job venivano saltati, la macchina virtuale
+eseguiva un riavvio automatico. Come confermato successivamente dall’analisi delle metriche raccolte tramite il comando \texttt{docker stats}, la memoria della macchina virtuale si saturava durante l'esecuzione
+di un flusso di lavoro e riavviandosi automaticamente ricominciava in uno stato normale della memoria. Ciò implicava che le code di Redis venissero svuotate, perdendo i job in esecuzione in quel
+momento.Si trattava quindi di un memory leak. La saturazione della memoria era dovuta all'eccessivo numero di job da processare per elaborare i dati di un monitoring di fascia alta.
+Gran parte di questi job erano associati a pacchetti contenenti domini con status Free. Poiché questo tipo di dominio non risolve ad alcun indirizzo IP, non ha NameServers né eMail eXchanger
+associati, la loro analisi non fornisce informazioni rilevanti per la sicurezza del dominio monitorato. Al contrario, i domini con status Flagged o Taken rappresentano le informazioni realmente
+utili per chi utilizza il servizio di Domain Monitoring. Dopo aver concordato con i gestori del server di RabbitMQ di inviare per l'analisi approfondita solo i domini con status Flagged e Taken
+è stato eseguito un refactoring per filtrare i domini free a monte ed elaborarli in parallelo per ottenere il loro prezzo di allocazione tramite una richiesta API ad un altro
+servizio esterno diverso. I tempi di risposta sono migliorati significativamente per i monitoring di fascia bassa mentre per quelli di fascia alta che comunque richiedono l'analisi di un
+gran numero di domini rilevanti persistevano rallentamenti dovuti alla mole di dati da processare. Tuttavia il problema dei job bloccati non si è più verificato.
 
 Un altro problema critico è stato riscontrato quando si cercava di accedere alla pagina \ref{fig:lists} in cui la richiesta al backend falliva con codice HTTP 504 Gateway Timeout: per qualche motivo la
 richiesta impiegava troppo tempo a raccogliere i nomi di tutti i domini da mostrare in pagina.
