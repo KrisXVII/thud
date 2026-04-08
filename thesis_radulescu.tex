@@ -904,6 +904,15 @@ passato a cercare la causa di questo problema si è scoperto che dal server Rabb
 conti consiste in una struttura in XML. Il problema è stato poi risolto implementando un metodo ``sanitizer" studiato per analizzare le stringhe e sostituire eventuali simboli ``sospetti" e garantire
 un formato UTF-8 di esse.
 
+Un altro problema legato ai report è stato il fatto che, generando più report di fila, la memoria del container di Sidekiq manteneva alti valori di utilizzo, rallentando tutto il sistema.
+Durante la generazione di report Excel con un numero elevato di righe (decine di migliaia), si è osservato un progressivo aumento della memoria che non veniva rilasciata al termine dell'operazione.
+Utilizzando la gemma \texttt{memory\_profiler} \cite{memory_profiler_gem} per analizzare il processo di generazione del report, è emerso che i dati venivano elaborati in modo aggregato, caricando in
+memoria una grande quantità di informazioni prima della scrittura del file. Questo approccio implicava un accumulo persistente di memoria causando un memory leak: la memoria cresceva
+a ogni generazione senza tornare ai livelli iniziali. Per risolvere il problema, è stato riorganizzato il flusso di generazione del report, suddividendo l'elaborazione delle stringhe in blocchi
+sequenziali. In particolare, le strutture dati complesse (come gli hash annidati contenenti informazioni sui certificati e sulla sicurezza del dominio) sono state estratte e normalizzate prima
+della scrittura del file, generando stringhe pronte per essere inserite nelle celle. Questa fase di pre-processing ha permesso di alleggerire il lavoro durante la costruzione del file.
+Questo approccio è stato implementato iterando sui dati tramite i blocchi di Ruby, consentendo di elaborare e scrivere il contenuto in modo efficiente evitando accumuli di memoria.
+
 Nelle prime versioni della funzionalità si poteva percepire una chiara mancanza per quanto riguardava i tempi di risposta.
 Mettendo sotto pressione il sistema simulando una situazione in cui più utenti diversi utilizzano il modulo, questo riscontrava gravi rallentamenti.
 Inoltre analizzando i record dei job salvati nel database si notava che alcuni gruppi di 5 o 6 di essi rimanevano in stato di esecuzione, senza alcun apparente motivo.
@@ -916,10 +925,10 @@ job sarebbero stati saltati e poi passare ai log per cercare qualche evento che 
 ai pacchetti inviati al server, venivano creati correttamente. Tuttavia, dopo aver risolto un certo numero di job compariva il gruppo di quelli che non venivano completati mentre quelli successivi
 riprendevano ad essere regolarmente risolti. I log del container in tempo reale hanno rivelato la causa del problema: nel momento in cui i job venivano saltati, la macchina virtuale
 eseguiva un riavvio automatico. Come confermato successivamente dall’analisi delle metriche raccolte tramite il comando \texttt{docker stats}, la memoria della macchina virtuale si saturava durante l'esecuzione
-di un flusso di lavoro e riavviandosi automaticamente ricominciava in uno stato normale della memoria. Ciò implicava che le code di Redis venissero svuotate, perdendo i job in esecuzione in quel
-momento.Si trattava quindi di un memory leak. La saturazione della memoria era dovuta all'eccessivo numero di job da processare per elaborare i dati di un monitoring di fascia alta.
-Gran parte di questi job erano associati a pacchetti contenenti domini con status Free. Poiché questo tipo di dominio non risolve ad alcun indirizzo IP, non ha NameServers né eMail eXchanger
-associati, la loro analisi non fornisce informazioni rilevanti per la sicurezza del dominio monitorato. Al contrario, i domini con status Flagged o Taken rappresentano le informazioni realmente
+di un flusso di lavoro e, riavviandosi automaticamente, tornava in uno stato normale. Ciò implicava che le code di Redis venissero svuotate, perdendo i job in esecuzione in quel
+momento. Si trattava quindi di una saturazione della memoria causata da un sovraccarico di lavoro. La saturazione della memoria era dovuta all'eccessivo numero di job
+da processare contemporaneamente per elaborare i dati di un monitoring di fascia alta. Gran parte di questi job erano associati a pacchetti contenenti domini con status Free. Poiché questo tipo di dominio non risolve
+ad alcun indirizzo IP, non ha NameServers né eMail eXchanger associati, la loro analisi non fornisce informazioni rilevanti per la sicurezza del dominio monitorato. Al contrario, i domini con status Flagged o Taken rappresentano le informazioni realmente
 utili per chi utilizza il servizio di Domain Monitoring. Dopo aver concordato con i gestori del server di RabbitMQ di inviare per l'analisi approfondita solo i domini con status Flagged e Taken
 è stato eseguito un refactoring per filtrare i domini free a monte ed elaborarli in parallelo per ottenere il loro prezzo di allocazione tramite una richiesta API ad un altro
 servizio esterno diverso. I tempi di risposta sono migliorati significativamente per i monitoring di fascia bassa mentre per quelli di fascia alta che comunque richiedono l'analisi di un
@@ -929,7 +938,7 @@ Un altro problema critico è stato riscontrato quando si cercava di accedere all
 richiesta impiegava troppo tempo a raccogliere i nomi di tutti i domini da mostrare in pagina.
 Attraverso l'infrastruttura del gestionale costruita via AWS EC2 si imposta un timeout per API REST che è configurabile da 50ms a 29s e questo vincolo viene imposto su ogni singola richiesta
 effettuata al backend. In questo caso è impostato a 29s e quindi si doveva trovare un modo per ridurre il carico di dati processato dal backend per elaborare la risposta.
-Attraverso la gemma \texttt{benchmark} \cite{benchmark_memory_gem} si è potuto confermare che il problema era il numero troppo grande di nomi di domini free che per monitoring di fascia alta potevano
+Il problema era il numero troppo grande di nomi di domini free che per monitoring di fascia alta potevano
 essere dell'ordine delle centinaia di migliaia. Questo fatto risultava in una grande quantità di dati che portavano alla composizione di payload anche di 10MB.
 Per risolvere questo problema si è giunti ad un compromesso con i gestori del server di RabbitMQ in modo da ricevere meno domini Free nei file JSON dal lato dell'applicazione. Nella sezione dove sono
 mostrate le liste dei domini vengono mostrati solo un numero fisso di essi rimanendo nell'ordine delle migliaia in modo che i payload inviati al frontend siano ragionevolmente contenuti.
