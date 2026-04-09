@@ -444,7 +444,7 @@ si imposta automaticamente uno status ``error" e viene salvato il messaggio d'er
 ``resolve\_job" che si potrà chiamare da qualsiasi punto del codice su un'istanza dell'oggetto. Spesso il frontend ha bisogno di ricevere un segnale che un certo processo ha concluso il suo task e
 l'esito finale di esso. A questo scopo si usa un sistema di notifiche in tempo reale che comunichi lo stato finale del job ed eventualmente apportando dei dati al frontend in modo che quest'ultimo
 sappia se poter proseguire con un redirect ad un'altra pagina o mostrare un messaggio d'errore. Queste notifiche vengono salvate sul database di DynamoDB, servizio di AWS citato
-prima e vengono cancellate dopo un dato periodo di tempo da che sono state create. Questo sistema di asincronismo contribuisce al parallelismo di task uguali tra loro rendendo
+prima e vengono cancellate dopo un dato periodo di tempo dal momento in cui sono state create. Questo sistema di asincronismo contribuisce al parallelismo di task uguali tra loro rendendo
 l'applicazione più responsiva e migliorando le prestazioni. Con Sidekiq vengono gestiti due tipi di job: i job ordinari e i cron job. I primi vengono definiti ognuno nel suo file nella directory
 /sidekiq e per essere eseguiti devono essere chiamati nel codice con un comando. La funzionalità richiesta per questo modulo aveva la necessità di eseguire job senza doverli chiamare nel
 codice che quindi venissero messi in coda ed eseguiti periodicamente e autonomamente. Questo requisito viene soddisfatto con il supporto della gemma \textit{sidekiq-cron} \cite{sidekiq_cron_gem} che
@@ -500,7 +500,7 @@ richiesti in un form apposito. Il frontend crea il profilo e l'identity pool del
 quest'ultimo salverà a database. Verificata l'email tramite OTP, l'utente ora può effettuare il login. Dal punto di vista tecnico il flusso di login è implementato principalmente dal frontend dell'
 applicazione. È stato implementato un componente di Amplify ossia Authenticator, strumento che consente all'utente di autenticarsi anche con Google e Apple. Il login ordinario inizia con l'inserimento di
 email e password da parte dell'utente che poi clicca un pulsante per entrare nella sua area personale dell'applicazione. Dopo aver cliccato il pulsante il frontend invia questi due dati a Cognito via
-API per verificare se  quelle credenziali siano presenti nell'identity pool dell'utente. In risposta Cognito invierà dei dati riguardanti l'utente che verranno utilizzati via Amplify per costruire il
+API per verificare se quelle credenziali siano presenti nell'identity pool dell'utente. In risposta Cognito invierà dei dati riguardanti l'utente che verranno utilizzati via Amplify per costruire il
 token JWT che viene poi inviato al backend. Ricevuta la richiesta il back end legge gli header per ottenere alcune informazioni fra cui il token JWT stesso e l'id dell'utente su Cognito.
 Fra questi header possono essere presenti quello di impersonamento di un altro utente in caso un amministratore stia accedendo con il suo account al profilo
 di un altro utente, oppure quello degli utenti ospiti non registrati per cui viene ricevuto il Guest-Id invece del token JWT. Il meccanismo del Guest-Id è necessario nel momento in cui un utente del
@@ -843,7 +843,7 @@ input e gli output impostando dei vincoli che vanno rispettati dalle variabili. 
 Driven perché il test scritto in contemporanea al codice funge da guida per capire se si stia andando nella direzione giusta oppure se ci sia qualcosa da riconsiderare.
 
 Il Test Driven Development viene adottato tramite la gemma RSpec \cite{rspec_home}.
-RSpec opera creando un file .sqlite che funge da database temporaneo dove vengono memorizzati gli oggetti fittizi temporanei e che verrà eliminato alla fine dell'esecuzione del test.
+RSpec opera creando un file .sqlite che funge da database temporaneo dove vengono memorizzati gli oggetti fittizi e che verrà eliminato alla fine dell'esecuzione del test.
 È un'operazione estremamente veloce e poco costosa che garantisce che il componente che il test sta simulando sia isolato dal resto dell'implementazione e quindi se viene rilevato qualche errore
 si ha la garanzia che il punto di partenza del problema sia quell'esatto componente. Il problema potrebbe trovarsi in una classe in cui è scritto un metodo chiamato dopo diversi passaggi,
 i flussi testati non sempre sono brevi e semplici, ma avere la possibilità di dare per certo il punto di partenza è un grande vantaggio. I test possono essere classificati in base a ciò che
@@ -872,7 +872,7 @@ componente si abbassa la probabilità di ottenere errori ma dopo aver finito lo 
 interferisca con il comportamento di altri componenti. Se tutti i test eseguiti dalla Test Suite hanno avuto esito positivo allora si può procedere a considerare il codice come testato e lo si può
 rilasciare almeno nell'ambiente development.
 
-Lo sviluppo del frontend utilizza altri strumenti di testing come \texttt{Cypress} \cite{cypress}, un framework progettato a posta per testare interfacce scritte in Javascript.
+Lo sviluppo del frontend utilizza altri strumenti di testing come \texttt{Cypress} \cite{cypress}, un framework progettato appositamente per testare interfacce scritte in Javascript.
 Cypress esegue i test direttamente nel browser a differenza di altri strumenti che eseguono i test in un ambiente separato. Supporta sia test end-to-end che simulano il flusso completo di un utente sia
 test a livello di componente. È facilmente integrabile nei cicli di Continuous Integration permettendo un test rapido ed efficace quando si adottano tecniche di rilascio automatizzate.
 
