@@ -257,7 +257,7 @@ sono i servizi esterni che si intersecano con le tecnologie interne per realizza
 Non mi dilungherò nella spiegazione delle tecnologie utilizzate per il frontend (\textit{ReactJS} \cite{react_dev_home}, \textit{NextJS} \cite{nextjs_home},
 \textit{Cypress} \cite{cypress}...) e approfondirò quelle utilizzate per lo sviluppo del backend.
 Oltre ai principi dell'Agile l'azienda si avvale anche della pratica del \textit{Commercial-Off-The-Shelf} (COTS) definita nello standard ISO/IEC del 2017 \cite{iso_iec_12207_2017}
-che consiste nell'utilizzare software già sviluppato pronti per l'uso sia che siano open-source che a pagamento. Le gemme sono librerie per Ruby che sono state sviluppate appositamente
+che consiste nell'utilizzare software già sviluppati pronti per l'uso sia che siano open-source che a pagamento. Le gemme sono librerie per Ruby che sono state sviluppate appositamente
 per il supporto alla produzione di codice Ruby. Il frontend utilizza componenti già sviluppati e personalizzabili a seconda delle necessità come la libreria di \textit{Ant Design} \cite{antdesign}.
 Il vantaggio di questa pratica è chiaramente il notevole risparmio di tempo e semplificazione del codice sviluppato con la
 contropartita di dover ponderare correttamente la scelta poiché scegliere una tecnologia sbagliata avrebbe l'effetto contrario. Un'altra cosa da tenere presente quando si
@@ -274,7 +274,7 @@ e il largo utilizzo in quasi tutti i progetti di essa sono definiti come tecnolo
 \subsection{Ruby On Rails}
 
 L'azienda ha scelto come linguaggio di programmazione predefinito \textit{Ruby On Rails} \cite{ruby_on_rails} per sviluppare il back end dei progetti.
-Ruby è il linguaggio utilizzato per scrivere il codice mentre \textit{Rails} è un framework sviluppato in Ruby a posta per consentire e facilitare lo sviluppo di siti web.
+Ruby è il linguaggio utilizzato per scrivere il codice mentre \textit{Rails} è un framework sviluppato in Ruby appositamente per consentire e facilitare lo sviluppo di siti web.
 Ruby è stato ideato nel 1993 da Yukihiro Matsumoto detto ``Matz" e la prima versione è stata pubblicata nel 1995 \cite{ruby_about}.
 Matz aveva iniziato lo sviluppo del linguaggio di programmazione con l'idea di voler crearne uno di scripting più efficiente di Perl e più orientato agli oggetti rispetto a Python.
 Da quest'ultimo deriva l'intuizione di vedere qualsiasi struttura in forma di oggetto con i suoi attributi e i suoi metodi. In Python, ad esempio, una stringa è un oggetto istanza della classe
@@ -326,7 +326,7 @@ quel codice in SQL puro da eseguire sul database collegato al progetto. Questo m
 Reperire l'informazione dal database è un'operazione fondamentale del software che viene eseguita attraverso query che possono essere anche molto intricate
 da scrivere e da comprendere. L'ActiveRecord semplifica questa operazione permettendo di scrivere clausole WHERE attraverso il metodo .where() che identifica la classe dell'oggetto
 a cui è applicato e i parametri passati allo stesso modo di come vengono passati alla creazione seleziona i record interessati. Esiste anche un metodo .select\{\} che però va utilizzato
-attraverso la classe di oggetti Proc in uno stile funzionale rielaborato nel linguaggio Ruby, si noti l'utilizzo di parentesi graffe al posto di quelle tonde. Spesso nei linguaggi
+attraverso la classe di oggetti Proc in uno stile funzionale rielaborato nel linguaggio Ruby; si noti l'utilizzo di parentesi graffe al posto di quelle tonde. Spesso nei linguaggi
 object-oriented più vecchi iterare attraverso una lista di oggetti si rivelava un'operazione che necessitava di molte risorse e richiedeva una gestione manuale dell'indicizzazione di essi.
 Ovviamente con l'introduzione di nuove tecnologie moderne il problema si è risolto attraverso costrutti come gli iteratori ma verso la fine degli anni Novanta quando Ruby era in sviluppo
 questi non erano ancora stati introdotti. Tuttavia esisteva già il paradigma funzionale che non prevedeva la creazione di oggetti e operava solo attraverso funzioni e dati semplici.
@@ -415,7 +415,7 @@ dell'applicazione discussa è stato utilizzato il servizio \textit{Elastic Compu
 development (ambiente di sviluppo), staging (ambiente di pre-rilascio per i test del cliente) e production (ambiente live per gli utenti finali). L'accesso alle diverse istanze è gestito tramite
 \textit{Secure Shell Protocol} \cite{rfc4251} (SSH). Il rilascio del codice sui diversi ambienti è automatizzato tramite \textit{CodePipeline} e \textit{CodeBuild}, servizi AWS di Continuous Integration
 e Continuous Delivery. Il processo usa script Python e sfrutta \textit{Docker} \cite{docker} per la containerizzazione dell'applicazione garantendo coerenza e portabilità tra i vari ambienti.
-Ogni istanza del backend mantiene in esecuzione due container Docker principali: uno per l'applicazione Rails (avviato con rails server) e uno per Sidekiq (avviato con bundle exec sidekiq). A questi si
+Ogni istanza del backend mantiene in esecuzione due container Docker principali: uno per l'applicazione Rails (avviato con \texttt{rails server}) e uno per Sidekiq (avviato con \texttt{bundle exec sidekiq}). A questi si
 aggiunge un container Redis, configurato internamente per gestire le code dei job asincroni, che funge da broker di messaggi tra l'applicazione e Sidekiq.
 I container in esecuzione vengono monitorati attraverso CloudWatch, che raccoglie e rende consultabili i log, strumento essenziale per le sessioni di debugging.
 Anche i database sono separati per ambiente e gestiti attraverso il servizio \textit{Amazon RDS} (Relational Database Service) in modo che ogni ambiente abbia il suo storage. In particolare è stato
